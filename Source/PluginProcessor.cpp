@@ -22,6 +22,8 @@ KandinskyMusicPainterIIAudioProcessor::KandinskyMusicPainterIIAudioProcessor()
                        )
 #endif
 {
+    this->mainModel = std::unique_ptr<MainModel>(new MainModel());
+    this->midiPlayer = std::unique_ptr<MidiPlayer>(new MidiPlayer(*this->mainModel, *(new ProjectSettings())));
 }
 
 KandinskyMusicPainterIIAudioProcessor::~KandinskyMusicPainterIIAudioProcessor()
@@ -156,6 +158,17 @@ void KandinskyMusicPainterIIAudioProcessor::processBlock (juce::AudioBuffer<floa
 
         // ..do something to the data...
     }
+
+    /*if (this->mainModel->GetTest())
+    {
+        auto message = juce::MidiMessage::noteOn(1, 60, 0.9f);
+        midiMessages.addEvent(message, 1);
+    }*/
+
+    if (this->midiPlayer != nullptr)
+    {
+        midiMessages = this->midiPlayer->getMidiBuffer();
+    }
 }
 
 //==============================================================================
@@ -166,7 +179,7 @@ bool KandinskyMusicPainterIIAudioProcessor::hasEditor() const
 
 juce::AudioProcessorEditor* KandinskyMusicPainterIIAudioProcessor::createEditor()
 {
-    return new KandinskyMusicPainterIIAudioProcessorEditor (*this);
+    return new KandinskyMusicPainterIIAudioProcessorEditor (*this, *this->mainModel, *this->midiPlayer);
 }
 
 //==============================================================================

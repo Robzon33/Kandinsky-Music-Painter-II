@@ -5,6 +5,34 @@
               jucerFormatVersion="1" pluginCharacteristicsValue="pluginProducesMidiOut">
   <MAINGROUP id="O677E8" name="Kandinsky Music Painter II">
     <GROUP id="{38A9C17B-9871-4E03-71C0-CFE34BB8FFE3}" name="Source">
+      <GROUP id="{88435495-93B0-6212-4B9D-125801210533}" name="player">
+        <FILE id="jfAuSQ" name="MidiPlayer.cpp" compile="1" resource="0" file="Source/player/MidiPlayer.cpp"/>
+        <FILE id="TJqbum" name="MidiPlayer.h" compile="0" resource="0" file="Source/player/MidiPlayer.h"/>
+      </GROUP>
+      <GROUP id="{F2C416D8-6B32-FB64-4F65-51001AA65E5E}" name="gui">
+        <FILE id="UVfsOO" name="MainComponent.cpp" compile="1" resource="0"
+              file="Source/gui/MainComponent.cpp"/>
+        <FILE id="yARd2x" name="MainComponent.h" compile="0" resource="0" file="Source/gui/MainComponent.h"/>
+      </GROUP>
+      <GROUP id="{7F802768-D320-84EB-87C3-98276A726BBE}" name="extensions"/>
+      <GROUP id="{0ADD52D2-C44B-0762-417A-2EAED601F357}" name="model">
+        <GROUP id="{6B36E5DA-CEC0-212B-B69B-595836E6FF3F}" name="tracks">
+          <FILE id="HGVdv6" name="MidiTrack.cpp" compile="1" resource="0" file="Source/model/tracks/MidiTrack.cpp"/>
+          <FILE id="EbcJz7" name="MidiTrack.h" compile="0" resource="0" file="Source/model/tracks/MidiTrack.h"/>
+          <FILE id="AI0cvv" name="MidiVelocityData.cpp" compile="1" resource="0"
+                file="Source/model/tracks/MidiVelocityData.cpp"/>
+          <FILE id="zI5fE4" name="MidiVelocityData.h" compile="0" resource="0"
+                file="Source/model/tracks/MidiVelocityData.h"/>
+          <FILE id="BrE8JW" name="TrackData.cpp" compile="1" resource="0" file="Source/model/tracks/TrackData.cpp"/>
+          <FILE id="M2auwb" name="TrackData.h" compile="0" resource="0" file="Source/model/tracks/TrackData.h"/>
+        </GROUP>
+        <FILE id="JSitBN" name="MainModel.cpp" compile="1" resource="0" file="Source/model/MainModel.cpp"/>
+        <FILE id="HNX5K6" name="MainModel.h" compile="0" resource="0" file="Source/model/MainModel.h"/>
+        <FILE id="EYxNmj" name="ProjectSettings.cpp" compile="1" resource="0"
+              file="Source/model/ProjectSettings.cpp"/>
+        <FILE id="cvZoFU" name="ProjectSettings.h" compile="0" resource="0"
+              file="Source/model/ProjectSettings.h"/>
+      </GROUP>
       <FILE id="zM4iCE" name="PluginProcessor.cpp" compile="1" resource="0"
             file="Source/PluginProcessor.cpp"/>
       <FILE id="J7fgYD" name="PluginProcessor.h" compile="0" resource="0"
