@@ -35,4 +35,5 @@ void MainComponent::resized()
 void MainComponent::mouseDown(const juce::MouseEvent& event)
 {
     player.play();
+    //MidiPlayer::State currentState = player.getState();
 }

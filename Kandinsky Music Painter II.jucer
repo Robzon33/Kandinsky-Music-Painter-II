@@ -14,7 +14,10 @@
               file="Source/gui/MainComponent.cpp"/>
         <FILE id="yARd2x" name="MainComponent.h" compile="0" resource="0" file="Source/gui/MainComponent.h"/>
       </GROUP>
-      <GROUP id="{7F802768-D320-84EB-87C3-98276A726BBE}" name="extensions"/>
+      <GROUP id="{7F802768-D320-84EB-87C3-98276A726BBE}" name="extensions">
+        <FILE id="h3kZhC" name="PlayerState.cpp" compile="1" resource="0" file="Source/extensions/PlayerState.cpp"/>
+        <FILE id="G2QCtC" name="PlayerState.h" compile="0" resource="0" file="Source/extensions/PlayerState.h"/>
+      </GROUP>
       <GROUP id="{0ADD52D2-C44B-0762-417A-2EAED601F357}" name="model">
         <GROUP id="{6B36E5DA-CEC0-212B-B69B-595836E6FF3F}" name="tracks">
           <FILE id="HGVdv6" name="MidiTrack.cpp" compile="1" resource="0" file="Source/model/tracks/MidiTrack.cpp"/>
