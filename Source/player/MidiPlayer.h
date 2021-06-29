@@ -17,7 +17,7 @@
 class MidiPlayer    : private juce::HighResolutionTimer
 {
 public:
-    MidiPlayer(MainModel&, ProjectSettings&);
+    MidiPlayer(ProjectSettings& ps, MainModel& mm);
     ~MidiPlayer();
 
     void hiResTimerCallback() override;

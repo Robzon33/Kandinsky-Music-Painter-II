@@ -10,27 +10,28 @@
 
 #include "MidiPlayer.h"
 
-MidiPlayer::MidiPlayer(MainModel& m, ProjectSettings& p)
-    : mainModel (m), settings (p)
+MidiPlayer::MidiPlayer(ProjectSettings& ps, MainModel& mm)
+    : settings (ps), mainModel (mm)
 {
-    this->processorFlag = false;
+    processorFlag = false;
+    position = 0.0f;
 }
 
 MidiPlayer::~MidiPlayer()
 {
-    this->stopTimer();
+    this->stop();
 }
 
 void MidiPlayer::hiResTimerCallback()
 {
-    auto message = juce::MidiMessage::noteOn(1, 60, 0.9f);
-    this->midiBuffer.addEvent(message, 1);
+    auto message = juce::MidiMessage::noteOn(2, 40, 0.9f);
+    this->midiBuffer.addEvent(message, 2);
     processorFlag = true;
 }
 
 void MidiPlayer::play()
 {
-    startTimer(600 / this->settings.getBpm());
+    startTimer(2000);
 }
 
 void MidiPlayer::stop()
