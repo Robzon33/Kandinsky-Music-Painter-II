@@ -45,4 +45,9 @@ private:
     PlayerState* m_pState;
     float position; /* The players position in beats. */
     bool processorFlag; /* Indicates whether the processor is allowed to acces the midi buffer. */
+
+    /// <summary>
+    /// Calculate intersections between all track data paths and the current players position.
+    /// </summary>
+    void calculateEvents();
 };

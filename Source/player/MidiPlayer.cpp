@@ -25,9 +25,16 @@ MidiPlayer::~MidiPlayer()
 
 void MidiPlayer::hiResTimerCallback()
 {
-    auto message = juce::MidiMessage::noteOn(2, 40, 0.9f);
-    this->midiBuffer.addEvent(message, 2);
+    /*auto message = juce::MidiMessage::noteOn(2, 40, 0.9f);
+    this->midiBuffer.addEvent(message, 2);*/
+    this->position = position + 1;
+    this->calculateEvents();
     processorFlag = true;
+
+    if (position > 10)
+    {
+        position = 0;
+    }
 }
 
 void MidiPlayer::play()
@@ -89,5 +96,46 @@ MidiPlayer::State MidiPlayer::getState()
     else
     {
         return State::ST_PAUSED;
+    }
+}
+
+void MidiPlayer::calculateEvents()
+{
+    juce::Array<float> yValues;
+
+    for each (TrackData* track in mainModel.getAllTracks())
+    {
+        // find intersections
+        for each (juce::Path* path in track->getPathVector())
+        {
+            const float tolerance = 1.0f;
+            juce::PathFlatteningIterator iterator(*path, juce::AffineTransform(), tolerance);
+
+            juce::Line<float> line(this->position, 0, this->position, 128);
+            juce::Point<float> intersection;
+
+            while (iterator.next())
+            {
+                if (line.intersects(juce::Line<float>(iterator.x1, iterator.y1, iterator.x2, iterator.y2), intersection))
+                {
+                    yValues.add(intersection.getY());
+                }
+            }
+        }
+
+        // generate midi messages
+        if (!yValues.isEmpty())
+        {
+            for (int i = 0; i < yValues.size(); i++)
+            {
+                int note = static_cast<int>(127 - yValues[i]);
+                if (0 <= note < 128)
+                {
+                    juce::uint8 velocity = 100; /* not yet calculated */
+                    juce::MidiMessage message(juce::MidiMessage::noteOn(2, note, 0.9f));
+                    this->midiBuffer.addEvent(message, 0);
+                }
+            }
+        }
     }
 }

@@ -13,6 +13,12 @@
 MainComponent::MainComponent(MainModel& m, MidiPlayer& mp)
     : mainModel (m), player (mp)
 {
+    menuBar.reset(new MenuBarComponent(mainModel));
+    addAndMakeVisible(menuBar.get());
+    playerBar.reset(new PlayerComponent(player));
+    addAndMakeVisible(playerBar.get());
+    trackList.reset(new TrackListBoxComponent(mainModel));
+    addAndMakeVisible(trackList.get());
 }
 
 MainComponent::~MainComponent()
@@ -30,10 +36,16 @@ void MainComponent::paint(juce::Graphics& g)
 
 void MainComponent::resized()
 {
+    auto b = getLocalBounds();
+
+    menuBar->setBounds(b.removeFromTop(30));
+    playerBar->setBounds(b.removeFromBottom(100));
+    trackList->setBounds(b.removeFromLeft(150));
 }
 
 void MainComponent::mouseDown(const juce::MouseEvent& event)
 {
+    mainModel.TestFunction();
     player.play();
     //MidiPlayer::State currentState = player.getState();
 }

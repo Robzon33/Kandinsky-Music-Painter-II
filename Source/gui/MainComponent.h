@@ -15,6 +15,11 @@
 #include "../model/MainModel.h"
 #include "../player/MidiPlayer.h"
 
+/* Components */
+#include "menu/MenuBarComponent.h"
+#include "player/PlayerComponent.h"
+#include "tracks/TrackListBoxComponent.h"
+
 class KandinskyMusicPainterIIAudioProcessorEditor;
 
 class MainComponent : public juce::Component
@@ -30,4 +35,9 @@ public:
 private:
     MainModel& mainModel;
     MidiPlayer& player;
+
+    /* Child components */
+    std::unique_ptr<MenuBarComponent> menuBar;
+    std::unique_ptr<PlayerComponent> playerBar;
+    std::unique_ptr<TrackListBoxComponent> trackList;
 };

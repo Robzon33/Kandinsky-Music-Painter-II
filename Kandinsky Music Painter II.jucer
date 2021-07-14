@@ -10,6 +10,36 @@
         <FILE id="TJqbum" name="MidiPlayer.h" compile="0" resource="0" file="Source/player/MidiPlayer.h"/>
       </GROUP>
       <GROUP id="{F2C416D8-6B32-FB64-4F65-51001AA65E5E}" name="gui">
+        <GROUP id="{B9E3B985-3051-E989-9060-A44E70CBC32C}" name="resources">
+          <FILE id="y0p4tg" name="player-pause.png" compile="0" resource="1"
+                file="Source/gui/resources/player-pause.png"/>
+          <FILE id="uI8SPv" name="player-play.png" compile="0" resource="1" file="Source/gui/resources/player-play.png"/>
+          <FILE id="GxQ305" name="player-stop.png" compile="0" resource="1" file="Source/gui/resources/player-stop.png"/>
+        </GROUP>
+        <GROUP id="{27F2D73B-E12F-F578-E495-6B30D2FFC619}" name="tracks">
+          <FILE id="vIcqqf" name="TrackListBoxComponent.cpp" compile="1" resource="0"
+                file="Source/gui/tracks/TrackListBoxComponent.cpp"/>
+          <FILE id="Y7Ctgt" name="TrackListBoxComponent.h" compile="0" resource="0"
+                file="Source/gui/tracks/TrackListBoxComponent.h"/>
+        </GROUP>
+        <GROUP id="{04193D0F-6F3E-68E7-A68C-CFA75C70EC8C}" name="player">
+          <FILE id="LpmPjl" name="PlayerComponent.cpp" compile="1" resource="0"
+                file="Source/gui/player/PlayerComponent.cpp"/>
+          <FILE id="PN2zwi" name="PlayerComponent.h" compile="0" resource="0"
+                file="Source/gui/player/PlayerComponent.h"/>
+        </GROUP>
+        <GROUP id="{389E73B7-A044-0CC5-D2D9-C3F41DA994A8}" name="painting">
+          <FILE id="E2EW9R" name="MainPaintingComponent.cpp" compile="1" resource="0"
+                file="Source/gui/painting/MainPaintingComponent.cpp"/>
+          <FILE id="ESDuJj" name="MainPaintingComponent.h" compile="0" resource="0"
+                file="Source/gui/painting/MainPaintingComponent.h"/>
+        </GROUP>
+        <GROUP id="{23EF4C4E-D5BF-E5AA-6F3E-7B837A2C99F1}" name="menu">
+          <FILE id="sPZWCL" name="MenuBarComponent.cpp" compile="1" resource="0"
+                file="Source/gui/menu/MenuBarComponent.cpp"/>
+          <FILE id="yEjpa9" name="MenuBarComponent.h" compile="0" resource="0"
+                file="Source/gui/menu/MenuBarComponent.h"/>
+        </GROUP>
         <FILE id="UVfsOO" name="MainComponent.cpp" compile="1" resource="0"
               file="Source/gui/MainComponent.cpp"/>
         <FILE id="yARd2x" name="MainComponent.h" compile="0" resource="0" file="Source/gui/MainComponent.h"/>
@@ -17,6 +47,10 @@
       <GROUP id="{7F802768-D320-84EB-87C3-98276A726BBE}" name="extensions">
         <FILE id="h3kZhC" name="PlayerState.cpp" compile="1" resource="0" file="Source/extensions/PlayerState.cpp"/>
         <FILE id="G2QCtC" name="PlayerState.h" compile="0" resource="0" file="Source/extensions/PlayerState.h"/>
+        <FILE id="pFznkC" name="RandomColourGenerator.cpp" compile="1" resource="0"
+              file="Source/extensions/RandomColourGenerator.cpp"/>
+        <FILE id="FcBor5" name="RandomColourGenerator.h" compile="0" resource="0"
+              file="Source/extensions/RandomColourGenerator.h"/>
       </GROUP>
       <GROUP id="{0ADD52D2-C44B-0762-417A-2EAED601F357}" name="model">
         <GROUP id="{6B36E5DA-CEC0-212B-B69B-595836E6FF3F}" name="tracks">

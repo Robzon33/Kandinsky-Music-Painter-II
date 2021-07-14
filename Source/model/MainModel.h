@@ -20,6 +20,9 @@ public:
 
     void TestFunction();
     bool GetTest();
+
+    juce::Array<TrackData*> getAllTracks();
+    int getNumberOfTracks();
 private:
     juce::OwnedArray<TrackData> tracks;
     bool test = false;

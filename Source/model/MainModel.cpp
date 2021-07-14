@@ -20,10 +20,33 @@ MainModel::~MainModel()
 
 void MainModel::TestFunction()
 {
-    this->test = true;
+    TrackData* track = new TrackData();
+
+    juce::Path* newPath = new juce::Path();
+    newPath->startNewSubPath(1, 120);
+    newPath->lineTo(10, 10);
+    track->addPath(newPath);
+    this->tracks.add(track);
 }
 
 bool MainModel::GetTest()
 {
     return test;
+}
+
+juce::Array<TrackData*> MainModel::getAllTracks()
+{
+    juce::Array<TrackData*> tracksToReturn;
+
+    for each (TrackData* track in tracks)
+    {
+        tracksToReturn.add(track);
+    }
+
+    return tracksToReturn;
+}
+
+int MainModel::getNumberOfTracks()
+{
+    return tracks.size();
 }
