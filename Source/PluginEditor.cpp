@@ -10,10 +10,10 @@
 #include "PluginEditor.h"
 
 //==============================================================================
-KandinskyMusicPainterIIAudioProcessorEditor::KandinskyMusicPainterIIAudioProcessorEditor (KandinskyMusicPainterIIAudioProcessor& p, MainModel& m, MidiPlayer& mp)
-    : AudioProcessorEditor (&p), audioProcessor (p), mainModel (m), midiPlayer (mp)
+KandinskyMusicPainterIIAudioProcessorEditor::KandinskyMusicPainterIIAudioProcessorEditor (KandinskyMusicPainterIIAudioProcessor& p, MainModel& m, MidiPlayer& mp, ProjectSettings& ps)
+    : AudioProcessorEditor (&p), audioProcessor (p), mainModel (m), midiPlayer (mp), settings (ps)
 {
-    mainComponent = new MainComponent(mainModel, midiPlayer);
+    mainComponent = new MainComponent(mainModel, midiPlayer, settings);
     addAndMakeVisible(mainComponent);
 
     // Make sure that before the constructor has finished, you've set the

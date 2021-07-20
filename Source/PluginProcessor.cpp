@@ -23,8 +23,8 @@ KandinskyMusicPainterIIAudioProcessor::KandinskyMusicPainterIIAudioProcessor()
 #endif
 {
     this->mainModel = std::unique_ptr<MainModel>(new MainModel());
-    this->projectSettings = std::unique_ptr<ProjectSettings>(new ProjectSettings());
-    this->midiPlayer = std::unique_ptr<MidiPlayer>(new MidiPlayer(*projectSettings, *mainModel));
+    this->settings = std::unique_ptr<ProjectSettings>(new ProjectSettings());
+    this->midiPlayer = std::unique_ptr<MidiPlayer>(new MidiPlayer(*settings, *mainModel));
 }
 
 KandinskyMusicPainterIIAudioProcessor::~KandinskyMusicPainterIIAudioProcessor()
@@ -160,15 +160,9 @@ void KandinskyMusicPainterIIAudioProcessor::processBlock (juce::AudioBuffer<floa
         // ..do something to the data...
     }
 
-    /*if (this->mainModel->GetTest())
+    if (midiPlayer != nullptr)
     {
-        auto message = juce::MidiMessage::noteOn(1, 60, 0.9f);
-        midiMessages.addEvent(message, 1);
-    }*/
-
-    if (this->midiPlayer != nullptr)
-    {
-        midiMessages = this->midiPlayer->getMidiBuffer();
+        midiMessages = midiPlayer->getMidiBuffer();
     }
 }
 
@@ -180,7 +174,7 @@ bool KandinskyMusicPainterIIAudioProcessor::hasEditor() const
 
 juce::AudioProcessorEditor* KandinskyMusicPainterIIAudioProcessor::createEditor()
 {
-    return new KandinskyMusicPainterIIAudioProcessorEditor (*this, *this->mainModel, *this->midiPlayer);
+    return new KandinskyMusicPainterIIAudioProcessorEditor (*this, *mainModel, *midiPlayer, *settings);
 }
 
 //==============================================================================

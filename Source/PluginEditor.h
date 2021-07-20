@@ -13,6 +13,7 @@
 #include "gui/MainComponent.h"
 #include "model/MainModel.h"
 #include "player/MidiPlayer.h"
+#include "model/ProjectSettings.h"
 
 class MainComponent;
 
@@ -22,7 +23,7 @@ class MainComponent;
 class KandinskyMusicPainterIIAudioProcessorEditor  : public juce::AudioProcessorEditor
 {
 public:
-    KandinskyMusicPainterIIAudioProcessorEditor (KandinskyMusicPainterIIAudioProcessor&, MainModel&, MidiPlayer& mp);
+    KandinskyMusicPainterIIAudioProcessorEditor (KandinskyMusicPainterIIAudioProcessor&, MainModel&, MidiPlayer& mp, ProjectSettings&);
     ~KandinskyMusicPainterIIAudioProcessorEditor() override;
 
     //==============================================================================
@@ -37,6 +38,7 @@ private:
     KandinskyMusicPainterIIAudioProcessor& audioProcessor;
     MainModel& mainModel;
     MidiPlayer& midiPlayer;
+    ProjectSettings& settings;
 
     // The editors components
     juce::ScopedPointer<MainComponent> mainComponent;

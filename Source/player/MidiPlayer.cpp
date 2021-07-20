@@ -35,6 +35,9 @@ void MidiPlayer::hiResTimerCallback()
     {
         position = 0;
     }
+
+    /* notify change listener */
+    sendChangeMessage();
 }
 
 void MidiPlayer::play()
@@ -63,6 +66,11 @@ juce::MidiBuffer MidiPlayer::getMidiBuffer()
         processorFlag = false;
     }
     return bufferToReturn;
+}
+
+float MidiPlayer::getPosition()
+{
+    return position;
 }
 
 void MidiPlayer::setState(State state)
@@ -97,6 +105,11 @@ MidiPlayer::State MidiPlayer::getState()
     {
         return State::ST_PAUSED;
     }
+}
+
+void MidiPlayer::registerListener(juce::ChangeListener* listener)
+{
+    this->addChangeListener(listener);
 }
 
 void MidiPlayer::calculateEvents()

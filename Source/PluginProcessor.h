@@ -59,7 +59,7 @@ private:
     //==============================================================================
     std::unique_ptr<MidiPlayer> midiPlayer;
     std::unique_ptr<MainModel> mainModel;
-    std::unique_ptr<ProjectSettings> projectSettings;
+    std::unique_ptr<ProjectSettings> settings;
 
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (KandinskyMusicPainterIIAudioProcessor)

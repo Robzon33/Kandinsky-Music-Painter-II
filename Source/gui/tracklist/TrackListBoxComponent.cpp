@@ -26,8 +26,7 @@ TrackListBoxComponent::~TrackListBoxComponent()
 
 int TrackListBoxComponent::getNumRows()
 {
-    //return mainModel.getNumberOfTracks();
-    return 10;
+    return mainModel.getNumberOfTracks();
 }
 
 void TrackListBoxComponent::paintListBoxItem(int rowNumber, juce::Graphics& g, int width, int height, bool rowIsSelected)
@@ -40,7 +39,7 @@ void TrackListBoxComponent::paintListBoxItem(int rowNumber, juce::Graphics& g, i
 	g.setColour(juce::Colours::lightblue);
 	g.setFont(height * 0.7f);
 
-	g.drawText("Dummy Text", 5, 0, width, height,
+	g.drawText(mainModel.getTrackName(rowNumber), 5, 0, width, height,
 		juce::Justification::centredLeft, true);
 }
 

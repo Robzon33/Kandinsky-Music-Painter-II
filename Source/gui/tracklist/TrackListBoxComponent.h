@@ -12,6 +12,7 @@
 
 #include <JuceHeader.h>
 #include "../../model/MainModel.h"
+#include "../CommandIDs.h"
 
 class TrackListBoxComponent :   public juce::ListBox,
                                 private juce::ListBoxModel

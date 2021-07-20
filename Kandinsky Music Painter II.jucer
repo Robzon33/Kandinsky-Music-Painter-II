@@ -10,17 +10,18 @@
         <FILE id="TJqbum" name="MidiPlayer.h" compile="0" resource="0" file="Source/player/MidiPlayer.h"/>
       </GROUP>
       <GROUP id="{F2C416D8-6B32-FB64-4F65-51001AA65E5E}" name="gui">
+        <FILE id="yZT46d" name="CommandIDs.h" compile="0" resource="0" file="Source/gui/CommandIDs.h"/>
         <GROUP id="{B9E3B985-3051-E989-9060-A44E70CBC32C}" name="resources">
           <FILE id="y0p4tg" name="player-pause.png" compile="0" resource="1"
                 file="Source/gui/resources/player-pause.png"/>
           <FILE id="uI8SPv" name="player-play.png" compile="0" resource="1" file="Source/gui/resources/player-play.png"/>
           <FILE id="GxQ305" name="player-stop.png" compile="0" resource="1" file="Source/gui/resources/player-stop.png"/>
         </GROUP>
-        <GROUP id="{27F2D73B-E12F-F578-E495-6B30D2FFC619}" name="tracks">
-          <FILE id="vIcqqf" name="TrackListBoxComponent.cpp" compile="1" resource="0"
-                file="Source/gui/tracks/TrackListBoxComponent.cpp"/>
-          <FILE id="Y7Ctgt" name="TrackListBoxComponent.h" compile="0" resource="0"
-                file="Source/gui/tracks/TrackListBoxComponent.h"/>
+        <GROUP id="{27F2D73B-E12F-F578-E495-6B30D2FFC619}" name="tracklist">
+          <FILE id="eJLshe" name="TrackListBoxComponent.cpp" compile="1" resource="0"
+                file="Source/gui/tracklist/TrackListBoxComponent.cpp"/>
+          <FILE id="DuZHAB" name="TrackListBoxComponent.h" compile="0" resource="0"
+                file="Source/gui/tracklist/TrackListBoxComponent.h"/>
         </GROUP>
         <GROUP id="{04193D0F-6F3E-68E7-A68C-CFA75C70EC8C}" name="player">
           <FILE id="LpmPjl" name="PlayerComponent.cpp" compile="1" resource="0"
@@ -29,6 +30,20 @@
                 file="Source/gui/player/PlayerComponent.h"/>
         </GROUP>
         <GROUP id="{389E73B7-A044-0CC5-D2D9-C3F41DA994A8}" name="painting">
+          <GROUP id="{E442470C-610D-F244-E188-2C52ECE45E15}" name="tracks">
+            <FILE id="h8tjQx" name="MainTrackComponent.cpp" compile="1" resource="0"
+                  file="Source/gui/painting/tracks/MainTrackComponent.cpp"/>
+            <FILE id="BvyALS" name="MainTrackComponent.h" compile="0" resource="0"
+                  file="Source/gui/painting/tracks/MainTrackComponent.h"/>
+            <FILE id="kH6nYm" name="TrackComponent.cpp" compile="1" resource="0"
+                  file="Source/gui/painting/tracks/TrackComponent.cpp"/>
+            <FILE id="Se4r2L" name="TrackComponent.h" compile="0" resource="0"
+                  file="Source/gui/painting/tracks/TrackComponent.h"/>
+          </GROUP>
+          <FILE id="McIRpk" name="HeaderComponent.cpp" compile="1" resource="0"
+                file="Source/gui/painting/HeaderComponent.cpp"/>
+          <FILE id="WjGErR" name="HeaderComponent.h" compile="0" resource="0"
+                file="Source/gui/painting/HeaderComponent.h"/>
           <FILE id="E2EW9R" name="MainPaintingComponent.cpp" compile="1" resource="0"
                 file="Source/gui/painting/MainPaintingComponent.cpp"/>
           <FILE id="ESDuJj" name="MainPaintingComponent.h" compile="0" resource="0"

@@ -10,11 +10,12 @@
 
 #include "MenuBarComponent.h"
 
-MenuBarComponent::MenuBarComponent(MainModel& mm)
-    : mainModel(mm)
+MenuBarComponent::MenuBarComponent(MainModel& mm, juce::ApplicationCommandManager& acm)
+    : mainModel(mm), commandManager (acm)
 {
     menuBar.reset(new juce::MenuBarComponent(this));
     addAndMakeVisible(menuBar.get());
+    setApplicationCommandManagerToWatch(&commandManager);
 }
 
 MenuBarComponent::~MenuBarComponent()
@@ -37,9 +38,11 @@ juce::PopupMenu MenuBarComponent::getMenuForIndex(int menuIndex, const juce::Str
 
     if (menuIndex == 0)
     {
-        menu.addItem(1001, "New Project", true, false);
-        menu.addSeparator();
-        menu.addItem(1002, "Add Track", true, false);
+        menu.addCommandItem(&commandManager, CommandIDs::newProject);
+        //menu.addSeparator();
+        menu.addCommandItem(&commandManager, CommandIDs::addMidiTrack);
+        menu.addCommandItem(&commandManager, CommandIDs::deleteTrack);  
+        menu.addCommandItem(&commandManager, CommandIDs::deleteAllTracks);
     }
 
     return menu;

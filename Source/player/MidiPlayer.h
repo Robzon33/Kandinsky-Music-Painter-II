@@ -17,7 +17,8 @@
 
 class PlayerState;
 
-class MidiPlayer    : private juce::HighResolutionTimer
+class MidiPlayer :  private juce::HighResolutionTimer,
+                    public juce::ChangeBroadcaster    
 {
 public:
     enum State
@@ -35,9 +36,12 @@ public:
     void stop();
     void pause();
     juce::MidiBuffer getMidiBuffer();
+    float getPosition();
 
     void setState(State state);
     State getState();
+
+    void registerListener(juce::ChangeListener* listener);
 private:
     juce::MidiBuffer midiBuffer;
     MainModel& mainModel;

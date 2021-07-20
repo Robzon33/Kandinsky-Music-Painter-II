@@ -14,30 +14,41 @@
 #include "../PluginEditor.h"
 #include "../model/MainModel.h"
 #include "../player/MidiPlayer.h"
+#include "../model/ProjectSettings.h"
 
 /* Components */
 #include "menu/MenuBarComponent.h"
 #include "player/PlayerComponent.h"
-#include "tracks/TrackListBoxComponent.h"
+#include "tracklist/TrackListBoxComponent.h"
+#include "painting/MainPaintingComponent.h"
 
 class KandinskyMusicPainterIIAudioProcessorEditor;
 
-class MainComponent : public juce::Component
+class MainComponent : public juce::Component, 
+                      public juce::ApplicationCommandTarget
 {
 public:
-    MainComponent(MainModel&, MidiPlayer&);
+    MainComponent(MainModel&, MidiPlayer&, ProjectSettings&);
     ~MainComponent();
 
     void paint(juce::Graphics&) override;
     void resized() override;
 
-    void mouseDown(const juce::MouseEvent& event) override;
+    juce::ApplicationCommandTarget* getNextCommandTarget() override;
+    void getAllCommands(juce::Array<juce::CommandID>& c) override;
+    void getCommandInfo(juce::CommandID commandID, juce::ApplicationCommandInfo& result) override;
+    bool perform(const InvocationInfo& info) override;
 private:
-    MainModel& mainModel;
+    MainModel& model;
     MidiPlayer& player;
+    ProjectSettings& settings;
+
+    juce::ApplicationCommandManager commandManager;
 
     /* Child components */
     std::unique_ptr<MenuBarComponent> menuBar;
     std::unique_ptr<PlayerComponent> playerBar;
     std::unique_ptr<TrackListBoxComponent> trackList;
+    std::unique_ptr<MainPaintingComponent> paintArea;
+    std::unique_ptr<juce::Viewport> paintViewport;
 };

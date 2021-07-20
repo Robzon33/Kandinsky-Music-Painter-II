@@ -12,12 +12,13 @@
 
 #include <JuceHeader.h>
 #include "../../model/MainModel.h"
+#include "../CommandIDs.h"
 
-class MenuBarComponent :   public juce::Component,
-                        public juce::MenuBarModel
+class MenuBarComponent :    public juce::Component,
+                            public juce::MenuBarModel
 {
 public:
-    MenuBarComponent(MainModel& mm);
+    MenuBarComponent(MainModel&, juce::ApplicationCommandManager&);
     ~MenuBarComponent();
 
     //==============================================================================
@@ -30,4 +31,5 @@ public:
 private:
     std::unique_ptr<juce::MenuBarComponent> menuBar;
     MainModel& mainModel;
+    juce::ApplicationCommandManager& commandManager;
 };

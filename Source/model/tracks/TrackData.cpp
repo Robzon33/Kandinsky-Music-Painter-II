@@ -12,10 +12,10 @@
 
 TrackData::TrackData()
 {
-    this->audible = true;
-    this->visible = true;
-    this->trackName = "temp";
-    this->trackColour = juce::Colours::red;
+    audible = true;
+    visible = true;
+    trackName = "Track";
+    trackColour = juce::Colours::red;
 }
 
 TrackData::~TrackData()
