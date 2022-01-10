@@ -22,7 +22,7 @@ class MainTrackComponent : public juce::Component,
     public juce::ChangeListener
 {
 public:
-    MainTrackComponent(MainModel&, MidiPlayer&);
+    MainTrackComponent(MainModel&, MidiPlayer&, ProjectSettings&);
     ~MainTrackComponent();
 
     void paint(juce::Graphics& g) override;
@@ -37,6 +37,7 @@ public:
 private:
     MainModel& model;
     MidiPlayer& player;
+    ProjectSettings& settings;
 
     juce::OwnedArray<TrackComponent> tracks;
 };

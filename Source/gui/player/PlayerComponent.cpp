@@ -39,6 +39,9 @@ void PlayerComponent::resized()
 
 void PlayerComponent::buttonClicked(juce::Button* button)
 {
+	if (button == playButton.get())		{ player.play(); }
+	if (button == pauseButton.get())	{ player.pause(); }
+	if (button == stopButton.get())		{ player.stop(); }
 }
 
 void PlayerComponent::sliderValueChanged(juce::Slider* slider)

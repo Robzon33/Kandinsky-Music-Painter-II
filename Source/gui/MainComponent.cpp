@@ -22,13 +22,13 @@ MainComponent::MainComponent(MainModel& m, MidiPlayer& mp, ProjectSettings& ps)
     trackList.reset(new TrackListBoxComponent(model));
     addAndMakeVisible(trackList.get());
     
-    paintArea.reset(new MainPaintingComponent(model, player));
-    paintArea->setSize(settings.getNumberOfBeats() * 100, 500);
-    addAndMakeVisible(paintArea.get());
+    mainPaintComponent.reset(new MainPaintingComponent(model, player, settings));
+    mainPaintComponent->setSize(settings.getNumberOfBeats() * 100, 500);
+    addAndMakeVisible(mainPaintComponent.get());
 
     paintViewport.reset(new juce::Viewport("Paint Viewport"));
     addAndMakeVisible(paintViewport.get());
-    paintViewport->setViewedComponent(paintArea.get(), false);
+    paintViewport->setViewedComponent(mainPaintComponent.get(), false);
 
     commandManager.registerAllCommandsForTarget(this);
     commandManager.setFirstCommandTarget(this);
@@ -94,7 +94,7 @@ bool MainComponent::perform(const InvocationInfo& info)
         {
             int index = model.getIndexOfLastTrack();
             MidiTrack* newTrack = model.getMidiTrack(index);
-            paintArea->addNewTrack(newTrack);
+            mainPaintComponent->addNewTrack(newTrack);
             trackList->updateContent();
             trackList->selectRow(index);
         }
@@ -104,7 +104,7 @@ bool MainComponent::perform(const InvocationInfo& info)
     {
         int indexOfSelectedTrack = trackList->getSelectedRow();
         model.deleteTrack(indexOfSelectedTrack);
-        paintArea->deleteTrackComponent(indexOfSelectedTrack);
+        mainPaintComponent->deleteTrackComponent(indexOfSelectedTrack);
         trackList->updateContent();
         if (trackList->getSelectedRow() == -1)
         {
@@ -115,7 +115,7 @@ bool MainComponent::perform(const InvocationInfo& info)
     case CommandIDs::deleteAllTracks:
     {
         model.deleteAllTracks();
-        paintArea->deleteAllTrackComponents();
+        mainPaintComponent->deleteAllTrackComponents();
         trackList->updateContent();
         break;
     }

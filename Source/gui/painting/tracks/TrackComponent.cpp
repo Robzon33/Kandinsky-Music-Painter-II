@@ -51,3 +51,8 @@ void TrackComponent::mouseDown(const juce::MouseEvent& event)
     }
 
 }
+
+void TrackComponent::mouseDrag(const juce::MouseEvent& event)
+{
+
+}

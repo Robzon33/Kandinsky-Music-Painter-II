@@ -10,8 +10,8 @@
 
 #include "MainTrackComponent.h"
 
-MainTrackComponent::MainTrackComponent(MainModel& mm, MidiPlayer& mp)
-    : model(mm), player(mp)
+MainTrackComponent::MainTrackComponent(MainModel& mm, MidiPlayer& mp, ProjectSettings& ps)
+    : model(mm), player(mp), settings (ps)
 {
     player.addChangeListener(this);
 }
@@ -22,9 +22,17 @@ MainTrackComponent::~MainTrackComponent()
 
 void MainTrackComponent::paint(juce::Graphics& g)
 {
+    //draw beat lines
+    g.setColour(juce::Colours::black);
+    int thickness = 1;
+    for (int i = 0; i <= settings.getNumberOfBeats(); ++i)
+    {
+        g.drawVerticalLine(i * 100, 0.0f, (float)getHeight());
+    }
+
     //paint the players position
     g.setColour(juce::Colours::blue);
-    g.drawLine(player.getPosition(), 0, player.getPosition(), getHeight(), 2.0f);
+    g.drawLine(player.getPosition() * 100.0f, 0, player.getPosition() * 100.0f, getHeight(), 1.0f);
 }
 
 void MainTrackComponent::resized()
@@ -33,7 +41,10 @@ void MainTrackComponent::resized()
 
 void MainTrackComponent::changeListenerCallback(juce::ChangeBroadcaster* source)
 {
-    repaint();
+    if (source == &player)
+    {
+        repaint();
+    } 
 }
 
 void MainTrackComponent::updateContent()

@@ -10,8 +10,8 @@
 
 #include "MainPaintingComponent.h"
 
-MainPaintingComponent::MainPaintingComponent(MainModel& mm, MidiPlayer& mp)
-    : model (mm), player (mp)
+MainPaintingComponent::MainPaintingComponent(MainModel& mm, MidiPlayer& mp, ProjectSettings& ps)
+    : model (mm), player (mp), settings (ps)
 {
     drawBeatLines = true;
     showToolComponent = false;
@@ -21,7 +21,7 @@ MainPaintingComponent::MainPaintingComponent(MainModel& mm, MidiPlayer& mp)
     paintingHeader.reset(new HeaderComponent("Painting"));
     addAndMakeVisible(paintingHeader.get());
 
-    trackComponent.reset(new MainTrackComponent(model, player));
+    trackComponent.reset(new MainTrackComponent(model, player, settings));
     addAndMakeVisible(trackComponent.get());
 
     velocityHeader.reset(new HeaderComponent("Velocity"));

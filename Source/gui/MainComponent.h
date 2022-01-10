@@ -49,6 +49,6 @@ private:
     std::unique_ptr<MenuBarComponent> menuBar;
     std::unique_ptr<PlayerComponent> playerBar;
     std::unique_ptr<TrackListBoxComponent> trackList;
-    std::unique_ptr<MainPaintingComponent> paintArea;
+    std::unique_ptr<MainPaintingComponent> mainPaintComponent;
     std::unique_ptr<juce::Viewport> paintViewport;
 };

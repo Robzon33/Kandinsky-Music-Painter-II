@@ -20,7 +20,7 @@
 class MainPaintingComponent :   public juce::Component
 {
 public:
-    MainPaintingComponent(MainModel&, MidiPlayer&);
+    MainPaintingComponent(MainModel&, MidiPlayer&, ProjectSettings&);
     ~MainPaintingComponent();
 
     void paint(juce::Graphics& g) override;
@@ -34,6 +34,7 @@ public:
 private:
     MainModel& model;
     MidiPlayer& player;
+    ProjectSettings& settings;
     
     std::unique_ptr<HeaderComponent> paintingHeader;
     std::unique_ptr<MainTrackComponent> trackComponent;

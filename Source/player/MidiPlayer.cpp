@@ -15,6 +15,11 @@ MidiPlayer::MidiPlayer(ProjectSettings& ps, MainModel& mm)
 {
     processorFlag = false;
     position = 0.0f;
+
+    for (int i = 0; i < 128; i++)
+    {
+        previousNotesOn.add(false);
+    }
 }
 
 MidiPlayer::~MidiPlayer()
@@ -27,11 +32,11 @@ void MidiPlayer::hiResTimerCallback()
 {
     /*auto message = juce::MidiMessage::noteOn(2, 40, 0.9f);
     this->midiBuffer.addEvent(message, 2);*/
-    this->position = position + 1;
+    this->position = position + 0.01f;
     this->calculateEvents();
     processorFlag = true;
 
-    if (position > 10)
+    if (position > settings.getNumberOfBeats())
     {
         position = 0;
     }
@@ -43,7 +48,7 @@ void MidiPlayer::hiResTimerCallback()
 void MidiPlayer::play()
 {
     m_pState->Play(this);
-    startTimer(2000);
+    startTimer(10);
 }
 
 void MidiPlayer::stop()
@@ -136,9 +141,15 @@ void MidiPlayer::calculateEvents()
             }
         }
 
+        //initialize a new array on stack to store new note on messages
+        juce::OwnedArray<bool> newNoteOn;
+        for (int j = 0; j < 128; ++j)
+            newNoteOn.add(false);
+
         // generate midi messages
         if (!yValues.isEmpty())
         {
+            filterYValues(yValues);
             for (int i = 0; i < yValues.size(); i++)
             {
                 int note = static_cast<int>(127 - yValues[i]);
@@ -146,9 +157,24 @@ void MidiPlayer::calculateEvents()
                 {
                     juce::uint8 velocity = 100; /* not yet calculated */
                     juce::MidiMessage message(juce::MidiMessage::noteOn(2, note, 0.9f));
+                    newNoteOn.set(note, new bool(true), true);
                     this->midiBuffer.addEvent(message, 0);
                 }
             }
+        }
+
+        previousNotesOn.swapWith(newNoteOn);
+    }
+}
+
+void MidiPlayer::filterYValues(juce::Array<float> yValues)
+{
+    for each (float value in yValues)
+    {
+        int note = static_cast<int>(127 - value);
+        if (previousNotesOn[note])
+        {
+            yValues.remove(value);
         }
     }
 }
