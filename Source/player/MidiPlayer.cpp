@@ -30,7 +30,7 @@ void MidiPlayer::hiResTimerCallback()
     {
         position = 0;
     }
-    this->calculateEvents();
+    this->produceMidiMessages();
     processorFlag = true;
 
     /* notify change listener */
@@ -119,35 +119,23 @@ void MidiPlayer::registerListener(juce::ChangeListener* listener)
     this->addChangeListener(listener);
 }
 
-void MidiPlayer::calculateEvents()
+void MidiPlayer::produceMidiMessages()
 {
     juce::Array<float> yValues;
 
-    for each (TrackData* track in mainModel.getAllTracks())
+    for each (TrackData * track in mainModel.getAllTracks())
     {
         int channel = 1; /* TODO: get channel from track! */
-        
+
         // initialize a new array on stack to store new note on messages
         juce::OwnedArray<bool> newNoteOn;
         for (int j = 0; j < 128; ++j)
             newNoteOn.add(false);
 
-        // find intersections
-        for each (juce::Path* path in track->getPathVector())
+        // calculate intersections
+        for each (juce::Path * path in track->getPathVector())
         {
-            const float tolerance = 1.0f;
-            juce::PathFlatteningIterator iterator(*path, juce::AffineTransform(), tolerance);
-
-            juce::Line<float> line((float)this->position, 0, (float)this->position, 128);
-            juce::Point<float> intersection;
-
-            while (iterator.next())
-            {
-                if (line.intersects(juce::Line<float>(iterator.x1, iterator.y1, iterator.x2, iterator.y2), intersection))
-                {
-                    yValues.add(intersection.getY());
-                }
-            }
+            yValues.addArray(this->calculateIntersections(path));
         }
 
         // generate Midi Messages
@@ -182,4 +170,25 @@ void MidiPlayer::calculateEvents()
 
         previousNotesOn.swapWith(newNoteOn);
     }
+}
+
+juce::Array<float> MidiPlayer::calculateIntersections(juce::Path* path)
+{
+    juce::Array<float> yValues;
+
+    const float tolerance = 1.0f;
+    juce::PathFlatteningIterator iterator(*path, juce::AffineTransform(), tolerance);
+
+    juce::Line<float> line((float) this->position, 0, (float) this->position, 128);
+    juce::Point<float> intersection;
+
+    while (iterator.next())
+    {
+        if (line.intersects(juce::Line<float>(iterator.x1, iterator.y1, iterator.x2, iterator.y2), intersection))
+        {
+            yValues.add(intersection.getY());
+        }
+    }
+
+    return yValues;
 }

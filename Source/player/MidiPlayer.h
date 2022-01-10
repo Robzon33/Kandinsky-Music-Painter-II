@@ -52,7 +52,13 @@ private:
     juce::OwnedArray<bool> previousNotesOn; /* Indicates wether a certain note has been played in the previous step. */
 
     /// <summary>
-    /// Calculate intersections between all track data paths and the current players position.
+    /// Produces Midi Messages and adds them to the Midi Buffer.
     /// </summary>
-    void calculateEvents();
+    void produceMidiMessages();
+
+    /// <summary>
+    /// Calculates all intersections between the given path and the current players position.
+    /// </summary>
+    /// <returns></returns>
+    juce::Array<float> calculateIntersections(juce::Path* path);
 };
