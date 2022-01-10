@@ -14,12 +14,7 @@ MidiPlayer::MidiPlayer(ProjectSettings& ps, MainModel& mm)
     : settings (ps), mainModel (mm), m_pState(new StoppedState())
 {
     processorFlag = false;
-    position = 0.0f;
-
-    for (int i = 0; i < 128; i++)
-    {
-        previousNotesOn.add(false);
-    }
+    position = 0;
 }
 
 MidiPlayer::~MidiPlayer()
@@ -30,16 +25,13 @@ MidiPlayer::~MidiPlayer()
 
 void MidiPlayer::hiResTimerCallback()
 {
-    /*auto message = juce::MidiMessage::noteOn(2, 40, 0.9f);
-    this->midiBuffer.addEvent(message, 2);*/
-    this->position = position + 0.01f;
-    this->calculateEvents();
-    processorFlag = true;
-
-    if (position > settings.getNumberOfBeats())
+    this->position = position + 1;
+    if (position >= settings.getNumberOfBeats() * 100)
     {
         position = 0;
     }
+    this->calculateEvents();
+    processorFlag = true;
 
     /* notify change listener */
     sendChangeMessage();
@@ -48,6 +40,12 @@ void MidiPlayer::hiResTimerCallback()
 void MidiPlayer::play()
 {
     m_pState->Play(this);
+    
+    previousNotesOn.clear(true);
+    for (int i = 0; i < 128; i++)
+    {
+        previousNotesOn.add(false);
+    }
     startTimer(10);
 }
 
@@ -55,10 +53,14 @@ void MidiPlayer::stop()
 {
     stopTimer();
     midiBuffer.addEvent(juce::MidiMessage::allNotesOff(1), 1);
+    this->position = 0;
+    sendChangeMessage();
 }
 
 void MidiPlayer::pause()
 {
+    stopTimer();
+    midiBuffer.addEvent(juce::MidiMessage::allNotesOff(1), 1);
 }
 
 juce::MidiBuffer MidiPlayer::getMidiBuffer()
@@ -73,7 +75,7 @@ juce::MidiBuffer MidiPlayer::getMidiBuffer()
     return bufferToReturn;
 }
 
-float MidiPlayer::getPosition()
+int MidiPlayer::getPosition()
 {
     return position;
 }
@@ -123,13 +125,20 @@ void MidiPlayer::calculateEvents()
 
     for each (TrackData* track in mainModel.getAllTracks())
     {
+        int channel = 1; /* TODO: get channel from track! */
+        
+        // initialize a new array on stack to store new note on messages
+        juce::OwnedArray<bool> newNoteOn;
+        for (int j = 0; j < 128; ++j)
+            newNoteOn.add(false);
+
         // find intersections
         for each (juce::Path* path in track->getPathVector())
         {
             const float tolerance = 1.0f;
             juce::PathFlatteningIterator iterator(*path, juce::AffineTransform(), tolerance);
 
-            juce::Line<float> line(this->position, 0, this->position, 128);
+            juce::Line<float> line((float)this->position, 0, (float)this->position, 128);
             juce::Point<float> intersection;
 
             while (iterator.next())
@@ -141,40 +150,36 @@ void MidiPlayer::calculateEvents()
             }
         }
 
-        //initialize a new array on stack to store new note on messages
-        juce::OwnedArray<bool> newNoteOn;
-        for (int j = 0; j < 128; ++j)
-            newNoteOn.add(false);
-
-        // generate midi messages
+        // generate Midi Messages
         if (!yValues.isEmpty())
         {
-            filterYValues(yValues);
             for (int i = 0; i < yValues.size(); i++)
             {
                 int note = static_cast<int>(127 - yValues[i]);
-                if (0 <= note < 128)
+
+                if (note >= 0 && note <= 127)
                 {
-                    juce::uint8 velocity = 100; /* not yet calculated */
-                    juce::MidiMessage message(juce::MidiMessage::noteOn(2, note, 0.9f));
+                    if (!previousNotesOn[note])
+                    {
+                        juce::MidiMessage message(juce::MidiMessage::noteOn(channel, note, 0.9f));
+                        newNoteOn.set(note, new bool(true), true);
+                        this->midiBuffer.addEvent(message, 0);
+                    }
                     newNoteOn.set(note, new bool(true), true);
-                    this->midiBuffer.addEvent(message, 0);
                 }
             }
         }
 
-        previousNotesOn.swapWith(newNoteOn);
-    }
-}
-
-void MidiPlayer::filterYValues(juce::Array<float> yValues)
-{
-    for each (float value in yValues)
-    {
-        int note = static_cast<int>(127 - value);
-        if (previousNotesOn[note])
+        // after all note on messages have been added to the buffer send note off messages
+        for (int k = 0; k < 128; ++k)
         {
-            yValues.remove(value);
+            if (previousNotesOn[k] && !newNoteOn[k])
+            {
+                juce::MidiMessage message(juce::MidiMessage::noteOff(channel, k));
+                this->midiBuffer.addEvent(message, 0);
+            }
         }
+
+        previousNotesOn.swapWith(newNoteOn);
     }
 }

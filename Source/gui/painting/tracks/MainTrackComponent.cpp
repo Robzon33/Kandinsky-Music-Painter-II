@@ -32,7 +32,7 @@ void MainTrackComponent::paint(juce::Graphics& g)
 
     //paint the players position
     g.setColour(juce::Colours::blue);
-    g.drawLine(player.getPosition() * 100.0f, 0, player.getPosition() * 100.0f, getHeight(), 1.0f);
+    g.drawLine((float)player.getPosition(), 0, (float)player.getPosition(), getHeight(), 1.0f);
 }
 
 void MainTrackComponent::resized()
@@ -43,8 +43,8 @@ void MainTrackComponent::changeListenerCallback(juce::ChangeBroadcaster* source)
 {
     if (source == &player)
     {
-        repaint();
-    } 
+        repaint(); // not nice because i draw everything at every time i receive the callback. Maybe outsourcing to another component for the player.
+    }
 }
 
 void MainTrackComponent::updateContent()

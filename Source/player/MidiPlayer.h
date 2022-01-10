@@ -36,7 +36,7 @@ public:
     void stop();
     void pause();
     juce::MidiBuffer getMidiBuffer();
-    float getPosition();
+    int getPosition();
 
     void setState(State state);
     State getState();
@@ -47,7 +47,7 @@ private:
     MainModel& mainModel;
     ProjectSettings& settings;
     PlayerState* m_pState;
-    float position; /* The players position in beats. */
+    int position; /* The players position in pixels (x-axis). */
     bool processorFlag; /* Indicates whether the processor is allowed to acces the midi buffer. */
     juce::OwnedArray<bool> previousNotesOn; /* Indicates wether a certain note has been played in the previous step. */
 
@@ -55,10 +55,4 @@ private:
     /// Calculate intersections between all track data paths and the current players position.
     /// </summary>
     void calculateEvents();
-
-    /// <summary>
-    /// Checks the calculated y values and eliminates the values which have been used to
-    /// generate a note on message in the previous step
-    /// </summary>
-    void filterYValues(juce::Array<float> yValues);
 };
