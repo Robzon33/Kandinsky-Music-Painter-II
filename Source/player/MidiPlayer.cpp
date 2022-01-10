@@ -128,9 +128,9 @@ void MidiPlayer::produceMidiMessages()
         int channel = 1; /* TODO: get channel from track! */
 
         // initialize a new array on stack to store new note on messages
-        juce::OwnedArray<bool> newNoteOn;
+        juce::OwnedArray<bool> noteOnMessages;
         for (int j = 0; j < 128; ++j)
-            newNoteOn.add(false);
+            noteOnMessages.add(false);
 
         // calculate intersections
         for each (juce::Path * path in track->getPathVector())
@@ -138,37 +138,37 @@ void MidiPlayer::produceMidiMessages()
             yValues.addArray(this->calculateIntersections(path));
         }
 
-        // generate Midi Messages
+        // produce note on messages
         if (!yValues.isEmpty())
         {
             for (int i = 0; i < yValues.size(); i++)
             {
                 int note = static_cast<int>(127 - yValues[i]);
-
+                
                 if (note >= 0 && note <= 127)
                 {
                     if (!previousNotesOn[note])
                     {
                         juce::MidiMessage message(juce::MidiMessage::noteOn(channel, note, 0.9f));
-                        newNoteOn.set(note, new bool(true), true);
+                        noteOnMessages.set(note, new bool(true), true);
                         this->midiBuffer.addEvent(message, 0);
                     }
-                    newNoteOn.set(note, new bool(true), true);
+                    noteOnMessages.set(note, new bool(true), true);
                 }
             }
         }
 
-        // after all note on messages have been added to the buffer send note off messages
+        // produce note off messages
         for (int k = 0; k < 128; ++k)
         {
-            if (previousNotesOn[k] && !newNoteOn[k])
+            if (previousNotesOn[k] && !noteOnMessages[k])
             {
                 juce::MidiMessage message(juce::MidiMessage::noteOff(channel, k));
                 this->midiBuffer.addEvent(message, 0);
             }
         }
 
-        previousNotesOn.swapWith(newNoteOn);
+        previousNotesOn.swapWith(noteOnMessages);
     }
 }
 
@@ -176,19 +176,38 @@ juce::Array<float> MidiPlayer::calculateIntersections(juce::Path* path)
 {
     juce::Array<float> yValues;
 
-    const float tolerance = 1.0f;
-    juce::PathFlatteningIterator iterator(*path, juce::AffineTransform(), tolerance);
+    int xBoundLeft = path->getBounds().getX();
+    int xBoundRight = path->getBounds().getX() + path->getBounds().getWidth();
 
-    juce::Line<float> line((float) this->position, 0, (float) this->position, 128);
-    juce::Point<float> intersection;
-
-    while (iterator.next())
+    if (this->position >= xBoundLeft && this->position <= xBoundRight)
     {
-        if (line.intersects(juce::Line<float>(iterator.x1, iterator.y1, iterator.x2, iterator.y2), intersection))
-        {
-            yValues.add(intersection.getY());
-        }
+	    const float tolerance = 1.0f;
+	    juce::Line<float> line((float)this->position, 0, (float)this->position, 128);
+
+	    juce::PathFlatteningIterator iterator(*path, juce::AffineTransform(), tolerance);
+	    juce::Point<float> intersection;
+
+	    while (iterator.next())
+	    {
+		    if (line.intersects(juce::Line<float>(iterator.x1, iterator.y1, iterator.x2, iterator.y2), intersection))
+		    {
+			    yValues.add(intersection.getY());
+		    }
+
+            // the intersects method does not identify intersections between two vertical lines. So it is 
+            // necessary to take care of it manually.
+		    if (iterator.x1 == iterator.x2)
+		    {
+			    int min = juce::jmin<int>(iterator.y1, iterator.y2);
+			    int max = juce::jmax<int>(iterator.y1, iterator.y2);
+
+			    for (int i = min; i < max; i++)
+			    {
+				    yValues.add(i);
+			    }
+		    }
+	    }
     }
 
-    return yValues;
+	return yValues;
 }
