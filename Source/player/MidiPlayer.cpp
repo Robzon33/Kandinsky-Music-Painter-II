@@ -51,6 +51,8 @@ void MidiPlayer::play()
 
 void MidiPlayer::stop()
 {
+    m_pState->Stop(this);
+
     stopTimer();
     midiBuffer.addEvent(juce::MidiMessage::allNotesOff(1), 1);
     this->position = 0;
@@ -59,6 +61,8 @@ void MidiPlayer::stop()
 
 void MidiPlayer::pause()
 {
+    m_pState->Pause(this);
+
     stopTimer();
     midiBuffer.addEvent(juce::MidiMessage::allNotesOff(1), 1);
 }
