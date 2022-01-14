@@ -12,6 +12,7 @@
 
 #include "JuceHeader.h"
 #include "../../../model/tracks/MidiTrack.h"
+#include "tools/Drawer.h"
 
 class TrackComponent :  public juce::Component
 {
@@ -22,10 +23,15 @@ public:
     void paint(juce::Graphics& g) override;
     
     void mouseDown(const juce::MouseEvent& event) override;
+    void mouseMove(const juce::MouseEvent& event) override;
     void mouseDrag(const juce::MouseEvent& event) override;
 private:
     MidiTrack& track;
+    std::unique_ptr<Drawer> drawer;
 
     /* Path you are currently drawing. */
-    juce::Path* currentPath;
+    std::unique_ptr<juce::Path> currentPath;
+
+    /* Points you are using for the current object. */
+    juce::OwnedArray<juce::Point<int>> currentPoints;
 };

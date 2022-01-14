@@ -32,6 +32,8 @@
         <GROUP id="{389E73B7-A044-0CC5-D2D9-C3F41DA994A8}" name="painting">
           <GROUP id="{E442470C-610D-F244-E188-2C52ECE45E15}" name="tracks">
             <GROUP id="{D22D85DC-D963-2CBA-CEAA-ED95E7E6B41F}" name="tools">
+              <FILE id="ssYjfr" name="Drawer.cpp" compile="1" resource="0" file="Source/gui/painting/tracks/tools/Drawer.cpp"/>
+              <FILE id="Ly08u1" name="Drawer.h" compile="0" resource="0" file="Source/gui/painting/tracks/tools/Drawer.h"/>
               <FILE id="sALNRO" name="Kmp2Line.cpp" compile="1" resource="0" file="Source/gui/painting/tracks/tools/Kmp2Line.cpp"/>
               <FILE id="SRIy11" name="Kmp2Line.h" compile="0" resource="0" file="Source/gui/painting/tracks/tools/Kmp2Line.h"/>
             </GROUP>
