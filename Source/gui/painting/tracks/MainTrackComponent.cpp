@@ -31,8 +31,11 @@ void MainTrackComponent::paint(juce::Graphics& g)
     }
 
     //paint the players position
-    g.setColour(juce::Colours::blue);
-    g.drawLine((float)player.getPosition(), 0, (float)player.getPosition(), getHeight(), 1.0f);
+    if (player.getPosition() > 0)
+    {
+        g.setColour(juce::Colours::blue);
+        g.drawLine((float)player.getPosition(), 0, (float)player.getPosition(), getHeight(), 1.0f);
+    }
 }
 
 void MainTrackComponent::resized()
@@ -47,8 +50,9 @@ void MainTrackComponent::changeListenerCallback(juce::ChangeBroadcaster* source)
     }
 }
 
-void MainTrackComponent::updateContent()
+void MainTrackComponent::setSelectedTrack(int index)
 {
+    this->tracks[index]->toFront(true);
 }
 
 void MainTrackComponent::addTrackComponent(MidiTrack* newTrack)

@@ -23,4 +23,6 @@ public:
 private:
     juce::OwnedArray<juce::Point<int>> pointVector;
     int maxNumberOfPoints = 20;
+
+    void init();
 };

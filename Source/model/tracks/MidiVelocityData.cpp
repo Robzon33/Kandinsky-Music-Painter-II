@@ -40,3 +40,8 @@ void MidiVelocityData::deletePoint(int index)
         pointVector.remove(index);
     }
 }
+
+void MidiVelocityData::init()
+{
+
+}

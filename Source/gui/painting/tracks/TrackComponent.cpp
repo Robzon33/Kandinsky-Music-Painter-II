@@ -13,6 +13,7 @@
 TrackComponent::TrackComponent(MidiTrack& mt)
 	: track (mt)
 {
+    track.addChangeListener(this);
     currentPath = nullptr;
     drawer.reset(new Drawer());
 }
@@ -36,7 +37,7 @@ void TrackComponent::paint(juce::Graphics& g)
 
         if (currentPath != nullptr)
         {
-            g.setColour(juce::Colours::blue);
+            g.setColour(track.getColour().brighter(0.5f));
             g.strokePath(*currentPath, juce::PathStrokeType(1));
         }
     }
@@ -76,4 +77,9 @@ void TrackComponent::mouseMove(const juce::MouseEvent& event)
 void TrackComponent::mouseDrag(const juce::MouseEvent& event)
 {
 
+}
+
+void TrackComponent::changeListenerCallback(juce::ChangeBroadcaster* source)
+{
+    repaint();
 }

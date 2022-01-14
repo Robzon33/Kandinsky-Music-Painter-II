@@ -13,9 +13,11 @@
 #include <JuceHeader.h>
 #include "../../model/MainModel.h"
 #include "../CommandIDs.h"
+#include "config/TrackConfigComponent.h"
 
 class TrackListBoxComponent :   public juce::ListBox,
-                                private juce::ListBoxModel
+                                private juce::ListBoxModel,
+    private juce::ChangeListener
 {
 public:
     TrackListBoxComponent(MainModel& mm);
@@ -25,6 +27,10 @@ public:
     void paintListBoxItem(int rowNumber, juce::Graphics& g, int width, int height,
         bool rowIsSelected) override;
     void listBoxItemClicked(int row, const juce::MouseEvent& event) override;
+
+    void changeListenerCallback(juce::ChangeBroadcaster* source) override;
+
+    void showTrackConfigDialog(int row);
 private:
     MainModel& mainModel;
 };

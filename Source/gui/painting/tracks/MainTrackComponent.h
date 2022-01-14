@@ -30,7 +30,7 @@ public:
 
     void changeListenerCallback(juce::ChangeBroadcaster* source);
 
-    void updateContent();
+    void setSelectedTrack(int index);
     void addTrackComponent(MidiTrack* newTrack);
     void deleteTrackComponent(int index);
     void deleteAllTrackComponents();

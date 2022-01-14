@@ -16,7 +16,7 @@ MainPaintingComponent::MainPaintingComponent(MainModel& mm, MidiPlayer& mp, Proj
     drawBeatLines = true;
     showToolComponent = false;
     scaleFactor = 1.0f;
-    backgroundColour = juce::Colours::whitesmoke;
+    backgroundColour = juce::Colours::black.brighter(0.1f);
 
     paintingHeader.reset(new HeaderComponent("Painting"));
     addAndMakeVisible(paintingHeader.get());
@@ -55,8 +55,6 @@ void MainPaintingComponent::resized()
 
 void MainPaintingComponent::mouseDown(const juce::MouseEvent& event)
 {
-    model.TestFunction();
-    player.play();
 }
 
 void MainPaintingComponent::addNewTrack(MidiTrack* newTrack)

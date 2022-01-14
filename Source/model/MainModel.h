@@ -10,7 +10,6 @@
 
 #pragma once
 
-#include "tracks/TrackData.h"
 #include "tracks/MidiTrack.h"
 
 class MainModel
@@ -19,16 +18,13 @@ public:
     MainModel();
     ~MainModel();
 
-    void TestFunction();
-    bool GetTest();
-
     bool addMidiTrack();
     MidiTrack* getMidiTrack(int index);
     void deleteTrack(int index);
     void deleteAllTracks();
     int getIndexOfLastTrack();
     juce::String getTrackName(int index);
-    juce::Array<TrackData*> getAllTracks();
+    juce::Array<MidiTrack*> getAllTracks();
     int getNumberOfTracks();
 private:
     juce::OwnedArray<MidiTrack> tracks;

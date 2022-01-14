@@ -18,6 +18,14 @@
           <FILE id="GxQ305" name="player-stop.png" compile="0" resource="1" file="Source/gui/resources/player-stop.png"/>
         </GROUP>
         <GROUP id="{27F2D73B-E12F-F578-E495-6B30D2FFC619}" name="tracklist">
+          <GROUP id="{A7D0BCF9-B292-4F3A-ACE0-445D8AA3E1EB}" name="config">
+            <FILE id="fegy0G" name="ConfigProperties.h" compile="0" resource="0"
+                  file="Source/gui/tracklist/config/ConfigProperties.h"/>
+            <FILE id="J7IeRr" name="TrackConfigComponent.cpp" compile="1" resource="0"
+                  file="Source/gui/tracklist/config/TrackConfigComponent.cpp"/>
+            <FILE id="rLJNtK" name="TrackConfigComponent.h" compile="0" resource="0"
+                  file="Source/gui/tracklist/config/TrackConfigComponent.h"/>
+          </GROUP>
           <FILE id="eJLshe" name="TrackListBoxComponent.cpp" compile="1" resource="0"
                 file="Source/gui/tracklist/TrackListBoxComponent.cpp"/>
           <FILE id="DuZHAB" name="TrackListBoxComponent.h" compile="0" resource="0"
@@ -45,6 +53,12 @@
                   file="Source/gui/painting/tracks/TrackComponent.cpp"/>
             <FILE id="Se4r2L" name="TrackComponent.h" compile="0" resource="0"
                   file="Source/gui/painting/tracks/TrackComponent.h"/>
+          </GROUP>
+          <GROUP id="{4DD338B9-D1F3-346B-B231-C0D77FE8EDFB}" name="velocity">
+            <FILE id="lPXkGn" name="VelocityComponent.cpp" compile="1" resource="0"
+                  file="Source/gui/painting/velocity/VelocityComponent.cpp"/>
+            <FILE id="btoeJ2" name="VelocityComponent.h" compile="0" resource="0"
+                  file="Source/gui/painting/velocity/VelocityComponent.h"/>
           </GROUP>
           <FILE id="McIRpk" name="HeaderComponent.cpp" compile="1" resource="0"
                 file="Source/gui/painting/HeaderComponent.cpp"/>
@@ -81,8 +95,6 @@
                 file="Source/model/tracks/MidiVelocityData.cpp"/>
           <FILE id="zI5fE4" name="MidiVelocityData.h" compile="0" resource="0"
                 file="Source/model/tracks/MidiVelocityData.h"/>
-          <FILE id="BrE8JW" name="TrackData.cpp" compile="1" resource="0" file="Source/model/tracks/TrackData.cpp"/>
-          <FILE id="M2auwb" name="TrackData.h" compile="0" resource="0" file="Source/model/tracks/TrackData.h"/>
         </GROUP>
         <FILE id="JSitBN" name="MainModel.cpp" compile="1" resource="0" file="Source/model/MainModel.cpp"/>
         <FILE id="HNX5K6" name="MainModel.h" compile="0" resource="0" file="Source/model/MainModel.h"/>

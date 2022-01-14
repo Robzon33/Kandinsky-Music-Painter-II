@@ -18,22 +18,6 @@ MainModel::~MainModel()
 {
 }
 
-void MainModel::TestFunction()
-{
-    /*TrackData* track = new TrackData();
-
-    juce::Path* newPath = new juce::Path();
-    newPath->startNewSubPath(1, 120);
-    newPath->lineTo(10, 10);
-    track->addPath(newPath);
-    this->tracks.add(track);*/
-}
-
-bool MainModel::GetTest()
-{
-    return test;
-}
-
 bool MainModel::addMidiTrack()
 {
     if (tracks.size() <= 20/*from project settings*/)
@@ -71,11 +55,11 @@ juce::String MainModel::getTrackName(int index)
     return tracks[index]->getTrackName();
 }
 
-juce::Array<TrackData*> MainModel::getAllTracks()
+juce::Array<MidiTrack*> MainModel::getAllTracks()
 {
-    juce::Array<TrackData*> tracksToReturn;
+    juce::Array<MidiTrack*> tracksToReturn;
 
-    for each (TrackData* track in tracks)
+    for each (MidiTrack* track in tracks)
     {
         tracksToReturn.add(track);
     }

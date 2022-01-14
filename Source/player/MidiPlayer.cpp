@@ -127,7 +127,7 @@ void MidiPlayer::produceMidiMessages()
 {
     juce::Array<float> yValues;
 
-    for each (TrackData * track in mainModel.getAllTracks())
+    for each (MidiTrack * track in mainModel.getAllTracks())
     {
         int channel = 1; /* TODO: get channel from track! */
 

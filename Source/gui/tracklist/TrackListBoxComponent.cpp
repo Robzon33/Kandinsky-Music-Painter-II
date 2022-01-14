@@ -36,7 +36,7 @@ void TrackListBoxComponent::paintListBoxItem(int rowNumber, juce::Graphics& g, i
 	else if (rowNumber % 2)
 		g.fillAll(juce::Colours::darkgrey.darker(0.2f));
 
-	g.setColour(juce::Colours::lightblue);
+	g.setColour(mainModel.getMidiTrack(rowNumber)->getColour());
 	g.setFont(height * 0.7f);
 
 	g.drawText(mainModel.getTrackName(rowNumber), 5, 0, width, height,
@@ -48,6 +48,7 @@ void TrackListBoxComponent::listBoxItemClicked(int row, const juce::MouseEvent& 
     if (event.mods.isLeftButtonDown())
     {
         // select track
+        
     }
     if (event.mods.isRightButtonDown())
     {
@@ -57,7 +58,23 @@ void TrackListBoxComponent::listBoxItemClicked(int row, const juce::MouseEvent& 
         m.addItem(105, "Delete track");
 
         const int result = m.show();
-        if (result == 100) { /*parent.showTrackConfigDialog(row, getRowPosition(row, true));*/ }
+        if (result == 100) { this->showTrackConfigDialog(row); }
         if (result == 105) { /*parent.deleteTrack(row);*/ }
     }
+}
+
+void TrackListBoxComponent::changeListenerCallback(juce::ChangeBroadcaster* source)
+{
+    this->repaint();
+}
+
+void TrackListBoxComponent::showTrackConfigDialog(int row)
+{
+    auto content = std::make_unique<TrackConfigComponent>(*mainModel.getMidiTrack(row));
+    content->addChangeListener(this);
+    content->setSize(300, 400);
+
+    juce::CallOutBox::launchAsynchronously(std::move(content), 
+                                           getScreenBounds(), 
+                                           nullptr);
 }

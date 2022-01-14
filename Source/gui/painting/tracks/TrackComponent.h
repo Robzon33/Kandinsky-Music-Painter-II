@@ -14,7 +14,8 @@
 #include "../../../model/tracks/MidiTrack.h"
 #include "tools/Drawer.h"
 
-class TrackComponent :  public juce::Component
+class TrackComponent :  public juce::Component,
+    public juce::ChangeListener
 {
 public:
     TrackComponent(MidiTrack&);
@@ -25,6 +26,8 @@ public:
     void mouseDown(const juce::MouseEvent& event) override;
     void mouseMove(const juce::MouseEvent& event) override;
     void mouseDrag(const juce::MouseEvent& event) override;
+
+    void changeListenerCallback(juce::ChangeBroadcaster* source) override;
 private:
     MidiTrack& track;
     std::unique_ptr<Drawer> drawer;
