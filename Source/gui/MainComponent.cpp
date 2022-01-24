@@ -21,14 +21,17 @@ MainComponent::MainComponent(MainModel& m, MidiPlayer& mp, ProjectSettings& ps)
     
     trackList.reset(new TrackListBoxComponent(model));
     addAndMakeVisible(trackList.get());
+
+    midiMonitor.reset(new MidiMonitorComponent(player));
+    addAndMakeVisible(midiMonitor.get());
     
-    mainPaintComponent.reset(new MainPaintingComponent(model, player, settings));
-    mainPaintComponent->setSize(settings.getWidth(), 500);
-    addAndMakeVisible(mainPaintComponent.get());
+    mainPainting.reset(new MainPaintingComponent(model, player, settings));
+    mainPainting->setSize(settings.getWidth(), 500);
+    addAndMakeVisible(mainPainting.get());
 
     paintViewport.reset(new juce::Viewport("Paint Viewport"));
     addAndMakeVisible(paintViewport.get());
-    paintViewport->setViewedComponent(mainPaintComponent.get(), false);
+    paintViewport->setViewedComponent(mainPainting.get(), false);
 
     commandManager.registerAllCommandsForTarget(this);
     commandManager.setFirstCommandTarget(this);
@@ -49,6 +52,7 @@ void MainComponent::resized()
     menuBar->setBounds(b.removeFromTop(30));
     playerBar->setBounds(b.removeFromBottom(100));
     trackList->setBounds(b.removeFromLeft(150));
+    midiMonitor->setBounds(b.removeFromRight(250));
     paintViewport->setBounds(b);
 }
 
@@ -94,7 +98,7 @@ bool MainComponent::perform(const InvocationInfo& info)
         {
             int index = model.getIndexOfLastTrack();
             MidiTrack* newTrack = model.getMidiTrack(index);
-            mainPaintComponent->addNewTrack(newTrack);
+            mainPainting->addNewTrack(newTrack);
             trackList->updateContent();
             trackList->selectRow(index);
         }
@@ -104,7 +108,7 @@ bool MainComponent::perform(const InvocationInfo& info)
     {
         int indexOfSelectedTrack = trackList->getSelectedRow();
         model.deleteTrack(indexOfSelectedTrack);
-        mainPaintComponent->deleteTrackComponent(indexOfSelectedTrack);
+        mainPainting->deleteTrackComponent(indexOfSelectedTrack);
         trackList->updateContent();
         if (trackList->getSelectedRow() == -1)
         {
@@ -115,7 +119,7 @@ bool MainComponent::perform(const InvocationInfo& info)
     case CommandIDs::deleteAllTracks:
     {
         model.deleteAllTracks();
-        mainPaintComponent->deleteAllTrackComponents();
+        mainPainting->deleteAllTrackComponents();
         trackList->updateContent();
         break;
     }

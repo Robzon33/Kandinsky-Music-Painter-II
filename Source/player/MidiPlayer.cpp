@@ -22,6 +22,7 @@ MidiPlayer::~MidiPlayer()
 {
     this->stop();
     delete m_pState;
+    this->masterReference.clear();
 }
 
 void MidiPlayer::hiResTimerCallback()
@@ -56,6 +57,7 @@ void MidiPlayer::stop()
 
     stopTimer();
     midiBuffer.addEvent(juce::MidiMessage::allNotesOff(1), 1);
+    midiMessageList.clear(true);
     this->position = 0;
     sendChangeMessage();
 }
@@ -120,6 +122,11 @@ MidiPlayer::State MidiPlayer::getState()
     }
 }
 
+juce::OwnedArray<juce::MidiMessage>& MidiPlayer::getMidiMessageList()
+{
+    return this->midiMessageList;
+}
+
 void MidiPlayer::changeListenerCallback(juce::ChangeBroadcaster* source)
 {
     if (source == &mainModel)
@@ -177,6 +184,8 @@ void MidiPlayer::produceMidiMessages()
                         juce::MidiMessage message(juce::MidiMessage::noteOn(channel, note, 0.9f));
                         noteOnMessages.set(note, new bool(true), true);
                         this->midiBuffer.addEvent(message, 0);
+
+                        (new OutgoingMessageCallback(this, message))->post();
                     }
                     noteOnMessages.set(note, new bool(true), true);
                 }
@@ -189,6 +198,7 @@ void MidiPlayer::produceMidiMessages()
             if (previousNotesOn[k] && !noteOnMessages[k])
             {
                 juce::MidiMessage message(juce::MidiMessage::noteOff(channel, k));
+                (new OutgoingMessageCallback(this, message))->post();
                 this->midiBuffer.addEvent(message, 0);
             }
         }
@@ -235,4 +245,14 @@ juce::Array<float> MidiPlayer::calculateIntersections(juce::Path* path)
     }
 
 	return yValues;
+}
+
+void MidiPlayer::addMessageToList(const juce::MidiMessage& message)
+{
+    midiMessageList.add(new juce::MidiMessage(message));
+
+    if (midiMessageList.size() > 200)
+    {
+        midiMessageList.removeRange(0, 1, true);
+    }
 }

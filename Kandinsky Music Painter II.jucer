@@ -10,6 +10,12 @@
         <FILE id="TJqbum" name="MidiPlayer.h" compile="0" resource="0" file="Source/player/MidiPlayer.h"/>
       </GROUP>
       <GROUP id="{F2C416D8-6B32-FB64-4F65-51001AA65E5E}" name="gui">
+        <GROUP id="{8C361890-6047-960C-D45D-8EE14202C15A}" name="midiMonitor">
+          <FILE id="YhtXto" name="MidiMonitorComponent.cpp" compile="1" resource="0"
+                file="Source/gui/midiMonitor/MidiMonitorComponent.cpp"/>
+          <FILE id="BxU4yq" name="MidiMonitorComponent.h" compile="0" resource="0"
+                file="Source/gui/midiMonitor/MidiMonitorComponent.h"/>
+        </GROUP>
         <FILE id="yZT46d" name="CommandIDs.h" compile="0" resource="0" file="Source/gui/CommandIDs.h"/>
         <GROUP id="{B9E3B985-3051-E989-9060-A44E70CBC32C}" name="resources">
           <FILE id="y0p4tg" name="player-pause.png" compile="0" resource="1"
