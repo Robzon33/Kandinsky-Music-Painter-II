@@ -24,6 +24,7 @@ bool MainModel::addMidiTrack()
     {
         MidiTrack* newTrack = new MidiTrack();
         tracks.add(newTrack);
+        this->sendChangeMessage();
         return true;
     }
 
@@ -65,6 +66,11 @@ juce::Array<MidiTrack*> MainModel::getAllTracks()
     }
 
     return tracksToReturn;
+}
+
+juce::OwnedArray<MidiTrack>& MainModel::getMidiTracks()
+{
+    return tracks;
 }
 
 int MainModel::getNumberOfTracks()

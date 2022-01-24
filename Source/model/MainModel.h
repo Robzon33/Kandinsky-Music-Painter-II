@@ -12,7 +12,7 @@
 
 #include "tracks/MidiTrack.h"
 
-class MainModel
+class MainModel     : public juce::ChangeBroadcaster
 {
 public:
     MainModel();
@@ -25,6 +25,7 @@ public:
     int getIndexOfLastTrack();
     juce::String getTrackName(int index);
     juce::Array<MidiTrack*> getAllTracks();
+    juce::OwnedArray<MidiTrack>& getMidiTracks();
     int getNumberOfTracks();
 private:
     juce::OwnedArray<MidiTrack> tracks;

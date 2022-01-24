@@ -69,6 +69,7 @@ int MidiTrack::getChannel()
 void MidiTrack::setProgram(int newProgram)
 {
     this->program = newProgram;
+    sendChangeMessage();
 }
 
 int MidiTrack::getProgram()

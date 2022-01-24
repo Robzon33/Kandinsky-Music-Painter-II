@@ -13,6 +13,7 @@
 MidiPlayer::MidiPlayer(ProjectSettings& ps, MainModel& mm)
     : settings (ps), mainModel (mm), m_pState(new StoppedState())
 {
+    mm.addChangeListener(this);
     processorFlag = false;
     position = 0;
 }
@@ -46,7 +47,7 @@ void MidiPlayer::play()
     {
         previousNotesOn.add(false);
     }
-    startTimer(10);
+    startTimer(100);
 }
 
 void MidiPlayer::stop()
@@ -70,6 +71,7 @@ void MidiPlayer::pause()
 juce::MidiBuffer MidiPlayer::getMidiBuffer()
 {
     juce::MidiBuffer bufferToReturn;
+    
     if (processorFlag)
     {
         bufferToReturn = this->midiBuffer;
@@ -118,16 +120,35 @@ MidiPlayer::State MidiPlayer::getState()
     }
 }
 
-void MidiPlayer::registerListener(juce::ChangeListener* listener)
+void MidiPlayer::changeListenerCallback(juce::ChangeBroadcaster* source)
 {
-    this->addChangeListener(listener);
+    if (source == &mainModel)
+    {
+        for each (MidiTrack* track in mainModel.getMidiTracks())
+        {
+            track->addChangeListener(this);
+        }
+    }
+    else
+    {
+        for each (MidiTrack* track in mainModel.getMidiTracks())
+        {
+            if (source == track)
+            {
+                juce::MidiMessage message(juce::MidiMessage::programChange(track->getChannel(),
+                    track->getProgram()));
+                this->midiBuffer.addEvent(message, 0);
+                this->processorFlag = true;
+            }
+        }
+    }
 }
 
 void MidiPlayer::produceMidiMessages()
 {
     juce::Array<float> yValues;
 
-    for each (MidiTrack * track in mainModel.getAllTracks())
+    for each (MidiTrack * track in mainModel.getMidiTracks())
     {
         int channel = 1; /* TODO: get channel from track! */
 
