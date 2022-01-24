@@ -10,7 +10,8 @@
 
 #include "MainModel.h"
 
-MainModel::MainModel()
+MainModel::MainModel(ProjectSettings& ps)
+    : settings (ps)
 {
 }
 
@@ -20,7 +21,7 @@ MainModel::~MainModel()
 
 bool MainModel::addMidiTrack()
 {
-    if (tracks.size() <= 20/*from project settings*/)
+    if (tracks.size() <= settings.getMaxNumberOfTracks())
     {
         MidiTrack* newTrack = new MidiTrack();
         tracks.add(newTrack);

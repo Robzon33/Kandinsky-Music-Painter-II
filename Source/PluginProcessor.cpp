@@ -22,8 +22,8 @@ KandinskyMusicPainterIIAudioProcessor::KandinskyMusicPainterIIAudioProcessor()
                        )
 #endif
 {
-    this->mainModel = std::unique_ptr<MainModel>(new MainModel());
     this->settings = std::unique_ptr<ProjectSettings>(new ProjectSettings());
+    this->mainModel = std::unique_ptr<MainModel>(new MainModel(*settings));
     this->midiPlayer = std::unique_ptr<MidiPlayer>(new MidiPlayer(*settings, *mainModel));
 }
 

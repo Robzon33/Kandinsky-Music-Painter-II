@@ -22,15 +22,15 @@ MainTrackComponent::~MainTrackComponent()
 
 void MainTrackComponent::paint(juce::Graphics& g)
 {
-    //draw beat lines
+    //draw vertical lines
     g.setColour(juce::Colours::black);
-    int thickness = 1;
-    for (int i = 0; i <= settings.getNumberOfBeats(); ++i)
+    for (int i = 100; i <= settings.getWidth(); i=i+100)
     {
-        g.drawVerticalLine(i * 100, 0.0f, (float)getHeight());
+        g.drawVerticalLine(i, 0.0f, (float)getHeight());
     }
 
     //paint the players position
+    int thickness = 1;
     if (player.getPosition() > 0)
     {
         g.setColour(juce::Colours::blue);

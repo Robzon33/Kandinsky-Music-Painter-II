@@ -27,7 +27,7 @@ MidiPlayer::~MidiPlayer()
 void MidiPlayer::hiResTimerCallback()
 {
     this->position = position + 1;
-    if (position >= settings.getNumberOfBeats() * 100)
+    if (position >= settings.getWidth())
     {
         position = 0;
     }

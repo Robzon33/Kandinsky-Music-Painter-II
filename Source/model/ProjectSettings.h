@@ -24,11 +24,12 @@ public:
     juce::String getName();
     void setBpm(int newBpm);
     int getBpm();
-    void setNumberOfBeats(int newNumberOfBeats);
-    int getNumberOfBeats();
+    void setWidth(int newWidth);
+    int getWidth();
+    int getMaxNumberOfTracks();
 private:
     juce::String name;
-    int numberOfBeats;
+    int width; /* The projects width in pixels. */
     int bpm;
     int maxNumberOfTracks = 20;
 };

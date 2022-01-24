@@ -11,11 +11,12 @@
 #pragma once
 
 #include "tracks/MidiTrack.h"
+#include "ProjectSettings.h"
 
 class MainModel     : public juce::ChangeBroadcaster
 {
 public:
-    MainModel();
+    MainModel(ProjectSettings& ps);
     ~MainModel();
 
     bool addMidiTrack();
@@ -29,5 +30,5 @@ public:
     int getNumberOfTracks();
 private:
     juce::OwnedArray<MidiTrack> tracks;
-    bool test = false;
+    ProjectSettings& settings;
 };

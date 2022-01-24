@@ -23,7 +23,7 @@ MainComponent::MainComponent(MainModel& m, MidiPlayer& mp, ProjectSettings& ps)
     addAndMakeVisible(trackList.get());
     
     mainPaintComponent.reset(new MainPaintingComponent(model, player, settings));
-    mainPaintComponent->setSize(settings.getNumberOfBeats() * 100, 500);
+    mainPaintComponent->setSize(settings.getWidth(), 500);
     addAndMakeVisible(mainPaintComponent.get());
 
     paintViewport.reset(new juce::Viewport("Paint Viewport"));

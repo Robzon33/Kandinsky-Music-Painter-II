@@ -28,7 +28,7 @@ void ProjectSettings::init(juce::String projectName)
 {
     this->name = projectName;
     this->bpm = 60;
-    this->numberOfBeats = 20;
+    this->width = 1000;
 }
 
 void ProjectSettings::setName(juce::String newName)
@@ -51,12 +51,17 @@ int ProjectSettings::getBpm()
     return this->bpm;
 }
 
-void ProjectSettings::setNumberOfBeats(int newNumberOfBeats)
+void ProjectSettings::setWidth(int newWidth)
 {
-    this->numberOfBeats = newNumberOfBeats;
+    this->width = newWidth;
 }
 
-int ProjectSettings::getNumberOfBeats()
+int ProjectSettings::getWidth()
 {
-    return this->numberOfBeats;
+    return this->width;
+}
+
+int ProjectSettings::getMaxNumberOfTracks()
+{
+    return this->maxNumberOfTracks;
 }
