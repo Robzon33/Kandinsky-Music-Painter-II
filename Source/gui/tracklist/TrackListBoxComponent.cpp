@@ -10,8 +10,8 @@
 
 #include "TrackListBoxComponent.h"
 
-TrackListBoxComponent::TrackListBoxComponent(MainModel& mm)
-    : mainModel(mm), ListBox("Track List Box", this)
+TrackListBoxComponent::TrackListBoxComponent(MainModel& mm, juce::ApplicationCommandManager& acm)
+    : mainModel(mm), ListBox("Track List Box", this), commandManager (acm)
 {
     setOutlineThickness(0);
     setMultipleSelectionEnabled(false);
@@ -47,8 +47,7 @@ void TrackListBoxComponent::listBoxItemClicked(int row, const juce::MouseEvent& 
 {
     if (event.mods.isLeftButtonDown())
     {
-        // select track
-        
+        commandManager.invokeDirectly(CommandIDs::selectTrack, true);
     }
     if (event.mods.isRightButtonDown())
     {
@@ -59,7 +58,7 @@ void TrackListBoxComponent::listBoxItemClicked(int row, const juce::MouseEvent& 
 
         const int result = m.show();
         if (result == 100) { this->showTrackConfigDialog(row); }
-        if (result == 105) { /*parent.deleteTrack(row);*/ }
+        if (result == 105) { commandManager.invokeDirectly(CommandIDs::deleteTrack, true); }
     }
 }
 

@@ -31,6 +31,7 @@ public:
     void addNewTrack(MidiTrack* newTrack);
     void deleteTrackComponent(int index);
     void deleteAllTrackComponents();
+    void setSelectedTrack(int index);
 private:
     MainModel& model;
     MidiPlayer& player;

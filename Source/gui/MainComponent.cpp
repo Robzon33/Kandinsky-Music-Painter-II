@@ -19,7 +19,7 @@ MainComponent::MainComponent(MainModel& m, MidiPlayer& mp, ProjectSettings& ps)
     playerBar.reset(new PlayerComponent(player));
     addAndMakeVisible(playerBar.get());
     
-    trackList.reset(new TrackListBoxComponent(model));
+    trackList.reset(new TrackListBoxComponent(model, commandManager));
     addAndMakeVisible(trackList.get());
 
     midiMonitor.reset(new MidiMonitorComponent(player));
@@ -65,7 +65,8 @@ void MainComponent::getAllCommands(juce::Array<juce::CommandID>& c)
 {
     juce::Array<juce::CommandID> commands{ CommandIDs::addMidiTrack,
                                            CommandIDs::deleteTrack,
-                                           CommandIDs::deleteAllTracks };
+                                           CommandIDs::deleteAllTracks,
+                                           CommandIDs::selectTrack};
 
     c.addArray(commands);
 }
@@ -82,6 +83,9 @@ void MainComponent::getCommandInfo(juce::CommandID commandID, juce::ApplicationC
         break;
     case CommandIDs::deleteAllTracks:
         result.setInfo("Delete all", "Deletes all tracks from the current project", "Track", 0);
+        break;
+    case CommandIDs::selectTrack:
+        result.setInfo("Select Track", "Selects a track from the tracklist", "Track", 0);
         break;
     default:
         break;
@@ -121,6 +125,12 @@ bool MainComponent::perform(const InvocationInfo& info)
         model.deleteAllTracks();
         mainPainting->deleteAllTrackComponents();
         trackList->updateContent();
+        break;
+    }
+    case CommandIDs::selectTrack:
+    {
+        int indexOfSelectedTrack = trackList->getSelectedRow();
+        mainPainting->setSelectedTrack(indexOfSelectedTrack);
         break;
     }
     default:

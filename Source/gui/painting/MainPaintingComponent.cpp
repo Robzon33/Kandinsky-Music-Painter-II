@@ -71,3 +71,8 @@ void MainPaintingComponent::deleteAllTrackComponents()
 {
     trackComponent->deleteAllTrackComponents();
 }
+
+void MainPaintingComponent::setSelectedTrack(int index)
+{
+    trackComponent->setSelectedTrack(index);
+}

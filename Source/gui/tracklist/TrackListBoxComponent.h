@@ -17,10 +17,10 @@
 
 class TrackListBoxComponent :   public juce::ListBox,
                                 private juce::ListBoxModel,
-    private juce::ChangeListener
+                                private juce::ChangeListener
 {
 public:
-    TrackListBoxComponent(MainModel& mm);
+    TrackListBoxComponent(MainModel&, juce::ApplicationCommandManager&);
     ~TrackListBoxComponent();
 
     int getNumRows() override;
@@ -33,4 +33,5 @@ public:
     void showTrackConfigDialog(int row);
 private:
     MainModel& mainModel;
+    juce::ApplicationCommandManager& commandManager;
 };
