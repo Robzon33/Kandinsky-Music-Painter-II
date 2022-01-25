@@ -52,8 +52,18 @@ private:
     PlayerState* m_pState;
     int position; /* The players position in pixels (x-axis). */
     bool processorFlag; /* Indicates whether the processor is allowed to acces the midi buffer. */
-    juce::OwnedArray<bool> previousNotesOn; /* Indicates wether a certain note has been played in the previous step. */
+    juce::OwnedArray<juce::Array<bool>> previousNotesOn; /* Indicates for each midi channel wether a certain note has been played in the previous step. */
     juce::OwnedArray<juce::MidiMessage> midiMessageList;
+
+    /// <summary>
+    /// Produces note off midi messages and adds them to the midi buffer.
+    /// </summary>
+    void sendAllNotesOffForEachChannel();
+
+    /// <summary>
+    /// Resets or initializes the previous notes on array with false values for each channel.
+    /// </summary>
+    void resetPreviousNotesOn();
 
     /// <summary>
     /// Produces Midi Messages and adds them to the Midi Buffer.

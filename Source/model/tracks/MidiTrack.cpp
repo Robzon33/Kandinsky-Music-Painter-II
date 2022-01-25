@@ -58,7 +58,8 @@ void MidiTrack::movePath(int index, int x, int y)
 
 void MidiTrack::setChannel(int newChannel)
 {
-    this->channel = newChannel;
+    if (1 <= newChannel <= 16)
+        this->channel = newChannel;
 }
 
 int MidiTrack::getChannel()

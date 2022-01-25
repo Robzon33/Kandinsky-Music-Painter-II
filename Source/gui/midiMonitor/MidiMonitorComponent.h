@@ -13,7 +13,9 @@
 #include <JuceHeader.h>
 #include "../../player/MidiPlayer.h"
 
-class MidiMonitorComponent : public juce::Component, public::juce::ChangeListener
+class MidiMonitorComponent : public juce::Component, 
+                             public juce::ChangeListener,
+                             private juce::Timer
 {
 public:
     MidiMonitorComponent(MidiPlayer& mp);
@@ -22,6 +24,7 @@ public:
     void paint(juce::Graphics&) override;
     void resized() override;
 
+    void timerCallback() override;
     void changeListenerCallback(juce::ChangeBroadcaster* source) override;
 private:
     MidiPlayer& midiPlayer;

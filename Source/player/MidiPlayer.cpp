@@ -16,6 +16,7 @@ MidiPlayer::MidiPlayer(ProjectSettings& ps, MainModel& mm)
     mm.addChangeListener(this);
     processorFlag = false;
     position = 0;
+    this->resetPreviousNotesOn();
 }
 
 MidiPlayer::~MidiPlayer()
@@ -42,30 +43,24 @@ void MidiPlayer::hiResTimerCallback()
 void MidiPlayer::play()
 {
     m_pState->Play(this);
-    
-    previousNotesOn.clear(true);
-    for (int i = 0; i < 128; i++)
-    {
-        previousNotesOn.add(false);
-    }
+    this->resetPreviousNotesOn();
     startTimer(100);
 }
 
 void MidiPlayer::stop()
 {
     m_pState->Stop(this);
-
     stopTimer();
-    midiBuffer.addEvent(juce::MidiMessage::allNotesOff(1), 1);
+    this->sendAllNotesOffForEachChannel();
     midiMessageList.clear(true);
     this->position = 0;
+    this->resetPreviousNotesOn();
     sendChangeMessage();
 }
 
 void MidiPlayer::pause()
 {
     m_pState->Pause(this);
-
     stopTimer();
     midiBuffer.addEvent(juce::MidiMessage::allNotesOff(1), 1);
 }
@@ -151,16 +146,43 @@ void MidiPlayer::changeListenerCallback(juce::ChangeBroadcaster* source)
     }
 }
 
+void MidiPlayer::sendAllNotesOffForEachChannel()
+{
+    for (int i = 1; i <= 16; ++i)
+    {
+        juce::MidiMessage message(juce::MidiMessage::allNotesOff(i));
+        if (message.getRawDataSize() == 3)
+        {
+            midiBuffer.addEvent(message, 0);
+            this->processorFlag = true;
+        }
+    }
+}
+
+void MidiPlayer::resetPreviousNotesOn()
+{
+    previousNotesOn.clear(true);
+    for (int i = 1; i <= 16; i++)
+    {
+        juce::Array<bool>* newArray = new juce::Array<bool>;
+        for (int j = 0; j < 128; j++)
+        {
+            newArray->add(false);
+        }
+        previousNotesOn.add(newArray);
+    }
+}
+
 void MidiPlayer::produceMidiMessages()
 {
     juce::Array<float> yValues;
 
     for each (MidiTrack * track in mainModel.getMidiTracks())
     {
-        int channel = 1; /* TODO: get channel from track! */
+        int channel = track->getChannel();
 
         // initialize a new array on stack to store new note on messages
-        juce::OwnedArray<bool> noteOnMessages;
+        juce::Array<bool> noteOnMessages;
         for (int j = 0; j < 128; ++j)
             noteOnMessages.add(false);
 
@@ -179,15 +201,14 @@ void MidiPlayer::produceMidiMessages()
                 
                 if (note >= 0 && note <= 127)
                 {
-                    if (!previousNotesOn[note])
+                    if (!(previousNotesOn.getUnchecked(channel)->getUnchecked(note)))
                     {
                         juce::MidiMessage message(juce::MidiMessage::noteOn(channel, note, 0.9f));
-                        noteOnMessages.set(note, new bool(true), true);
                         this->midiBuffer.addEvent(message, 0);
 
                         (new OutgoingMessageCallback(this, message))->post();
                     }
-                    noteOnMessages.set(note, new bool(true), true);
+                    noteOnMessages.set(note, true);
                 }
             }
         }
@@ -195,7 +216,8 @@ void MidiPlayer::produceMidiMessages()
         // produce note off messages
         for (int k = 0; k < 128; ++k)
         {
-            if (previousNotesOn[k] && !noteOnMessages[k])
+            if (previousNotesOn.getUnchecked(channel)->getUnchecked(k) && 
+                !noteOnMessages.getUnchecked(k))
             {
                 juce::MidiMessage message(juce::MidiMessage::noteOff(channel, k));
                 (new OutgoingMessageCallback(this, message))->post();
@@ -203,7 +225,7 @@ void MidiPlayer::produceMidiMessages()
             }
         }
 
-        previousNotesOn.swapWith(noteOnMessages);
+        previousNotesOn.getUnchecked(channel)->swapWithArray(noteOnMessages);
     }
 }
 
@@ -224,7 +246,11 @@ juce::Array<float> MidiPlayer::calculateIntersections(juce::Path* path)
 
 	    while (iterator.next())
 	    {
-		    if (line.intersects(juce::Line<float>(iterator.x1, iterator.y1, iterator.x2, iterator.y2), intersection))
+		    if (line.intersects(juce::Line<float>(iterator.x1, 
+                                                  iterator.y1, 
+                                                  iterator.x2, 
+                                                  iterator.y2),
+                                                  intersection))
 		    {
 			    yValues.add(intersection.getY());
 		    }

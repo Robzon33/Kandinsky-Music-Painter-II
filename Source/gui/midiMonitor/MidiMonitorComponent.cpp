@@ -31,6 +31,8 @@ MidiMonitorComponent::MidiMonitorComponent(MidiPlayer& mp)
     midiMonitor.setPopupMenuEnabled(false);
     midiMonitor.setText({});
     addAndMakeVisible(midiMonitor);
+
+    this->startTimer(100);
 }
 
 MidiMonitorComponent::~MidiMonitorComponent()
@@ -49,20 +51,22 @@ void MidiMonitorComponent::resized()
     midiMonitor.setBounds(area);
 }
 
+void MidiMonitorComponent::timerCallback()
+{
+    juce::String messageText;
+
+    for (auto& m : midiPlayer.getMidiMessageList())
+    {
+        messageText << m->getDescription() << "\n";
+    }
+
+    midiMonitor.clear();
+    midiMonitor.insertTextAtCaret(messageText);
+}
+
 void MidiMonitorComponent::changeListenerCallback(juce::ChangeBroadcaster* source)
 {
-    if (midiPlayer.getState() != MidiPlayer::State::ST_STOPPED)
-    {
-        juce::String messageText;
-
-        for (auto& m : midiPlayer.getMidiMessageList())
-        {
-            messageText << m->getDescription() << "\n";
-        }
-
-        midiMonitor.insertTextAtCaret(messageText);
-    }
-    else
+    if (midiPlayer.getState() == MidiPlayer::State::ST_STOPPED)
     {
         midiMonitor.clear();
     }
