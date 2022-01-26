@@ -26,6 +26,9 @@ MainPaintingComponent::MainPaintingComponent(MainModel& mm, MidiPlayer& mp, Proj
 
     velocityHeader.reset(new HeaderComponent("Velocity"));
     addAndMakeVisible(velocityHeader.get());
+
+    velocityComponent.reset(new MainVelocityComponent(model));
+    addAndMakeVisible(velocityComponent.get());
 }
 
 MainPaintingComponent::~MainPaintingComponent()
@@ -51,6 +54,8 @@ void MainPaintingComponent::resized()
     }
 
     velocityHeader->setBounds(b.removeFromTop(40));
+
+    velocityComponent->setBounds(b.removeFromTop(128));
 }
 
 void MainPaintingComponent::mouseDown(const juce::MouseEvent& event)
@@ -60,6 +65,7 @@ void MainPaintingComponent::mouseDown(const juce::MouseEvent& event)
 void MainPaintingComponent::addNewTrack(MidiTrack* newTrack)
 {
     trackComponent->addTrackComponent(newTrack);
+    velocityComponent->addVelocityComponent(&(newTrack->getMidiVelocityData()));
 }
 
 void MainPaintingComponent::deleteTrackComponent(int index)

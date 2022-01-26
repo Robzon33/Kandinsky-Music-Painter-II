@@ -10,14 +10,16 @@
 
 #include "MidiTrack.h"
 
-MidiTrack::MidiTrack()
+MidiTrack::MidiTrack(int width)
 {
     this->channel = 1;
     this->program = 0;
+    this->width = width;
     audible = true;
     visible = true;
     trackName = "Track";
     trackColour = juce::Colours::red;
+    midiVelocityData.reset(new MidiVelocityData(this->width));
 }
 
 MidiTrack::~MidiTrack()
@@ -122,5 +124,10 @@ bool MidiTrack::isVisible()
 int MidiTrack::getNumberOfPaths()
 {
     return this->pathVector.size();
+}
+
+MidiVelocityData& MidiTrack::getMidiVelocityData()
+{
+    return *midiVelocityData;
 }
 

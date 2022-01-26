@@ -14,6 +14,7 @@
 #include "../../model/MainModel.h"
 #include "../../player/MidiPlayer.h"
 #include "tracks/MainTrackComponent.h"
+#include "velocity/MainVelocityComponent.h"
 #include "HeaderComponent.h"
 #include "../CommandIDs.h"
 
@@ -40,6 +41,7 @@ private:
     std::unique_ptr<HeaderComponent> paintingHeader;
     std::unique_ptr<MainTrackComponent> trackComponent;
     std::unique_ptr<HeaderComponent> velocityHeader;
+    std::unique_ptr<MainVelocityComponent> velocityComponent;
 
     bool drawBeatLines;
     bool showToolComponent;

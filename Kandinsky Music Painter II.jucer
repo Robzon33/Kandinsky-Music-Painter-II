@@ -61,6 +61,10 @@
                   file="Source/gui/painting/tracks/TrackComponent.h"/>
           </GROUP>
           <GROUP id="{4DD338B9-D1F3-346B-B231-C0D77FE8EDFB}" name="velocity">
+            <FILE id="CWT8jj" name="MainVelocityComponent.cpp" compile="1" resource="0"
+                  file="Source/gui/painting/velocity/MainVelocityComponent.cpp"/>
+            <FILE id="JWRPFI" name="MainVelocityComponent.h" compile="0" resource="0"
+                  file="Source/gui/painting/velocity/MainVelocityComponent.h"/>
             <FILE id="lPXkGn" name="VelocityComponent.cpp" compile="1" resource="0"
                   file="Source/gui/painting/velocity/VelocityComponent.cpp"/>
             <FILE id="btoeJ2" name="VelocityComponent.h" compile="0" resource="0"

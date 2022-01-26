@@ -18,7 +18,7 @@
 class MidiTrack : public juce::ChangeBroadcaster
 {
 public:
-    MidiTrack();
+    MidiTrack(int width);
     ~MidiTrack(); 
 
     //==========================================================================
@@ -43,6 +43,7 @@ public:
     void setVisible(bool isVisible);
     bool isVisible();
     int getNumberOfPaths();
+    MidiVelocityData& getMidiVelocityData();
 private:
     int channel, program;
     std::unique_ptr<MidiVelocityData> midiVelocityData;
@@ -50,4 +51,5 @@ private:
     juce::String trackName;
     juce::Colour trackColour;
     bool visible, audible;
+    int width;
 };

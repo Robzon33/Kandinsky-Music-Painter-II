@@ -23,7 +23,7 @@ bool MainModel::addMidiTrack()
 {
     if (tracks.size() <= settings.getMaxNumberOfTracks())
     {
-        MidiTrack* newTrack = new MidiTrack();
+        MidiTrack* newTrack = new MidiTrack(settings.getWidth());
         tracks.add(newTrack);
         this->sendChangeMessage();
         return true;
