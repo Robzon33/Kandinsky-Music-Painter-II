@@ -12,9 +12,10 @@
 #include "VelocityComponent.h"
 
 //==============================================================================
-VelocityComponent::VelocityComponent(MidiVelocityData& mvd)
-    : midiVelocityData (mvd)
+VelocityComponent::VelocityComponent(MidiTrack& mt)
+    : midiTrack (mt)
 {
+    midiTrack.addChangeListener(this);
 }
 
 VelocityComponent::~VelocityComponent()
@@ -23,19 +24,20 @@ VelocityComponent::~VelocityComponent()
 
 void VelocityComponent::mouseDown(const juce::MouseEvent& event)
 {
-    int index = midiVelocityData.getIndexOfPoint(event.getMouseDownX(),
-                                                 event.getMouseDownY());
+    int index = midiTrack.getMidiVelocityData()
+        .getIndexOfPoint(event.getMouseDownX(),
+                         event.getMouseDownY());
 
     if (event.mods.isLeftButtonDown())
     {
         if (index == -1)
         {
-            midiVelocityData.addPoint(event.getMouseDownX(),
+            midiTrack.getMidiVelocityData().addPoint(event.getMouseDownX(),
                                       event.getMouseDownY());
         }
         if (index != -1)
         {
-            midiVelocityData.deletePoint(index);
+            midiTrack.getMidiVelocityData().deletePoint(index);
         }
     }
     repaint();
@@ -43,11 +45,11 @@ void VelocityComponent::mouseDown(const juce::MouseEvent& event)
 
 void VelocityComponent::paint (juce::Graphics& g)
 {
-    g.setColour(juce::Colours::cadetblue);
+    g.setColour(midiTrack.getColour());
     
     int prevX = -1, prevY = -1;
     
-    for each (juce::Point<int>* point in midiVelocityData.getPointVector())
+    for each (juce::Point<int>* point in midiTrack.getMidiVelocityData().getPointVector())
     {
         if (prevX >= 0 && prevY >= 0)
         {
@@ -61,4 +63,9 @@ void VelocityComponent::paint (juce::Graphics& g)
 
 void VelocityComponent::resized()
 {
+}
+
+void VelocityComponent::changeListenerCallback(juce::ChangeBroadcaster* source)
+{
+    repaint();
 }

@@ -13,22 +13,24 @@
 #include "JuceHeader.h"
 #include "VelocityComponent.h"
 #include "../../../model/MainModel.h"
+#include "../../../model/ProjectSettings.h"
 
 class MainVelocityComponent : public juce::Component
 {
 public:
-    MainVelocityComponent(MainModel&);
+    MainVelocityComponent(MainModel&, ProjectSettings&);
     ~MainVelocityComponent();
 
     void paint(juce::Graphics& g) override;
     void resized() override;
 
     void setSelectedMidiVelocityData(int index);
-    void addVelocityComponent(MidiVelocityData* newVelocityData);
+    void addVelocityComponent(MidiTrack* newMidiTrack);
     void deleteVelocityComponent(int index);
     void deleteAllVelocityComponents();
 private:
     MainModel& model;
+    ProjectSettings& settings;
 
     juce::OwnedArray<VelocityComponent> velocities;
 };

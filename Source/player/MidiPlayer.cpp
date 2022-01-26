@@ -203,7 +203,8 @@ void MidiPlayer::produceMidiMessages()
                 {
                     if (!(previousNotesOn.getUnchecked(channel)->getUnchecked(note)))
                     {
-                        juce::MidiMessage message(juce::MidiMessage::noteOn(channel, note, 0.9f));
+                        juce::uint8 velocity = track->getMidiVelocityData().getVelocity(this->position);
+                        juce::MidiMessage message(juce::MidiMessage::noteOn(channel, note, velocity));
                         this->midiBuffer.addEvent(message, 0);
 
                         (new OutgoingMessageCallback(this, message))->post();

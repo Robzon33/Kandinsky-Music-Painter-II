@@ -11,15 +11,16 @@
 #pragma once
 
 #include <JuceHeader.h>
-#include "../../../model/tracks/MidiVelocityData.h"
+#include "../../../model/tracks/MidiTrack.h"
 
 //==============================================================================
 /*
 */
-class VelocityComponent  : public juce::Component
+class VelocityComponent  : public juce::Component,
+    private juce::ChangeListener
 {
 public:
-    VelocityComponent(MidiVelocityData&);
+    VelocityComponent(MidiTrack&);
     ~VelocityComponent() override;
 
     void mouseDown(const juce::MouseEvent& event) override;
@@ -27,8 +28,9 @@ public:
     void paint (juce::Graphics&) override;
     void resized() override;
 
+    void changeListenerCallback(juce::ChangeBroadcaster* source) override;
 private:
-    MidiVelocityData& midiVelocityData;
+    MidiTrack& midiTrack;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (VelocityComponent)
 };

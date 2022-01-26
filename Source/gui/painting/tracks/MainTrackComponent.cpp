@@ -23,11 +23,11 @@ MainTrackComponent::~MainTrackComponent()
 void MainTrackComponent::paint(juce::Graphics& g)
 {
     //draw vertical lines
-    g.setColour(juce::Colours::black);
-    for (int i = 100; i <= settings.getWidth(); i=i+100)
-    {
-        g.drawVerticalLine(i, 0.0f, (float)getHeight());
-    }
+	g.setColour(juce::Colours::black);
+	for (int i = 100; i <= settings.getWidth(); i = i + 100)
+	{
+		g.drawVerticalLine(i, 0.0f, (float)getHeight());
+	}
 
     //paint the players position
     int thickness = 1;

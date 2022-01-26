@@ -40,7 +40,7 @@ void MidiVelocityData::addPoint(int x, int y)
 
 void MidiVelocityData::deletePoint(int index)
 {
-    if (index > 0 && index < this->pointVector.size())
+    if (index > 0 && index < this->pointVector.size() - 1)
     {
         pointVector.remove(index);
     }
@@ -65,6 +65,24 @@ int MidiVelocityData::getIndexOfPoint(int x, int y)
         {
             return i;
         }
+    }
+    return -1;
+}
+
+int MidiVelocityData::getVelocity(int x)
+{
+    for (int i = 1; i < pointVector.size(); ++i)
+    {
+        if (x < pointVector[i]->getX())
+        {
+            float diffY = (float)pointVector[i]->getY() - (float)pointVector[i - 1]->getY();
+            float diffX = (float)pointVector[i]->getX() - (float)pointVector[i - 1]->getX();
+            float m = diffY / diffX;
+            float n = pointVector[i]->getY() - (m * pointVector[i]->getX());
+            return (int)(127 - ((m * x) + n));
+        }
+        if (x == pointVector[i]->getX())
+            return (127 - pointVector[i]->getY());
     }
     return -1;
 }
