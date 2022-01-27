@@ -23,7 +23,8 @@ bool MainModel::addMidiTrack()
 {
     if (tracks.size() <= settings.getMaxNumberOfTracks())
     {
-        MidiTrack* newTrack = new MidiTrack(settings.getWidth());
+        MidiTrack* newTrack = new MidiTrack(settings.getWidth(),
+                                            RandomColourGenerator::getRandomColour());
         tracks.add(newTrack);
         this->sendChangeMessage();
         return true;
@@ -44,7 +45,7 @@ void MainModel::deleteTrack(int index)
 
 void MainModel::deleteAllTracks()
 {
-    tracks.clear();
+    tracks.clear(true);
 }
 
 int MainModel::getIndexOfLastTrack()

@@ -14,11 +14,12 @@
 #pragma once
 
 #include "MidiVelocityData.h"
+#include "JuceHeader.h"
 
 class MidiTrack : public juce::ChangeBroadcaster
 {
 public:
-    MidiTrack(int width);
+    MidiTrack(int width, juce::Colour);
     ~MidiTrack(); 
 
     //==========================================================================

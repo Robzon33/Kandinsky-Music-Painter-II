@@ -71,11 +71,13 @@ void MainPaintingComponent::addNewTrack(MidiTrack* newTrack)
 void MainPaintingComponent::deleteTrackComponent(int index)
 {
     trackComponent->deleteTrackComponent(index);
+    velocityComponent->deleteVelocityComponent(index);
 }
 
 void MainPaintingComponent::deleteAllTrackComponents()
 {
     trackComponent->deleteAllTrackComponents();
+    velocityComponent->deleteAllVelocityComponents();
 }
 
 void MainPaintingComponent::setSelectedTrack(int index)

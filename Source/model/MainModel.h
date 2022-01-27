@@ -12,6 +12,7 @@
 
 #include "tracks/MidiTrack.h"
 #include "ProjectSettings.h"
+#include "../extensions/RandomColourGenerator.h"
 
 class MainModel     : public juce::ChangeBroadcaster
 {
