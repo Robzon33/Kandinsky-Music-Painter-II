@@ -33,6 +33,9 @@ MainComponent::MainComponent(MainModel& m, MidiPlayer& mp, ProjectSettings& ps)
     addAndMakeVisible(paintViewport.get());
     paintViewport->setViewedComponent(mainPainting.get(), false);
 
+    toolBar.reset(new ToolBarComponent(commandManager));
+    addAndMakeVisible(toolBar.get());
+
     commandManager.registerAllCommandsForTarget(this);
     commandManager.setFirstCommandTarget(this);
 }
@@ -53,6 +56,7 @@ void MainComponent::resized()
     playerBar->setBounds(b.removeFromBottom(100));
     trackList->setBounds(b.removeFromLeft(150));
     midiMonitor->setBounds(b.removeFromRight(250));
+    toolBar->setBounds(b.removeFromBottom(60));
     paintViewport->setBounds(b);
 }
 
@@ -66,7 +70,8 @@ void MainComponent::getAllCommands(juce::Array<juce::CommandID>& c)
     juce::Array<juce::CommandID> commands{ CommandIDs::addMidiTrack,
                                            CommandIDs::deleteTrack,
                                            CommandIDs::deleteAllTracks,
-                                           CommandIDs::selectTrack};
+                                           CommandIDs::selectTrack,
+                                           CommandIDs::selectTool};
 
     c.addArray(commands);
 }
@@ -86,6 +91,9 @@ void MainComponent::getCommandInfo(juce::CommandID commandID, juce::ApplicationC
         break;
     case CommandIDs::selectTrack:
         result.setInfo("Select Track", "Selects a track from the tracklist", "Track", 0);
+        break;
+    case CommandIDs::selectTool:
+        result.setInfo("Select Tool", "Selects a tool to paint", "Drawing", 0);
         break;
     default:
         break;
@@ -131,6 +139,12 @@ bool MainComponent::perform(const InvocationInfo& info)
     {
         int indexOfSelectedTrack = trackList->getSelectedRow();
         mainPainting->setSelectedTrack(indexOfSelectedTrack);
+        break;
+    }
+    case CommandIDs::selectTool:
+    {
+        int indexOfSelectedTool = toolBar.get()->getIndexOfSelectedButton();
+        mainPainting->setSelectedTool(indexOfSelectedTool);
         break;
     }
     default:

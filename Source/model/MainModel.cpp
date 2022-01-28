@@ -24,7 +24,8 @@ bool MainModel::addMidiTrack()
     if (tracks.size() <= settings.getMaxNumberOfTracks())
     {
         MidiTrack* newTrack = new MidiTrack(settings.getWidth(),
-                                            RandomColourGenerator::getRandomColour());
+                                            RandomColourGenerator::getRandomColour(),
+                                            "New Track");
         tracks.add(newTrack);
         this->sendChangeMessage();
         return true;

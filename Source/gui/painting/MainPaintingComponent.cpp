@@ -85,3 +85,8 @@ void MainPaintingComponent::setSelectedTrack(int index)
     trackComponent->setSelectedTrack(index);
     velocityComponent->setSelectedMidiVelocityData(index);
 }
+
+void MainPaintingComponent::setSelectedTool(int index)
+{
+    trackComponent->setSelectedTool(index);
+}

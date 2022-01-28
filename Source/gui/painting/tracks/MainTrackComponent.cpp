@@ -14,6 +14,7 @@ MainTrackComponent::MainTrackComponent(MainModel& mm, MidiPlayer& mp, ProjectSet
     : model(mm), player(mp), settings (ps)
 {
     player.addChangeListener(this);
+    drawer.reset(new Drawer());
 }
 
 MainTrackComponent::~MainTrackComponent()
@@ -57,7 +58,7 @@ void MainTrackComponent::setSelectedTrack(int index)
 
 void MainTrackComponent::addTrackComponent(MidiTrack* newTrack)
 {
-    TrackComponent* newTrackComponent = new TrackComponent(*newTrack);
+    TrackComponent* newTrackComponent = new TrackComponent(*newTrack, *drawer);
     addAndMakeVisible(newTrackComponent);
     newTrackComponent->setBounds(getLocalBounds());
     tracks.add(newTrackComponent);
@@ -71,4 +72,13 @@ void MainTrackComponent::deleteTrackComponent(int index)
 void MainTrackComponent::deleteAllTrackComponents()
 {
     tracks.clear(true);
+}
+
+void MainTrackComponent::setSelectedTool(int index)
+{
+	switch (index + 1)
+	{
+	    case 1: drawer->setSelectedTool(Tool::singleLine); break;
+        case 2: drawer->setSelectedTool(Tool::rectangle); break;
+	}
 }

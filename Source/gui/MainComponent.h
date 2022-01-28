@@ -22,6 +22,7 @@
 #include "tracklist/TrackListBoxComponent.h"
 #include "painting/MainPaintingComponent.h"
 #include "midiMonitor/MidiMonitorComponent.h"
+#include "toolbar/ToolBarComponent.h"
 
 class KandinskyMusicPainterIIAudioProcessorEditor;
 
@@ -53,4 +54,5 @@ private:
     std::unique_ptr<MidiMonitorComponent> midiMonitor;
     std::unique_ptr<MainPaintingComponent> mainPainting;
     std::unique_ptr<juce::Viewport> paintViewport;
+    std::unique_ptr<ToolBarComponent> toolBar;
 };

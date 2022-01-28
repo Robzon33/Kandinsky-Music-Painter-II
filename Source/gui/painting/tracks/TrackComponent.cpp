@@ -10,12 +10,11 @@
 
 #include "TrackComponent.h"
 
-TrackComponent::TrackComponent(MidiTrack& mt)
-	: track (mt)
+TrackComponent::TrackComponent(MidiTrack& mt, Drawer& d)
+	: track (mt), drawer (d)
 {
     track.addChangeListener(this);
     currentPath = nullptr;
-    drawer.reset(new Drawer());
 }
 
 TrackComponent::~TrackComponent()
@@ -52,7 +51,7 @@ void TrackComponent::mouseDown(const juce::MouseEvent& event)
     else if (currentPoints.size() > 0)
     {
         currentPoints.add(new juce::Point<int>(event.getMouseDownX(), event.getMouseDownY()));
-        auto* path = drawer->createPath(currentPoints);
+        auto* path = drawer.createPath(currentPoints);
         if (path != nullptr)
         {
             track.addPath(path);
@@ -68,7 +67,7 @@ void TrackComponent::mouseMove(const juce::MouseEvent& event)
     if (currentPoints.size() > 0)
     {
         currentPoints.add(new juce::Point<int>(event.getMouseDownX(), event.getMouseDownY()));
-        currentPath.reset(drawer->createPath(currentPoints));
+        currentPath.reset(drawer.createPath(currentPoints));
         repaint();
         currentPoints.removeLast(1, true);
     }

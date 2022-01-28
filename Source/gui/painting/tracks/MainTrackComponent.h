@@ -34,10 +34,12 @@ public:
     void addTrackComponent(MidiTrack* newTrack);
     void deleteTrackComponent(int index);
     void deleteAllTrackComponents();
+    void setSelectedTool(int index);
 private:
     MainModel& model;
     MidiPlayer& player;
     ProjectSettings& settings;
 
+    std::unique_ptr<Drawer> drawer;
     juce::OwnedArray<TrackComponent> tracks;
 };

@@ -19,7 +19,7 @@
 class MidiTrack : public juce::ChangeBroadcaster
 {
 public:
-    MidiTrack(int width, juce::Colour);
+    MidiTrack(int width, juce::Colour, juce::String);
     ~MidiTrack(); 
 
     //==========================================================================

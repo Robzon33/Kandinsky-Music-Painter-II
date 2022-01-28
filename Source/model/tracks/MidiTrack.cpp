@@ -10,14 +10,14 @@
 
 #include "MidiTrack.h"
 
-MidiTrack::MidiTrack(int width, juce::Colour colour)
+MidiTrack::MidiTrack(int width, juce::Colour colour, juce::String name)
 {
     this->channel = 1;
     this->program = 0;
     this->width = width;
     audible = true;
     visible = true;
-    trackName = "Track";
+    trackName = name;
     trackColour = colour;
     midiVelocityData.reset(new MidiVelocityData(this->width));
 }

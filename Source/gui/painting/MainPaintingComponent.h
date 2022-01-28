@@ -33,6 +33,7 @@ public:
     void deleteTrackComponent(int index);
     void deleteAllTrackComponents();
     void setSelectedTrack(int index);
+    void setSelectedTool(int index);
 private:
     MainModel& model;
     MidiPlayer& player;

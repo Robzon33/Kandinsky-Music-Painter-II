@@ -18,7 +18,7 @@ class TrackComponent :  public juce::Component,
     public juce::ChangeListener
 {
 public:
-    TrackComponent(MidiTrack&);
+    TrackComponent(MidiTrack&, Drawer&);
     ~TrackComponent();
 
     void paint(juce::Graphics& g) override;
@@ -30,7 +30,7 @@ public:
     void changeListenerCallback(juce::ChangeBroadcaster* source) override;
 private:
     MidiTrack& track;
-    std::unique_ptr<Drawer> drawer;
+    Drawer& drawer;
 
     /* Path you are currently drawing. */
     std::unique_ptr<juce::Path> currentPath;

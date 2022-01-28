@@ -12,16 +12,22 @@
 
 #include "JuceHeader.h"
 
+enum Tool
+{
+    singleLine = 0,
+    rectangle = 1
+};
+
 class Drawer
 {
 public:
     Drawer();
     ~Drawer();
 
-    void setSelectedTool(/*selected Tool*/);
+    void setSelectedTool(Tool newSelectedTool);
     juce::Path* createPath(juce::OwnedArray<juce::Point<int>> &points);
 private:
-    // selected Tool. In Abhängigkeit vom selected Tool wird das Objekt gezeichnet.
+    Tool tool;
 
     juce::OwnedArray<juce::Point<int>> currentPoints;
 };
