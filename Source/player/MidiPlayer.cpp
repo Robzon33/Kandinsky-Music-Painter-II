@@ -33,7 +33,7 @@ void MidiPlayer::hiResTimerCallback()
     {
         position = 0;
     }
-    this->produceMidiMessages();
+    
     processorFlag = true;
 
     /* notify change listener */
@@ -71,6 +71,7 @@ juce::MidiBuffer MidiPlayer::getMidiBuffer()
     
     if (processorFlag)
     {
+        this->produceMidiMessages();
         bufferToReturn = this->midiBuffer;
         this->midiBuffer.clear();
         processorFlag = false;
