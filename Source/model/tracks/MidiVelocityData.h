@@ -16,7 +16,15 @@
 
 class MidiVelocityData {
 public:
+    /// <summary>
+    /// Constructor
+    /// </summary>
+    /// <param name="width"></param>
     MidiVelocityData(int width);
+
+    /// <summary>
+    /// Destructor
+    /// </summary>
     ~MidiVelocityData();
 
     /// <summary>
@@ -32,7 +40,17 @@ public:
     /// </summary>
     /// <param name="index">The points index you try to delete</param>
     void deletePoint(int index);
+
+    /// <summary>
+    /// Sets a new width.
+    /// </summary>
+    /// <param name="newWidth"></param>
     void updateWidth(int newWidth);
+
+    /// <summary>
+    /// Returns a list of all existing points.
+    /// </summary>
+    /// <returns></returns>
     juce::OwnedArray<juce::Point<int>>& getPointVector();
 
     /// <summary>

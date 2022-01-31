@@ -43,8 +43,13 @@ public:
     bool isAudible();
     void setVisible(bool isVisible);
     bool isVisible();
-    int getNumberOfPaths();
     MidiVelocityData& getMidiVelocityData();
+
+    /// <summary>
+    /// Returns the number of all paths.
+    /// </summary>
+    /// <returns></returns>
+    int getNumberOfPaths();
 
     /// <summary>
     /// Calculates all intersections between all existing paths and
