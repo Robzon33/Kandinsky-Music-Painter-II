@@ -258,7 +258,7 @@ juce::Array<float> MidiPlayer::calculateIntersections(juce::Path* path)
 
             // the intersects method does not identify intersections between two vertical lines. So it is 
             // necessary to take care of it manually.
-		    if (iterator.x1 == iterator.x2)
+		    if (iterator.x1 == iterator.x2 && (float)this->position == iterator.x1)
 		    {
 			    int min = juce::jmin<int>(iterator.y1, iterator.y2);
 			    int max = juce::jmax<int>(iterator.y1, iterator.y2);
