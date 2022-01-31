@@ -52,6 +52,22 @@ juce::DrawableButton* PaintingHelper::getButton(int index)
     }
     case 3:
     {
+        juce::Rectangle<float> rectangle(3.0f, 3.0f, 10.0f, 10.0f);
+
+        juce::Point<float> controlPoint1(rectangle.getX(), rectangle.getY() + rectangle.getHeight() / 2);
+        juce::Point<float> controlPoint2(rectangle.getX() + rectangle.getWidth() / 4, rectangle.getY());
+        juce::Point<float> controlPoint3(rectangle.getX() + rectangle.getWidth() / 2, rectangle.getY() + rectangle.getHeight() / 2);
+        juce::Point<float> controlPoint4(rectangle.getX() + rectangle.getWidth() / 4 * 3, rectangle.getY() + rectangle.getHeight());
+        juce::Point<float> controlPoint5(rectangle.getX() + rectangle.getWidth(), rectangle.getY() + rectangle.getHeight() / 2);
+
+        p.startNewSubPath(controlPoint1);
+        p.quadraticTo(controlPoint2, controlPoint3);
+        p.quadraticTo(controlPoint4, controlPoint5);
+        buttonName = "Sinus";
+        break;
+    }
+    case 4:
+    {
         p.startNewSubPath(1.0f, 1.0f);
         p.lineTo(2.0f, 10.0f);
         p.lineTo(5.0f, 7.0f);

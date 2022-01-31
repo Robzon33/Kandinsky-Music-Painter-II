@@ -23,7 +23,7 @@ public:
         singleLine = 0,
         rectangle,
         ellipse,
-        multipleLine,
+        sinus,
         NUMBEROFTOOLS
     };
 

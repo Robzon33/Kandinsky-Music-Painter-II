@@ -61,6 +61,24 @@ juce::Path* Drawer::createPath(juce::OwnedArray<juce::Point<int>> &points)
             return newPath;
         }
     }
+    if (tool == PaintingHelper::Tool::sinus)
+    {
+        if (points.size() == 2)
+        {
+            juce::Rectangle<float> rectangle(points[0]->toFloat(), points[1]->toFloat());
+
+            juce::Point<float> controlPoint1(rectangle.getX(), rectangle.getY() + rectangle.getHeight() / 2);
+            juce::Point<float> controlPoint2(rectangle.getX() + rectangle.getWidth() / 4, rectangle.getY());
+            juce::Point<float> controlPoint3(rectangle.getX() + rectangle.getWidth() / 2, rectangle.getY() + rectangle.getHeight() / 2);
+            juce::Point<float> controlPoint4(rectangle.getX() + rectangle.getWidth() / 4 * 3, rectangle.getY() + rectangle.getHeight());
+            juce::Point<float> controlPoint5(rectangle.getX() + rectangle.getWidth(), rectangle.getY() + rectangle.getHeight() / 2);
+
+            newPath->startNewSubPath(controlPoint1);
+            newPath->quadraticTo(controlPoint2, controlPoint3);
+            newPath->quadraticTo(controlPoint4, controlPoint5);
+            return newPath;
+        }
+    }
 
     return nullptr;
 }

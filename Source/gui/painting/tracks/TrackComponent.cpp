@@ -75,7 +75,13 @@ void TrackComponent::mouseMove(const juce::MouseEvent& event)
 
 void TrackComponent::mouseDrag(const juce::MouseEvent& event)
 {
-
+    if (currentPoints.size() > 0)
+    {
+        currentPoints.add(new juce::Point<int>(event.getMouseDownX(), event.getMouseDownY()));
+        currentPath.reset(drawer.createPath(currentPoints));
+        repaint();
+        currentPoints.removeLast(1, true);
+    }
 }
 
 void TrackComponent::changeListenerCallback(juce::ChangeBroadcaster* source)
