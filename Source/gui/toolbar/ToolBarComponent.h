@@ -12,6 +12,7 @@
 
 #include "JuceHeader.h"
 #include "../CommandIDs.h"
+#include "../../extensions/PaintingHelper.h"
 
 class ToolBarComponent : public juce::Component,
                          public juce::Button::Listener

@@ -98,6 +98,10 @@
         <FILE id="yARd2x" name="MainComponent.h" compile="0" resource="0" file="Source/gui/MainComponent.h"/>
       </GROUP>
       <GROUP id="{7F802768-D320-84EB-87C3-98276A726BBE}" name="extensions">
+        <FILE id="CH0CzI" name="PaintingHelper.cpp" compile="1" resource="0"
+              file="Source/extensions/PaintingHelper.cpp"/>
+        <FILE id="k5qCdx" name="PaintingHelper.h" compile="0" resource="0"
+              file="Source/extensions/PaintingHelper.h"/>
         <FILE id="h3kZhC" name="PlayerState.cpp" compile="1" resource="0" file="Source/extensions/PlayerState.cpp"/>
         <FILE id="G2QCtC" name="PlayerState.h" compile="0" resource="0" file="Source/extensions/PlayerState.h"/>
         <FILE id="pFznkC" name="RandomColourGenerator.cpp" compile="1" resource="0"

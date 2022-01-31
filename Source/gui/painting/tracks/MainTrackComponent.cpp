@@ -76,9 +76,5 @@ void MainTrackComponent::deleteAllTrackComponents()
 
 void MainTrackComponent::setSelectedTool(int index)
 {
-	switch (index + 1)
-	{
-	    case 1: drawer->setSelectedTool(Tool::singleLine); break;
-        case 2: drawer->setSelectedTool(Tool::rectangle); break;
-	}
+    drawer->setSelectedTool(index);
 }

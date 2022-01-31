@@ -12,23 +12,23 @@
 
 Drawer::Drawer()
 {
-    tool = Tool::rectangle;
+    tool = PaintingHelper::Tool::singleLine;
 }
 
 Drawer::~Drawer()
 {
 }
 
-void Drawer::setSelectedTool(Tool newSelectedTool)
+void Drawer::setSelectedTool(int index)
 {
-    tool = newSelectedTool;
+    tool = PaintingHelper::getTool(index);
 }
 
 juce::Path* Drawer::createPath(juce::OwnedArray<juce::Point<int>> &points)
 {
     juce::Path* newPath = new juce::Path();
     
-    if (tool == Tool::singleLine)
+    if (tool == PaintingHelper::Tool::singleLine)
     {
         if (points.size() == 2)
         {
@@ -37,7 +37,7 @@ juce::Path* Drawer::createPath(juce::OwnedArray<juce::Point<int>> &points)
             return newPath;
         }
     }
-    if (tool == Tool::rectangle)
+    if (tool == PaintingHelper::Tool::rectangle)
     {
         if (points.size() == 2)
         {
@@ -46,6 +46,18 @@ juce::Path* Drawer::createPath(juce::OwnedArray<juce::Point<int>> &points)
             float width = std::abs((float)points[0]->getX() - (float)points[1]->getX());
             float height = std::abs((float)points[0]->getY() - (float)points[1]->getY());
             newPath->addRectangle(x, y, width, height);
+            return newPath;
+        }
+    }
+    if (tool == PaintingHelper::Tool::ellipse)
+    {
+        if (points.size() == 2)
+        {
+            float x = juce::jmin<float>((float)points[0]->getX(), (float)points[1]->getX());
+            float y = juce::jmin<float>((float)points[0]->getY(), (float)points[1]->getY());
+            float width = std::abs((float)points[0]->getX() - (float)points[1]->getX());
+            float height = std::abs((float)points[0]->getY() - (float)points[1]->getY());
+            newPath->addEllipse(x, y, width, height);
             return newPath;
         }
     }
