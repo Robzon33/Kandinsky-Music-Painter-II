@@ -131,3 +131,50 @@ MidiVelocityData& MidiTrack::getMidiVelocityData()
     return *midiVelocityData;
 }
 
+juce::Array<float> MidiTrack::calculateIntersections(int x)
+{
+    juce::Array<float> yValues;
+
+    for each (juce::Path* path in this->pathVector)
+    {
+        int xBoundLeft = path->getBounds().getX();
+        int xBoundRight = path->getBounds().getX() + path->getBounds().getWidth();
+
+        if (x >= xBoundLeft && x <= xBoundRight)
+        {
+            const float tolerance = 1.0f;
+            juce::Line<float> line((float)x, 0, (float)x, 128);
+
+            juce::PathFlatteningIterator iterator(*path, juce::AffineTransform(), tolerance);
+            juce::Point<float> intersection;
+
+            while (iterator.next())
+            {
+                if (line.intersects(juce::Line<float>(iterator.x1,
+                    iterator.y1,
+                    iterator.x2,
+                    iterator.y2),
+                    intersection))
+                {
+                    yValues.add(intersection.getY());
+                }
+
+                // the intersects method does not identify intersections between two vertical lines. So it is 
+                // necessary to take care of it manually.
+                if (iterator.x1 == iterator.x2 && (float)x == iterator.x1)
+                {
+                    int min = juce::jmin<int>(iterator.y1, iterator.y2);
+                    int max = juce::jmax<int>(iterator.y1, iterator.y2);
+
+                    for (int i = min; i < max; i++)
+                    {
+                        yValues.add(i);
+                    }
+                }
+            }
+        }
+    }
+
+    return yValues;
+}
+

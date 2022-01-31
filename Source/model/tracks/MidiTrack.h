@@ -45,6 +45,14 @@ public:
     bool isVisible();
     int getNumberOfPaths();
     MidiVelocityData& getMidiVelocityData();
+
+    /// <summary>
+    /// Calculates all intersections between all existing paths and
+    /// a given x coordinate.
+    /// </summary>
+    /// <param name="x">coordinate</param>
+    /// <returns>A list of y values from the calculation</returns>
+    juce::Array<float> calculateIntersections(int x);
 private:
     int channel, program;
     std::unique_ptr<MidiVelocityData> midiVelocityData;

@@ -71,12 +71,6 @@ private:
     void produceMidiMessages();
 
     /// <summary>
-    /// Calculates all intersections between the given path and the current players position.
-    /// </summary>
-    /// <returns></returns>
-    juce::Array<float> calculateIntersections(juce::Path* path);
-
-    /// <summary>
     /// Adds a Midi Message to the players outgoing messages list.
     /// </summary>
     /// <param name="message">The message that needs to be added to the list.</param>

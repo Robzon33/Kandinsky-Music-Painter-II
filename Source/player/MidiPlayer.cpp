@@ -188,10 +188,7 @@ void MidiPlayer::produceMidiMessages()
             noteOnMessages.add(false);
 
         // calculate intersections
-        for each (juce::Path * path in track->getPathVector())
-        {
-            yValues.addArray(this->calculateIntersections(path));
-        }
+        yValues = track->calculateIntersections(this->position);
 
         // produce note on messages
         if (!yValues.isEmpty())
@@ -229,50 +226,6 @@ void MidiPlayer::produceMidiMessages()
 
         previousNotesOn.getUnchecked(channel)->swapWithArray(noteOnMessages);
     }
-}
-
-juce::Array<float> MidiPlayer::calculateIntersections(juce::Path* path)
-{
-    juce::Array<float> yValues;
-
-    int xBoundLeft = path->getBounds().getX();
-    int xBoundRight = path->getBounds().getX() + path->getBounds().getWidth();
-
-    if (this->position >= xBoundLeft && this->position <= xBoundRight)
-    {
-	    const float tolerance = 1.0f;
-	    juce::Line<float> line((float)this->position, 0, (float)this->position, 128);
-
-	    juce::PathFlatteningIterator iterator(*path, juce::AffineTransform(), tolerance);
-	    juce::Point<float> intersection;
-
-	    while (iterator.next())
-	    {
-		    if (line.intersects(juce::Line<float>(iterator.x1, 
-                                                  iterator.y1, 
-                                                  iterator.x2, 
-                                                  iterator.y2),
-                                                  intersection))
-		    {
-			    yValues.add(intersection.getY());
-		    }
-
-            // the intersects method does not identify intersections between two vertical lines. So it is 
-            // necessary to take care of it manually.
-		    if (iterator.x1 == iterator.x2 && (float)this->position == iterator.x1)
-		    {
-			    int min = juce::jmin<int>(iterator.y1, iterator.y2);
-			    int max = juce::jmax<int>(iterator.y1, iterator.y2);
-
-			    for (int i = min; i < max; i++)
-			    {
-				    yValues.add(i);
-			    }
-		    }
-	    }
-    }
-
-	return yValues;
 }
 
 void MidiPlayer::addMessageToList(const juce::MidiMessage& message)
