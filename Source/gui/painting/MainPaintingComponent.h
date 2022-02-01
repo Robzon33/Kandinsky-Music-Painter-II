@@ -34,6 +34,7 @@ public:
     void deleteAllTrackComponents();
     void setSelectedTrack(int index);
     void setSelectedTool(int index);
+    int getComponentHeight();
 private:
     MainModel& model;
     MidiPlayer& player;
@@ -45,7 +46,7 @@ private:
     std::unique_ptr<MainVelocityComponent> velocityComponent;
 
     bool drawBeatLines;
-    bool showToolComponent;
     juce::Colour backgroundColour;
     float scaleFactor;
+    const int defaultComponentHight = 338;
 };

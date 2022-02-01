@@ -48,7 +48,3 @@ void KandinskyMusicPainterIIAudioProcessorEditor::resized()
         mainComponent->setBounds(area);
     }
 }
-
-void KandinskyMusicPainterIIAudioProcessorEditor::testProcessor()
-{
-}

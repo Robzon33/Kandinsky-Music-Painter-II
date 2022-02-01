@@ -14,7 +14,6 @@ MainPaintingComponent::MainPaintingComponent(MainModel& mm, MidiPlayer& mp, Proj
     : model (mm), player (mp), settings (ps)
 {
     drawBeatLines = true;
-    showToolComponent = false;
     scaleFactor = 1.0f;
     backgroundColour = juce::Colours::black.brighter(0.1f);
 
@@ -29,6 +28,8 @@ MainPaintingComponent::MainPaintingComponent(MainModel& mm, MidiPlayer& mp, Proj
 
     velocityComponent.reset(new MainVelocityComponent(model, settings));
     addAndMakeVisible(velocityComponent.get());
+
+    setSize(settings.getWidth(), defaultComponentHight);
 }
 
 MainPaintingComponent::~MainPaintingComponent()
@@ -47,11 +48,6 @@ void MainPaintingComponent::resized()
     paintingHeader->setBounds(b.removeFromTop(40));
 
     trackComponent->setBounds(b.removeFromTop(128 * scaleFactor));
-
-    if (showToolComponent)
-    {
-
-    }
 
     velocityHeader->setBounds(b.removeFromTop(40));
 
@@ -89,4 +85,12 @@ void MainPaintingComponent::setSelectedTrack(int index)
 void MainPaintingComponent::setSelectedTool(int index)
 {
     trackComponent->setSelectedTool(index);
+}
+
+int MainPaintingComponent::getComponentHeight()
+{
+    return this->paintingHeader->getHeight() +
+        this->trackComponent->getHeight() +
+        this->velocityHeader->getHeight() +
+        this->velocityComponent->getHeight();
 }

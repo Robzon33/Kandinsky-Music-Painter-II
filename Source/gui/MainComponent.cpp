@@ -26,12 +26,11 @@ MainComponent::MainComponent(MainModel& m, MidiPlayer& mp, ProjectSettings& ps)
     addAndMakeVisible(midiMonitor.get());
     
     mainPainting.reset(new MainPaintingComponent(model, player, settings));
-    mainPainting->setSize(settings.getWidth(), 500);
     addAndMakeVisible(mainPainting.get());
 
     paintViewport.reset(new juce::Viewport("Paint Viewport"));
     addAndMakeVisible(paintViewport.get());
-    paintViewport->setViewedComponent(mainPainting.get(), false);
+    paintViewport->setViewedComponent(mainPainting.get(), false);  
 
     toolBar.reset(new ToolBarComponent(commandManager));
     addAndMakeVisible(toolBar.get());
