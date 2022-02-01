@@ -1,8 +1,8 @@
 /*
   ==============================================================================
 
-    Kmp2Line.h
-    Created: 31 Jan 2022 7:12:21pm
+    Kmp2Ellipse.h
+    Created: 31 Jan 2022 9:33:56pm
     Author:  Toko
 
   ==============================================================================
@@ -13,18 +13,21 @@
 #include "JuceHeader.h"
 #include "Kmp2Tool.h"
 
-class Kmp2Line : public Kmp2Tool
+class Kmp2Ellipse : public Kmp2Tool
 {
-public:
     void pushPoint(juce::Point<float> newPoint)
     {
         if (startPoint.getDistanceFrom(newPoint) > 5.0f)
         {
             if (startPoint != juce::Point<float>())
             {
+                float x = juce::jmin<float>(startPoint.getX(), newPoint.getX());
+                float y = juce::jmin<float>(startPoint.getY(), newPoint.getY());
+                float width = std::abs(startPoint.getX() - newPoint.getX());
+                float height = std::abs(startPoint.getY() - newPoint.getY());
+
                 path.clear();
-                path.startNewSubPath(startPoint);
-                path.lineTo(newPoint);
+                path.addEllipse(x, y, width, height);
             }
             else
             {

@@ -1,29 +1,54 @@
 /*
   ==============================================================================
 
-    PaintingHelper.cpp
-    Created: 28 Jan 2022 5:35:48pm
+    Kmp2Tool.cpp
+    Created: 1 Feb 2022 12:29:40pm
     Author:  Toko
 
   ==============================================================================
 */
 
-#include "PaintingHelper.h"
+#include "Kmp2Tool.h"
+#include "Kmp2Line.h"
+#include "Kmp2Trail.h"
+#include "Kmp2Rectangle.h"
+#include "Kmp2Ellipse.h"
+#include "Kmp2Sinus.h"
 
-int PaintingHelper::getNumberOfTools()
+Kmp2Tool* Kmp2Tool::Create(Tool tool)
+{
+    if (tool == Tool::singleLine)
+    {
+        return new Kmp2Line();
+    }
+    else if (tool == Tool::rectangle)
+    {
+        return new Kmp2Rectangle();
+    }
+    else if (tool == Tool::ellipse)
+    {
+        return new Kmp2Ellipse();
+    }
+    else if (tool == Tool::sinus)
+    {
+        return new Kmp2Sinus();
+    }
+    else if (tool == Tool::trail)
+    {
+        return new Kmp2Trail();
+    }
+    else
+    {
+        return nullptr;
+    }
+}
+
+int Kmp2Tool::getNumberOfTools()
 {
     return static_cast<int>(Tool::NUMBEROFTOOLS);
 }
 
-PaintingHelper::Tool PaintingHelper::getTool(int index)
-{
-    if (0 <= index < getNumberOfTools())
-    {
-        return static_cast<Tool>(index);
-    }
-}
-
-juce::DrawableButton* PaintingHelper::getButton(int index)
+juce::DrawableButton* Kmp2Tool::getButton(int index)
 {
     juce::DrawablePath drawablePath;
     juce::Path p;
@@ -32,7 +57,7 @@ juce::DrawableButton* PaintingHelper::getButton(int index)
     switch (index)
     {
     case 0:
-    {      
+    {
         p.startNewSubPath(1.0f, 1.0f);
         p.lineTo(10.0f, 10.0f);
         buttonName = "Single line";
@@ -68,17 +93,18 @@ juce::DrawableButton* PaintingHelper::getButton(int index)
     }
     case 4:
     {
+        //todo
         p.startNewSubPath(1.0f, 1.0f);
         p.lineTo(2.0f, 10.0f);
         p.lineTo(5.0f, 7.0f);
         p.lineTo(10.0f, 8.0f);
-        buttonName = "Multi line";
+        buttonName = "Trail";
         break;
     }
     default:
         return nullptr;
     }
-    
+
     drawablePath.setPath(p);
     drawablePath.setFill(juce::Colours::transparentWhite);
     drawablePath.setStrokeFill(juce::Colours::darkorange);

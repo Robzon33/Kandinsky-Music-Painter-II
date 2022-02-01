@@ -23,7 +23,7 @@ public:
     ~MidiTrack(); 
 
     //==========================================================================
-    void addPath(juce::Path* newPath);
+    void addPath(juce::Path newPath);
     juce::Path& getPath(int index);
     juce::OwnedArray<juce::Path>& getPathVector();
     void deletePath(int index);

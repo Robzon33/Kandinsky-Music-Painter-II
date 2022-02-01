@@ -13,9 +13,9 @@
 ToolBarComponent::ToolBarComponent(juce::ApplicationCommandManager& acm)
     : commandManager (acm)
 {
-    for (int i = 0; i < PaintingHelper::getNumberOfTools(); ++i)
+    for (int i = 0; i < Kmp2Tool::getNumberOfTools(); ++i)
     {
-        auto* newButton = PaintingHelper::getButton(i);
+        auto* newButton = Kmp2Tool::getButton(i);
         newButton->addListener(this);
         newButton->setRadioGroupId(12345);
         buttons.add(newButton);

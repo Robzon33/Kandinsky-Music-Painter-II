@@ -26,9 +26,9 @@ MidiTrack::~MidiTrack()
 {
 }
 
-void MidiTrack::addPath(juce::Path* newPath)
+void MidiTrack::addPath(juce::Path newPath)
 {
-    this->pathVector.add(newPath);
+    this->pathVector.add(new juce::Path(newPath));
 }
 
 juce::Path& MidiTrack::getPath(int index)

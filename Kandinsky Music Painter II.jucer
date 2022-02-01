@@ -54,8 +54,13 @@
             <GROUP id="{D22D85DC-D963-2CBA-CEAA-ED95E7E6B41F}" name="tools">
               <FILE id="ssYjfr" name="Drawer.cpp" compile="1" resource="0" file="Source/gui/painting/tracks/tools/Drawer.cpp"/>
               <FILE id="Ly08u1" name="Drawer.h" compile="0" resource="0" file="Source/gui/painting/tracks/tools/Drawer.h"/>
-              <FILE id="sALNRO" name="Kmp2Line.cpp" compile="1" resource="0" file="Source/gui/painting/tracks/tools/Kmp2Line.cpp"/>
-              <FILE id="SRIy11" name="Kmp2Line.h" compile="0" resource="0" file="Source/gui/painting/tracks/tools/Kmp2Line.h"/>
+              <FILE id="DV2Uns" name="Kmp2Ellipse.h" compile="0" resource="0" file="Source/gui/painting/tracks/tools/Kmp2Ellipse.h"/>
+              <FILE id="JicS2B" name="Kmp2Line.h" compile="0" resource="0" file="Source/gui/painting/tracks/tools/Kmp2Line.h"/>
+              <FILE id="GobmTM" name="Kmp2Rectangle.h" compile="0" resource="0" file="Source/gui/painting/tracks/tools/Kmp2Rectangle.h"/>
+              <FILE id="U3ODLR" name="Kmp2Sinus.h" compile="0" resource="0" file="Source/gui/painting/tracks/tools/Kmp2Sinus.h"/>
+              <FILE id="jzM35L" name="Kmp2Tool.cpp" compile="1" resource="0" file="Source/gui/painting/tracks/tools/Kmp2Tool.cpp"/>
+              <FILE id="ASqMm6" name="Kmp2Tool.h" compile="0" resource="0" file="Source/gui/painting/tracks/tools/Kmp2Tool.h"/>
+              <FILE id="gV8RD9" name="Kmp2Trail.h" compile="0" resource="0" file="Source/gui/painting/tracks/tools/Kmp2Trail.h"/>
             </GROUP>
             <FILE id="h8tjQx" name="MainTrackComponent.cpp" compile="1" resource="0"
                   file="Source/gui/painting/tracks/MainTrackComponent.cpp"/>
@@ -98,10 +103,6 @@
         <FILE id="yARd2x" name="MainComponent.h" compile="0" resource="0" file="Source/gui/MainComponent.h"/>
       </GROUP>
       <GROUP id="{7F802768-D320-84EB-87C3-98276A726BBE}" name="extensions">
-        <FILE id="CH0CzI" name="PaintingHelper.cpp" compile="1" resource="0"
-              file="Source/extensions/PaintingHelper.cpp"/>
-        <FILE id="k5qCdx" name="PaintingHelper.h" compile="0" resource="0"
-              file="Source/extensions/PaintingHelper.h"/>
         <FILE id="h3kZhC" name="PlayerState.cpp" compile="1" resource="0" file="Source/extensions/PlayerState.cpp"/>
         <FILE id="G2QCtC" name="PlayerState.h" compile="0" resource="0" file="Source/extensions/PlayerState.h"/>
         <FILE id="pFznkC" name="RandomColourGenerator.cpp" compile="1" resource="0"

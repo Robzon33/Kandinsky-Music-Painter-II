@@ -34,6 +34,7 @@ void TrackComponent::paint(juce::Graphics& g)
             g.strokePath(*path, juce::PathStrokeType(1));
         }
 
+        // creating a preview while drawing
         if (currentPath != nullptr)
         {
             g.setColour(track.getColour().brighter(0.5f));
@@ -42,39 +43,20 @@ void TrackComponent::paint(juce::Graphics& g)
     }
 }
 
-void TrackComponent::mouseDown(const juce::MouseEvent& event)
-{
-    if (currentPoints.size() == 0)
-    {
-        currentPoints.add(new juce::Point<int>(event.getMouseDownX(), event.getMouseDownY()));
-    }
-    else if (currentPoints.size() > 0)
-    {
-        currentPoints.add(new juce::Point<int>(event.getMouseDownX(), event.getMouseDownY()));
-        auto* path = drawer.createPath(currentPoints);
-        if (path != nullptr)
-        {
-            track.addPath(path);
-            currentPoints.clear(true);
-            currentPath = nullptr;
-            repaint();
-        }
-    }
-}
-
-void TrackComponent::mouseMove(const juce::MouseEvent& event)
-{
-    if (currentPoints.size() > 0)
-    {
-        currentPoints.add(new juce::Point<int>(event.getMouseDownX(), event.getMouseDownY()));
-        currentPath.reset(drawer.createPath(currentPoints));
-        repaint();
-        currentPoints.removeLast(1, true);
-    }
-}
-
 void TrackComponent::mouseDrag(const juce::MouseEvent& event)
 {
+    currentPath.reset(new juce::Path(drawer.draw(event.position)));
+    repaint();
+}
+
+void TrackComponent::mouseUp(const juce::MouseEvent& event)
+{
+	auto path = drawer.draw(event.position);
+
+	track.addPath(path);
+    currentPath = nullptr;
+	drawer.reset();
+	repaint();
 }
 
 void TrackComponent::changeListenerCallback(juce::ChangeBroadcaster* source)

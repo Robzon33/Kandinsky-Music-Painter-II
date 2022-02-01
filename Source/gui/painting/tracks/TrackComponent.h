@@ -22,10 +22,9 @@ public:
     ~TrackComponent();
 
     void paint(juce::Graphics& g) override;
-    
-    void mouseDown(const juce::MouseEvent& event) override;
-    void mouseMove(const juce::MouseEvent& event) override;
+
     void mouseDrag(const juce::MouseEvent& event) override;
+    void mouseUp(const juce::MouseEvent& event) override;
 
     void changeListenerCallback(juce::ChangeBroadcaster* source) override;
 private:
@@ -34,7 +33,4 @@ private:
 
     /* Path you are currently drawing. */
     std::unique_ptr<juce::Path> currentPath;
-
-    /* Points you are using for the current object. */
-    juce::OwnedArray<juce::Point<int>> currentPoints;
 };

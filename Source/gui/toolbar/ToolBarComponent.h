@@ -12,7 +12,7 @@
 
 #include "JuceHeader.h"
 #include "../CommandIDs.h"
-#include "../../extensions/PaintingHelper.h"
+#include "../painting/tracks/tools/Kmp2Tool.h"
 
 class ToolBarComponent : public juce::Component,
                          public juce::Button::Listener
@@ -30,14 +30,6 @@ public:
 private:
     juce::OwnedArray<juce::DrawableButton> buttons;
     juce::ApplicationCommandManager& commandManager;
-
-    template <typename ComponentType>
-    ComponentType* addToList(ComponentType* newComp)
-    {
-        buttons.add(newComp);
-        addAndMakeVisible(newComp);
-        return newComp;
-    }
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ToolBarComponent)
 };
