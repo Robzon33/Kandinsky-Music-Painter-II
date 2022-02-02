@@ -145,6 +145,7 @@ void MidiPlayer::changeListenerCallback(juce::ChangeBroadcaster* source)
             {
                 juce::MidiMessage message(juce::MidiMessage::programChange(track->getChannel(),
                     track->getProgram()));
+                this->addMessageToList(message);
                 this->midiBuffer.addEvent(message, 0);
                 this->processorFlag = true;
             }
