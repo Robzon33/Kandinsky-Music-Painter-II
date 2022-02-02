@@ -16,7 +16,7 @@ MainComponent::MainComponent(MainModel& m, MidiPlayer& mp, ProjectSettings& ps)
     menuBar.reset(new MenuBarComponent(model, commandManager));
     addAndMakeVisible(menuBar.get());
     
-    playerBar.reset(new PlayerComponent(player));
+    playerBar.reset(new PlayerComponent(player, settings));
     addAndMakeVisible(playerBar.get());
     
     trackList.reset(new TrackListBoxComponent(model, commandManager));

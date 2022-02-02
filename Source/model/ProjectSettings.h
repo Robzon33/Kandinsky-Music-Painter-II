@@ -12,7 +12,7 @@
 
 #include "JuceHeader.h"
 
-class ProjectSettings
+class ProjectSettings : public juce::ChangeBroadcaster
 {
 public:
     ProjectSettings();
@@ -24,12 +24,15 @@ public:
     juce::String getName();
     void setBpm(int newBpm);
     int getBpm();
+    void setPlayerSpeed(int newPlayerSpeed);
+    int getPlayerSpeed();
     void setWidth(int newWidth);
     int getWidth();
     int getMaxNumberOfTracks();
 private:
     juce::String name;
     int width; /* The projects width in pixels. */
+    int playerSpeed; /* The players speed in pixel per second. */
     int bpm;
     int maxNumberOfTracks = 20;
 };

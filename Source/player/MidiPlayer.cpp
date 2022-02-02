@@ -13,7 +13,8 @@
 MidiPlayer::MidiPlayer(ProjectSettings& ps, MainModel& mm)
     : settings (ps), mainModel (mm), m_pState(new StoppedState())
 {
-    mm.addChangeListener(this);
+    mainModel.addChangeListener(this);
+    settings.addChangeListener(this);
     processorFlag = false;
     position = 0;
     this->resetPreviousNotesOn();
@@ -44,7 +45,7 @@ void MidiPlayer::play()
 {
     m_pState->Play(this);
     this->resetPreviousNotesOn();
-    startTimer(100);
+    startTimer(1000 / settings.getPlayerSpeed());
 }
 
 void MidiPlayer::stop()
@@ -125,6 +126,10 @@ juce::OwnedArray<juce::MidiMessage>& MidiPlayer::getMidiMessageList()
 
 void MidiPlayer::changeListenerCallback(juce::ChangeBroadcaster* source)
 {
+    if (source == &settings)
+    {
+        this->updatePlayerSpeed(settings.getPlayerSpeed());
+    }
     if (source == &mainModel)
     {
         for each (MidiTrack* track in mainModel.getMidiTracks())
@@ -235,5 +240,13 @@ void MidiPlayer::addMessageToList(const juce::MidiMessage& message)
     if (midiMessageList.size() > 200)
     {
         midiMessageList.removeRange(0, 1, true);
+    }
+}
+
+void MidiPlayer::updatePlayerSpeed(int pixelsPerSecond)
+{
+    if (this->getState() == State::ST_PLAYING)
+    {
+        startTimer(1000 / pixelsPerSecond);
     }
 }

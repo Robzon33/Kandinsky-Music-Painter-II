@@ -12,13 +12,14 @@
 
 #include <JuceHeader.h>
 #include "../../player/MidiPlayer.h"
+#include "../../model/ProjectSettings.h"
 
 class PlayerComponent : public juce::Component,
     public juce::Button::Listener,
     public juce::Slider::Listener
 {
 public:
-    PlayerComponent(MidiPlayer& mp);
+    PlayerComponent(MidiPlayer&, ProjectSettings&);
     ~PlayerComponent();
 
     void paint(juce::Graphics& g) override;
@@ -27,6 +28,7 @@ public:
     void sliderValueChanged(juce::Slider* slider) override;
 private:
     MidiPlayer& player;
+    ProjectSettings& settings;
     juce::Colour colour;
 
     std::unique_ptr<juce::DrawableButton> playButton, pauseButton, stopButton;

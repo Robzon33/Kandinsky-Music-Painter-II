@@ -28,6 +28,7 @@ void ProjectSettings::init(juce::String projectName)
 {
     this->name = projectName;
     this->bpm = 60;
+    this->playerSpeed = 50;
     this->width = 1000;
 }
 
@@ -49,6 +50,20 @@ void ProjectSettings::setBpm(int newBpm)
 int ProjectSettings::getBpm()
 {
     return this->bpm;
+}
+
+void ProjectSettings::setPlayerSpeed(int newPlayerSpeed)
+{
+    if (0 < newPlayerSpeed <= 100)
+    {
+        this->playerSpeed = newPlayerSpeed;
+        sendChangeMessage();
+    }
+}
+
+int ProjectSettings::getPlayerSpeed()
+{
+    return this->playerSpeed;
 }
 
 void ProjectSettings::setWidth(int newWidth)

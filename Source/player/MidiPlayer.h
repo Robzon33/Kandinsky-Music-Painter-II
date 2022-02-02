@@ -76,6 +76,12 @@ private:
     /// <param name="message">The message that needs to be added to the list.</param>
     void addMessageToList(const juce::MidiMessage& message);
 
+    /// <summary>
+    /// Adjusts the players timer to the configured speed.
+    /// </summary>
+    /// <param name="pixelsPerSecond">The new speed in pixels per seconds.</param>
+    void updatePlayerSpeed(int pixelsPerSecond);
+
     /* This is used to dispach an outgoing message to the message thread. */
     struct OutgoingMessageCallback : public juce::CallbackMessage
     {

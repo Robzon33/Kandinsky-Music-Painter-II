@@ -10,8 +10,8 @@
 
 #include "PlayerComponent.h"
 
-PlayerComponent::PlayerComponent(MidiPlayer& mp)
-    : player(mp)
+PlayerComponent::PlayerComponent(MidiPlayer& mp, ProjectSettings& ps)
+    : player(mp), settings(ps)
 {
     colour = juce::Colours::pink;
     initSlider();
@@ -31,7 +31,7 @@ void PlayerComponent::resized()
 {
 	auto b = getLocalBounds();
 
-	tempoSlider->setBounds(b.removeFromLeft(getWidth() / 4).reduced(20));
+	tempoSlider->setBounds(b.removeFromLeft(getWidth() / 4).reduced(10));
 	stopButton->setBounds(b.removeFromLeft(getWidth() / 4).reduced(30));
 	playButton->setBounds(b.removeFromLeft(getWidth() / 4).reduced(10));
 	pauseButton->setBounds(b.removeFromLeft(getWidth() / 4).reduced(30));
@@ -46,18 +46,19 @@ void PlayerComponent::buttonClicked(juce::Button* button)
 
 void PlayerComponent::sliderValueChanged(juce::Slider* slider)
 {
+	settings.setPlayerSpeed((int)slider->getValue());
 }
 
 void PlayerComponent::initSlider()
 {
 	tempoSlider.reset(new juce::Slider());
 	addAndMakeVisible(tempoSlider.get());
-	tempoSlider->setRange(10, 200, 1);
-	tempoSlider->setValue(40); /*TODO*/
+	tempoSlider->setRange(1, 100, 1);
+	tempoSlider->setValue(settings.getPlayerSpeed());
 	tempoSlider->setSliderStyle(juce::Slider::Rotary);
 	tempoSlider->setRotaryParameters(juce::float_Pi * 1.2f, juce::float_Pi * 2.8f, false);
-	tempoSlider->setTextBoxStyle(juce::Slider::TextBoxBelow, true, 60, 20);
-	tempoSlider->setTextValueSuffix(" bpm");
+	tempoSlider->setTextBoxStyle(juce::Slider::TextBoxBelow, true, 120, 30);
+	tempoSlider->setTextValueSuffix(" pixels per second");
 	tempoSlider->addListener(this);
 }
 
@@ -96,7 +97,7 @@ void PlayerComponent::initButtons()
 	playButton.reset(new juce::DrawableButton("play", juce::DrawableButton::ImageFitted));
 	playButton->setImages(&playImage, &playImageOver, &playImageDown);
 	addAndMakeVisible(playButton.get());
-	playButton->addListener(this); /* playButton.GET()????->addListener(this); */
+	playButton->addListener(this);
 
 	pauseButton.reset(new juce::DrawableButton("pause", juce::DrawableButton::ImageFitted));
 	pauseButton->setImages(&pauseImage, &pauseImageOver, &pauseImageDown);
