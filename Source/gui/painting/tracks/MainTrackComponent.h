@@ -22,7 +22,7 @@ class MainTrackComponent : public juce::Component,
     public juce::ChangeListener
 {
 public:
-    MainTrackComponent(MainModel&, MidiPlayer&, ProjectSettings&);
+    MainTrackComponent(MainModel&, MidiPlayer&, ProjectSettings&, float scaleFactor);
     ~MainTrackComponent();
 
     void paint(juce::Graphics& g) override;
@@ -35,6 +35,8 @@ public:
     void deleteTrackComponent(int index);
     void deleteAllTrackComponents();
     void setSelectedTool(int index);
+    void setWidth();
+    void setScaleFactor(float newScaleFactor);
 private:
     MainModel& model;
     MidiPlayer& player;
@@ -42,4 +44,6 @@ private:
 
     std::unique_ptr<Drawer> drawer;
     juce::OwnedArray<TrackComponent> tracks;
+    const int height = 128;
+    float scaleFactor;
 };

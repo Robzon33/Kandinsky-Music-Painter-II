@@ -10,9 +10,10 @@
 
 #include "MainVelocityComponent.h"
 
-MainVelocityComponent::MainVelocityComponent(MainModel& mm, ProjectSettings& ps)
+MainVelocityComponent::MainVelocityComponent(MainModel& mm, ProjectSettings& ps, float scaleFactor)
     : model (mm), settings (ps)
 {
+    this->scaleFactor = scaleFactor;
 }
 
 MainVelocityComponent::~MainVelocityComponent()
@@ -24,7 +25,7 @@ void MainVelocityComponent::paint(juce::Graphics& g)
     g.setColour(juce::Colours::black);
     for (int i = 100; i <= settings.getWidth(); i = i + 100)
     {
-        g.drawVerticalLine(i, 0.0f, (float)getHeight());
+        g.drawVerticalLine(i * this->scaleFactor, 0.0f, (float)height * scaleFactor);
     }
 }
 
@@ -39,7 +40,7 @@ void MainVelocityComponent::setSelectedMidiVelocityData(int index)
 
 void MainVelocityComponent::addVelocityComponent(MidiTrack* newMidiTrack)
 {
-    VelocityComponent* newVelocityComponent = new VelocityComponent(*newMidiTrack);
+    VelocityComponent* newVelocityComponent = new VelocityComponent(*newMidiTrack, scaleFactor);
     addAndMakeVisible(newVelocityComponent);
     newVelocityComponent->setBounds(getLocalBounds());
     velocities.add(newVelocityComponent);
@@ -53,4 +54,20 @@ void MainVelocityComponent::deleteVelocityComponent(int index)
 void MainVelocityComponent::deleteAllVelocityComponents()
 {
     velocities.clear(true);
+}
+
+void MainVelocityComponent::setWidth()
+{
+    setSize(settings.getWidth() * this->scaleFactor, this->height * this->scaleFactor);
+
+    for each (VelocityComponent * vc in velocities)
+    {
+        vc->setSize(settings.getWidth() * this->scaleFactor, this->height * this->scaleFactor);
+    }
+}
+
+void MainVelocityComponent::setScaleFactor(float newScaleFactor)
+{
+    this->scaleFactor = newScaleFactor;
+    setWidth();
 }

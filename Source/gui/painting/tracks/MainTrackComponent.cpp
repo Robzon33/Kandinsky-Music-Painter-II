@@ -10,11 +10,12 @@
 
 #include "MainTrackComponent.h"
 
-MainTrackComponent::MainTrackComponent(MainModel& mm, MidiPlayer& mp, ProjectSettings& ps)
+MainTrackComponent::MainTrackComponent(MainModel& mm, MidiPlayer& mp, ProjectSettings& ps, float scaleFactor)
     : model(mm), player(mp), settings (ps)
 {
     player.addChangeListener(this);
     drawer.reset(new Drawer());
+    this->scaleFactor = scaleFactor;
 }
 
 MainTrackComponent::~MainTrackComponent()
@@ -27,7 +28,7 @@ void MainTrackComponent::paint(juce::Graphics& g)
 	g.setColour(juce::Colours::black);
 	for (int i = 100; i <= settings.getWidth(); i = i + 100)
 	{
-		g.drawVerticalLine(i, 0.0f, (float)getHeight());
+		g.drawVerticalLine(i * scaleFactor, 0.0f, (float)this->height * scaleFactor);
 	}
 
     //paint the players position
@@ -35,7 +36,7 @@ void MainTrackComponent::paint(juce::Graphics& g)
     if (player.getPosition() > 0)
     {
         g.setColour(juce::Colours::blue);
-        g.drawLine((float)player.getPosition(), 0, (float)player.getPosition(), getHeight(), 1.0f);
+        g.drawLine((float)player.getPosition() * scaleFactor, 0, (float)player.getPosition() * scaleFactor, this->height * scaleFactor, scaleFactor);
     }
 }
 
@@ -58,7 +59,7 @@ void MainTrackComponent::setSelectedTrack(int index)
 
 void MainTrackComponent::addTrackComponent(MidiTrack* newTrack)
 {
-    TrackComponent* newTrackComponent = new TrackComponent(*newTrack, *drawer);
+    TrackComponent* newTrackComponent = new TrackComponent(*newTrack, *drawer, scaleFactor);
     addAndMakeVisible(newTrackComponent);
     newTrackComponent->setBounds(getLocalBounds());
     tracks.add(newTrackComponent);
@@ -77,4 +78,20 @@ void MainTrackComponent::deleteAllTrackComponents()
 void MainTrackComponent::setSelectedTool(int index)
 {
     drawer->setSelectedTool(index);
+}
+
+void MainTrackComponent::setWidth()
+{
+    setSize(settings.getWidth() * scaleFactor, this->height * scaleFactor);
+
+    for each (TrackComponent * tc in tracks)
+    {
+        tc->setSize(settings.getWidth() * scaleFactor, this->height * scaleFactor);
+    }
+}
+
+void MainTrackComponent::setScaleFactor(float newScaleFactor)
+{
+    this->scaleFactor = newScaleFactor;
+    setWidth();
 }

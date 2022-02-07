@@ -10,6 +10,11 @@
         <FILE id="TJqbum" name="MidiPlayer.h" compile="0" resource="0" file="Source/player/MidiPlayer.h"/>
       </GROUP>
       <GROUP id="{F2C416D8-6B32-FB64-4F65-51001AA65E5E}" name="gui">
+        <GROUP id="{9E1D47AA-1AC3-6B1D-66B8-A34654E2FA3D}" name="customDialogs">
+          <FILE id="xNhuxg" name="ConfigDialog.cpp" compile="1" resource="0"
+                file="Source/gui/customDialogs/ConfigDialog.cpp"/>
+          <FILE id="yZWwCa" name="ConfigDialog.h" compile="0" resource="0" file="Source/gui/customDialogs/ConfigDialog.h"/>
+        </GROUP>
         <GROUP id="{B6FD155F-0728-A698-051B-D0CE96CE871E}" name="toolbar">
           <FILE id="nlQfpD" name="ToolBarComponent.cpp" compile="1" resource="0"
                 file="Source/gui/toolbar/ToolBarComponent.cpp"/>
@@ -89,8 +94,6 @@
                 file="Source/gui/painting/MainPaintingComponent.cpp"/>
           <FILE id="ESDuJj" name="MainPaintingComponent.h" compile="0" resource="0"
                 file="Source/gui/painting/MainPaintingComponent.h"/>
-          <FILE id="CeHi4B" name="PaintingCommandIDs.h" compile="0" resource="0"
-                file="Source/gui/painting/PaintingCommandIDs.h"/>
         </GROUP>
         <GROUP id="{23EF4C4E-D5BF-E5AA-6F3E-7B837A2C99F1}" name="menu">
           <FILE id="sPZWCL" name="MenuBarComponent.cpp" compile="1" resource="0"

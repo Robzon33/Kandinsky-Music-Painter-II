@@ -30,9 +30,10 @@ public:
     /// Draws a new path depending on the selected painting
     /// tool.
     /// </summary>
-    /// <param name="point">The new point that shall be added.</param>
+    /// <param name="x">coordinate</param>
+    /// <param name="y">coordinate</param>
     /// <returns>A path</returns>
-    juce::Path draw(juce::Point<float> point);
+    juce::Path draw(float x, float y);
 
     /// <summary>
     /// Resets the painting object. This needs to be called

@@ -28,11 +28,11 @@ public:
     int getPlayerSpeed();
     void setWidth(int newWidth);
     int getWidth();
-    int getMaxNumberOfTracks();
+    int getMaxNumberOfMidiTracks();
 private:
     juce::String name;
     int width; /* The projects width in pixels. */
     int playerSpeed; /* The players speed in pixel per second. */
     int bpm;
-    int maxNumberOfTracks = 20;
+    const int maxNumberOfMidiTracks = 16;
 };

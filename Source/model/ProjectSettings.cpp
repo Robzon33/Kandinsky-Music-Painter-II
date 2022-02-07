@@ -69,6 +69,7 @@ int ProjectSettings::getPlayerSpeed()
 void ProjectSettings::setWidth(int newWidth)
 {
     this->width = newWidth;
+    sendChangeMessage();
 }
 
 int ProjectSettings::getWidth()
@@ -76,7 +77,7 @@ int ProjectSettings::getWidth()
     return this->width;
 }
 
-int ProjectSettings::getMaxNumberOfTracks()
+int ProjectSettings::getMaxNumberOfMidiTracks()
 {
-    return this->maxNumberOfTracks;
+    return this->maxNumberOfMidiTracks;
 }

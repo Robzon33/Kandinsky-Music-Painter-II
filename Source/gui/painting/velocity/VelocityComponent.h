@@ -20,7 +20,7 @@ class VelocityComponent  : public juce::Component,
     private juce::ChangeListener
 {
 public:
-    VelocityComponent(MidiTrack&);
+    VelocityComponent(MidiTrack&, float scaleFactor);
     ~VelocityComponent() override;
 
     void mouseDown(const juce::MouseEvent& event) override;
@@ -29,8 +29,11 @@ public:
     void resized() override;
 
     void changeListenerCallback(juce::ChangeBroadcaster* source) override;
+
+    void setScaleFactor(float newScaleFactor);
 private:
     MidiTrack& midiTrack;
+    float scaleFactor;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (VelocityComponent)
 };

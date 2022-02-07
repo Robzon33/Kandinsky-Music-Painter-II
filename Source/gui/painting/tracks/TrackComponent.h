@@ -18,7 +18,7 @@ class TrackComponent :  public juce::Component,
     public juce::ChangeListener
 {
 public:
-    TrackComponent(MidiTrack&, Drawer&);
+    TrackComponent(MidiTrack&, Drawer&, float scaleFactor);
     ~TrackComponent();
 
     void paint(juce::Graphics& g) override;
@@ -27,10 +27,13 @@ public:
     void mouseUp(const juce::MouseEvent& event) override;
 
     void changeListenerCallback(juce::ChangeBroadcaster* source) override;
+
+    void setScaleFactor(float newScaleFactor);
 private:
     MidiTrack& track;
     Drawer& drawer;
 
     /* Path you are currently drawing. */
     std::unique_ptr<juce::Path> currentPath;
+    float scaleFactor;
 };

@@ -48,7 +48,29 @@ void MidiVelocityData::deletePoint(int index)
 
 void MidiVelocityData::updateWidth(int newWidth)
 {
-    //TODO
+    int oldWidth = this->width;
+
+    if (oldWidth > newWidth)
+    {
+        for (int i = pointVector.size() - 1; i >= 0; --i)
+        {
+            if (pointVector[i]->getX() > newWidth)
+            {
+                pointVector.remove(i, true);
+            }
+            else
+            {
+                break;
+            }
+        }
+    }
+    if (oldWidth <= newWidth)
+    {
+        pointVector.removeLast();
+    }
+
+    this->pointVector.add(new juce::Point<int>(newWidth, this->defaultVelocityValue));                                        
+    this->width = newWidth;
 }
 
 juce::OwnedArray<juce::Point<int>>& MidiVelocityData::getPointVector()

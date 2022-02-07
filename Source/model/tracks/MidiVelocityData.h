@@ -42,9 +42,10 @@ public:
     void deletePoint(int index);
 
     /// <summary>
-    /// Sets a new width.
+    /// Sets a new width. Some points might get deleted if the width
+    /// gets less and thus they are out of bounds.
     /// </summary>
-    /// <param name="newWidth"></param>
+    /// <param name="newWidth">The new width</param>
     void updateWidth(int newWidth);
 
     /// <summary>

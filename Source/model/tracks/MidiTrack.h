@@ -19,7 +19,7 @@
 class MidiTrack : public juce::ChangeBroadcaster
 {
 public:
-    MidiTrack(int width, juce::Colour, juce::String);
+    MidiTrack(int width, juce::Colour, juce::String, int channel);
     ~MidiTrack(); 
 
     //==========================================================================
@@ -44,6 +44,7 @@ public:
     void setVisible(bool isVisible);
     bool isVisible();
     MidiVelocityData& getMidiVelocityData();
+    void updateWidth(int newWidth);
 
     /// <summary>
     /// Returns the number of all paths.

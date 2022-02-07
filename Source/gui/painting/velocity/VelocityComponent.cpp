@@ -12,10 +12,11 @@
 #include "VelocityComponent.h"
 
 //==============================================================================
-VelocityComponent::VelocityComponent(MidiTrack& mt)
+VelocityComponent::VelocityComponent(MidiTrack& mt, float scaleFactor)
     : midiTrack (mt)
 {
     midiTrack.addChangeListener(this);
+    this->scaleFactor = scaleFactor;
 }
 
 VelocityComponent::~VelocityComponent()
@@ -25,15 +26,15 @@ VelocityComponent::~VelocityComponent()
 void VelocityComponent::mouseDown(const juce::MouseEvent& event)
 {
     int index = midiTrack.getMidiVelocityData()
-        .getIndexOfPoint(event.getMouseDownX(),
-                         event.getMouseDownY());
+        .getIndexOfPoint((int)(event.getMouseDownX() / this->scaleFactor),
+                         (int)(event.getMouseDownY() / this->scaleFactor));
 
     if (event.mods.isLeftButtonDown())
     {
         if (index == -1)
         {
-            midiTrack.getMidiVelocityData().addPoint(event.getMouseDownX(),
-                                      event.getMouseDownY());
+            midiTrack.getMidiVelocityData().addPoint((int)(event.getMouseDownX() / this->scaleFactor),
+                                                     (int)(event.getMouseDownY() / this->scaleFactor));
         }
         if (index != -1)
         {
@@ -53,11 +54,11 @@ void VelocityComponent::paint (juce::Graphics& g)
     {
         if (prevX >= 0 && prevY >= 0)
         {
-            g.drawLine(prevX, prevY, point->getX(), point->getY(), 1.0f);
+            g.drawLine(prevX, prevY, point->getX() * this->scaleFactor, point->getY() * this->scaleFactor, this->scaleFactor);
         }
-        g.fillRoundedRectangle(point->getX() - 2, point->getY() - 2, 4, 4, 1.5f);
-        prevX = point->getX();
-        prevY = point->getY();
+        g.fillRoundedRectangle(point->getX() * this->scaleFactor - 2, point->getY() * this->scaleFactor - 2, 4, 4, 1.5f);
+        prevX = point->getX() * this->scaleFactor;
+        prevY = point->getY() * this->scaleFactor;
     }
 }
 
@@ -67,5 +68,11 @@ void VelocityComponent::resized()
 
 void VelocityComponent::changeListenerCallback(juce::ChangeBroadcaster* source)
 {
+    repaint();
+}
+
+void VelocityComponent::setScaleFactor(float newScaleFactor)
+{
+    this->scaleFactor = newScaleFactor;
     repaint();
 }

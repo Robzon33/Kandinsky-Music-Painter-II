@@ -25,9 +25,9 @@ void Drawer::setSelectedTool(int index)
     kmp2tool.reset(Kmp2Tool::Create(static_cast<Tool>(index)));
 }
 
-juce::Path Drawer::draw(juce::Point<float> point)
+juce::Path Drawer::draw(float x, float y)
 {
-    kmp2tool.get()->pushPoint(point);
+    kmp2tool.get()->pushPoint(juce::Point<float>(x, y));
     return kmp2tool.get()->path;
 }
 

@@ -13,6 +13,7 @@
 MainModel::MainModel(ProjectSettings& ps)
     : settings (ps)
 {
+    settings.addChangeListener(this);
 }
 
 MainModel::~MainModel()
@@ -21,11 +22,12 @@ MainModel::~MainModel()
 
 bool MainModel::addMidiTrack()
 {
-    if (tracks.size() <= settings.getMaxNumberOfTracks())
+    if (tracks.size() < settings.getMaxNumberOfMidiTracks() - 1)
     {
         MidiTrack* newTrack = new MidiTrack(settings.getWidth(),
                                             RandomColourGenerator::getRandomColour(),
-                                            "New Track");
+                                            "New Midi Track",
+                                            tracks.size() + 1);
         tracks.add(newTrack);
         this->sendChangeMessage();
         return true;
@@ -79,4 +81,20 @@ juce::OwnedArray<MidiTrack>& MainModel::getMidiTracks()
 int MainModel::getNumberOfTracks()
 {
     return tracks.size();
+}
+
+void MainModel::updateTrackWidth(int newWidth)
+{
+    for each (MidiTrack* track in tracks)
+    {
+        track->updateWidth(newWidth);
+    }
+}
+
+void MainModel::changeListenerCallback(juce::ChangeBroadcaster* source)
+{
+    if (source == &settings)
+    {
+        this->updateTrackWidth(settings.getWidth());
+    }
 }

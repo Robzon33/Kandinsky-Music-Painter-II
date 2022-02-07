@@ -27,6 +27,7 @@ MainComponent::MainComponent(MainModel& m, MidiPlayer& mp, ProjectSettings& ps)
     
     mainPainting.reset(new MainPaintingComponent(model, player, settings));
     addAndMakeVisible(mainPainting.get());
+    mainPainting->setScaleFactor(2.0f); /*********************************/
 
     paintViewport.reset(new juce::Viewport("Paint Viewport"));
     addAndMakeVisible(paintViewport.get());
@@ -69,6 +70,9 @@ void MainComponent::getAllCommands(juce::Array<juce::CommandID>& c)
     juce::Array<juce::CommandID> commands{ CommandIDs::addMidiTrack,
                                            CommandIDs::deleteTrack,
                                            CommandIDs::deleteAllTracks,
+                                           CommandIDs::newProject,
+                                           CommandIDs::saveProject,
+                                           CommandIDs::openProjectConfig,
                                            CommandIDs::selectTrack,
                                            CommandIDs::selectTool};
 
@@ -87,6 +91,15 @@ void MainComponent::getCommandInfo(juce::CommandID commandID, juce::ApplicationC
         break;
     case CommandIDs::deleteAllTracks:
         result.setInfo("Delete all", "Deletes all tracks from the current project", "Track", 0);
+        break;
+    case CommandIDs::newProject:
+        result.setInfo("New project", "Closes the current project and creates a new one", "Project", 0);
+        break;
+    case CommandIDs::saveProject:
+        result.setInfo("Save project", "Saves the current project", "Project", 0);
+        break;
+    case CommandIDs::openProjectConfig:
+        result.setInfo("Configuration", "Opens a menu to configure the current project", "Project", 0);
         break;
     case CommandIDs::selectTrack:
         result.setInfo("Select Track", "Selects a track from the tracklist", "Track", 0);
@@ -132,6 +145,26 @@ bool MainComponent::perform(const InvocationInfo& info)
         model.deleteAllTracks();
         mainPainting->deleteAllTrackComponents();
         trackList->updateContent();
+        break;
+    }
+    case CommandIDs::newProject:
+    {
+
+        break;
+    }
+    case CommandIDs::saveProject:
+    {
+        break;
+    }
+    case CommandIDs::openProjectConfig:
+    {
+        configDialog.reset(new ConfigDialog(settings));
+        addAndMakeVisible(configDialog.get());
+        juce::DialogWindow* dialogWindow = configDialog->getDialogWindow();
+        if (dialogWindow != nullptr)
+        {
+            dialogWindow->centreWithSize(300, 300);
+        }
         break;
     }
     case CommandIDs::selectTrack:

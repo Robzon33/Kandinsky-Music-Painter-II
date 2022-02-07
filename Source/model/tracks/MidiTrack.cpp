@@ -10,9 +10,11 @@
 
 #include "MidiTrack.h"
 
-MidiTrack::MidiTrack(int width, juce::Colour colour, juce::String name)
+MidiTrack::MidiTrack(int width, juce::Colour colour, juce::String name, int channel)
 {
-    this->channel = 1;
+    jassert(channel >= 1 && channel <= 16);
+
+    this->channel = channel;
     this->program = 0;
     this->width = width;
     audible = true;
@@ -129,6 +131,29 @@ int MidiTrack::getNumberOfPaths()
 MidiVelocityData& MidiTrack::getMidiVelocityData()
 {
     return *midiVelocityData;
+}
+
+void MidiTrack::updateWidth(int newWidth)
+{
+    int oldWidth = this->width;
+
+    if (oldWidth > newWidth)
+    {
+        for (int i = pathVector.size() - 1; i >= 0; --i)
+        {
+            int xBoundRight = this->getPath(i).getBounds().getX() + 
+                              this->getPath(i).getBounds().getWidth();
+
+            if (xBoundRight > newWidth)
+            {
+                this->pathVector.remove(i, true);
+            }
+        }
+    }
+
+    this->width = newWidth;
+
+    this->midiVelocityData->updateWidth(newWidth);
 }
 
 juce::Array<float> MidiTrack::calculateIntersections(int x)

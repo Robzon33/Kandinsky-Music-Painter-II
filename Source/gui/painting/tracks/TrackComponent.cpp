@@ -10,11 +10,12 @@
 
 #include "TrackComponent.h"
 
-TrackComponent::TrackComponent(MidiTrack& mt, Drawer& d)
+TrackComponent::TrackComponent(MidiTrack& mt, Drawer& d, float scaleFactor)
 	: track (mt), drawer (d)
 {
     track.addChangeListener(this);
     currentPath = nullptr;
+    this->scaleFactor = scaleFactor;
 }
 
 TrackComponent::~TrackComponent()
@@ -31,27 +32,32 @@ void TrackComponent::paint(juce::Graphics& g)
         juce::OwnedArray<juce::Path>& paths = track.getPathVector();
         for each (juce::Path* path in paths)
         {
-            g.strokePath(*path, juce::PathStrokeType(1));
+            auto pathToDraw = *path;
+            pathToDraw.applyTransform(juce::AffineTransform::scale(scaleFactor));
+            g.strokePath(pathToDraw, juce::PathStrokeType(scaleFactor));
         }
 
         // creating a preview while drawing
         if (currentPath != nullptr)
         {
             g.setColour(track.getColour().brighter(0.5f));
-            g.strokePath(*currentPath, juce::PathStrokeType(1));
+            currentPath->applyTransform(juce::AffineTransform::scale(scaleFactor));
+            g.strokePath(*currentPath, juce::PathStrokeType(scaleFactor));
         }
     }
 }
 
 void TrackComponent::mouseDrag(const juce::MouseEvent& event)
 {
-    currentPath.reset(new juce::Path(drawer.draw(event.position)));
+    currentPath.reset(new juce::Path(drawer.draw((int)(event.position.getX() / scaleFactor), 
+                                                 (int)(event.position.getY() / scaleFactor))));
     repaint();
 }
 
 void TrackComponent::mouseUp(const juce::MouseEvent& event)
 {
-	auto path = drawer.draw(event.position);
+	auto path = drawer.draw((int)(event.position.getX() / scaleFactor),
+                            (int)(event.position.getY() / scaleFactor));
 
 	track.addPath(path);
     currentPath = nullptr;
@@ -61,5 +67,11 @@ void TrackComponent::mouseUp(const juce::MouseEvent& event)
 
 void TrackComponent::changeListenerCallback(juce::ChangeBroadcaster* source)
 {
+    repaint();
+}
+
+void TrackComponent::setScaleFactor(float newScaleFactor)
+{
+    this->scaleFactor = newScaleFactor;
     repaint();
 }

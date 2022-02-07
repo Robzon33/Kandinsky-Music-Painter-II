@@ -18,7 +18,8 @@
 #include "HeaderComponent.h"
 #include "../CommandIDs.h"
 
-class MainPaintingComponent :   public juce::Component
+class MainPaintingComponent :   public juce::Component,
+                                public juce::ChangeListener
 {
 public:
     MainPaintingComponent(MainModel&, MidiPlayer&, ProjectSettings&);
@@ -26,8 +27,8 @@ public:
 
     void paint(juce::Graphics& g) override;
     void resized() override;
-
     void mouseDown(const juce::MouseEvent& event) override;
+    void changeListenerCallback(juce::ChangeBroadcaster*) override;
 
     void addNewTrack(MidiTrack* newTrack);
     void deleteTrackComponent(int index);
@@ -35,18 +36,19 @@ public:
     void setSelectedTrack(int index);
     void setSelectedTool(int index);
     int getComponentHeight();
+    void setScaleFactor(float newScaleFactor);
 private:
     MainModel& model;
     MidiPlayer& player;
     ProjectSettings& settings;
     
     std::unique_ptr<HeaderComponent> paintingHeader;
-    std::unique_ptr<MainTrackComponent> trackComponent;
+    std::unique_ptr<MainTrackComponent> mainTrackComponent;
     std::unique_ptr<HeaderComponent> velocityHeader;
-    std::unique_ptr<MainVelocityComponent> velocityComponent;
+    std::unique_ptr<MainVelocityComponent> mainVelocityComponent;
 
     bool drawBeatLines;
     juce::Colour backgroundColour;
     float scaleFactor;
-    const int defaultComponentHight = 338;
+    const int defaultComponentHight = 336;
 };

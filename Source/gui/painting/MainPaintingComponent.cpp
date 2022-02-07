@@ -20,16 +20,18 @@ MainPaintingComponent::MainPaintingComponent(MainModel& mm, MidiPlayer& mp, Proj
     paintingHeader.reset(new HeaderComponent("Painting"));
     addAndMakeVisible(paintingHeader.get());
 
-    trackComponent.reset(new MainTrackComponent(model, player, settings));
-    addAndMakeVisible(trackComponent.get());
+    mainTrackComponent.reset(new MainTrackComponent(model, player, settings, scaleFactor));
+    addAndMakeVisible(mainTrackComponent.get());
 
     velocityHeader.reset(new HeaderComponent("Velocity"));
     addAndMakeVisible(velocityHeader.get());
 
-    velocityComponent.reset(new MainVelocityComponent(model, settings));
-    addAndMakeVisible(velocityComponent.get());
+    mainVelocityComponent.reset(new MainVelocityComponent(model, settings, scaleFactor));
+    addAndMakeVisible(mainVelocityComponent.get());
 
-    setSize(settings.getWidth(), defaultComponentHight);
+    setSize(settings.getWidth() * scaleFactor, defaultComponentHight * scaleFactor);
+
+    settings.addChangeListener(this);
 }
 
 MainPaintingComponent::~MainPaintingComponent()
@@ -45,52 +47,67 @@ void MainPaintingComponent::resized()
 {
     auto b = getLocalBounds();
 
-    paintingHeader->setBounds(b.removeFromTop(40));
-
-    trackComponent->setBounds(b.removeFromTop(128 * scaleFactor));
-
-    velocityHeader->setBounds(b.removeFromTop(40));
-
-    velocityComponent->setBounds(b.removeFromTop(128));
+    paintingHeader->setBounds(b.removeFromTop(40 * scaleFactor));
+    mainTrackComponent->setBounds(b.removeFromTop(128 * scaleFactor));
+    velocityHeader->setBounds(b.removeFromTop(40 * scaleFactor));
+    mainVelocityComponent->setBounds(b.removeFromTop(128 * scaleFactor));
 }
 
 void MainPaintingComponent::mouseDown(const juce::MouseEvent& event)
 {
 }
 
+void MainPaintingComponent::changeListenerCallback(juce::ChangeBroadcaster* source)
+{
+    if (source == &settings)
+    {
+        setSize(settings.getWidth() * scaleFactor, defaultComponentHight * scaleFactor);
+        mainTrackComponent->setWidth();
+        mainVelocityComponent->setWidth();
+    }
+}
+
 void MainPaintingComponent::addNewTrack(MidiTrack* newTrack)
 {
-    trackComponent->addTrackComponent(newTrack);
-    velocityComponent->addVelocityComponent(newTrack);
+    mainTrackComponent->addTrackComponent(newTrack);
+    mainVelocityComponent->addVelocityComponent(newTrack);
 }
 
 void MainPaintingComponent::deleteTrackComponent(int index)
 {
-    trackComponent->deleteTrackComponent(index);
-    velocityComponent->deleteVelocityComponent(index);
+    mainTrackComponent->deleteTrackComponent(index);
+    mainVelocityComponent->deleteVelocityComponent(index);
 }
 
 void MainPaintingComponent::deleteAllTrackComponents()
 {
-    trackComponent->deleteAllTrackComponents();
-    velocityComponent->deleteAllVelocityComponents();
+    mainTrackComponent->deleteAllTrackComponents();
+    mainVelocityComponent->deleteAllVelocityComponents();
 }
 
 void MainPaintingComponent::setSelectedTrack(int index)
 {
-    trackComponent->setSelectedTrack(index);
-    velocityComponent->setSelectedMidiVelocityData(index);
+    mainTrackComponent->setSelectedTrack(index);
+    mainVelocityComponent->setSelectedMidiVelocityData(index);
 }
 
 void MainPaintingComponent::setSelectedTool(int index)
 {
-    trackComponent->setSelectedTool(index);
+    mainTrackComponent->setSelectedTool(index);
 }
 
 int MainPaintingComponent::getComponentHeight()
 {
     return this->paintingHeader->getHeight() +
-        this->trackComponent->getHeight() +
+        this->mainTrackComponent->getHeight() +
         this->velocityHeader->getHeight() +
-        this->velocityComponent->getHeight();
+        this->mainVelocityComponent->getHeight();
+}
+
+void MainPaintingComponent::setScaleFactor(float newScaleFactor)
+{
+    this->scaleFactor = newScaleFactor;
+    setSize(settings.getWidth() * scaleFactor, defaultComponentHight * scaleFactor);
+    this->mainTrackComponent->setScaleFactor(scaleFactor);
+    this->mainVelocityComponent->setScaleFactor(scaleFactor);
 }

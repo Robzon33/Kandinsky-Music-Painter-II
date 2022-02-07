@@ -14,7 +14,8 @@
 #include "ProjectSettings.h"
 #include "../extensions/RandomColourGenerator.h"
 
-class MainModel     : public juce::ChangeBroadcaster
+class MainModel     : public juce::ChangeBroadcaster,
+    public juce::ChangeListener
 {
 public:
     MainModel(ProjectSettings& ps);
@@ -29,6 +30,9 @@ public:
     juce::Array<MidiTrack*> getAllTracks();
     juce::OwnedArray<MidiTrack>& getMidiTracks();
     int getNumberOfTracks();
+    void updateTrackWidth(int newWidth);
+
+    void changeListenerCallback(juce::ChangeBroadcaster*) override;
 private:
     juce::OwnedArray<MidiTrack> tracks;
     ProjectSettings& settings;
