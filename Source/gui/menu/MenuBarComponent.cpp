@@ -47,6 +47,12 @@ juce::PopupMenu MenuBarComponent::getMenuForIndex(int menuIndex, const juce::Str
         menu.addSeparator();
         menu.addCommandItem(&commandManager, CommandIDs::openProjectConfig);
     }
+    if (menuIndex == 1)
+    {
+        menu.addCommandItem(&commandManager, CommandIDs::setZoom100);
+        menu.addCommandItem(&commandManager, CommandIDs::setZoom200);
+        menu.addCommandItem(&commandManager, CommandIDs::setZoom400);
+    }
 
     return menu;
 }

@@ -25,9 +25,8 @@ MainComponent::MainComponent(MainModel& m, MidiPlayer& mp, ProjectSettings& ps)
     midiMonitor.reset(new MidiMonitorComponent(player));
     addAndMakeVisible(midiMonitor.get());
     
-    mainPainting.reset(new MainPaintingComponent(model, player, settings));
+    mainPainting.reset(new MainPaintingComponent(model, player, settings, commandManager));
     addAndMakeVisible(mainPainting.get());
-    mainPainting->setScaleFactor(2.0f); /*********************************/
 
     paintViewport.reset(new juce::Viewport("Paint Viewport"));
     addAndMakeVisible(paintViewport.get());
@@ -62,7 +61,7 @@ void MainComponent::resized()
 
 juce::ApplicationCommandTarget* MainComponent::getNextCommandTarget()
 {
-    return nullptr;
+    return mainPainting.get();
 }
 
 void MainComponent::getAllCommands(juce::Array<juce::CommandID>& c)

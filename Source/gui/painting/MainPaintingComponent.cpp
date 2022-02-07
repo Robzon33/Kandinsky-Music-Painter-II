@@ -10,11 +10,11 @@
 
 #include "MainPaintingComponent.h"
 
-MainPaintingComponent::MainPaintingComponent(MainModel& mm, MidiPlayer& mp, ProjectSettings& ps)
-    : model (mm), player (mp), settings (ps)
+MainPaintingComponent::MainPaintingComponent(MainModel& mm, MidiPlayer& mp, ProjectSettings& ps, juce::ApplicationCommandManager& acm)
+    : model (mm), player (mp), settings (ps), commandManager (acm)
 {
     drawBeatLines = true;
-    scaleFactor = 1.0f;
+    scaleFactor = 2.0f;
     backgroundColour = juce::Colours::black.brighter(0.1f);
 
     paintingHeader.reset(new HeaderComponent("Painting"));
@@ -30,7 +30,7 @@ MainPaintingComponent::MainPaintingComponent(MainModel& mm, MidiPlayer& mp, Proj
     addAndMakeVisible(mainVelocityComponent.get());
 
     setSize(settings.getWidth() * scaleFactor, defaultComponentHight * scaleFactor);
-
+    commandManager.registerAllCommandsForTarget(this);
     settings.addChangeListener(this);
 }
 
@@ -67,6 +67,65 @@ void MainPaintingComponent::changeListenerCallback(juce::ChangeBroadcaster* sour
     }
 }
 
+juce::ApplicationCommandTarget* MainPaintingComponent::getNextCommandTarget()
+{
+    return findFirstTargetParentComponent();
+}
+
+void MainPaintingComponent::getAllCommands(juce::Array<juce::CommandID>& c)
+{
+    juce::Array<juce::CommandID> commands{ CommandIDs::setZoom100, CommandIDs::setZoom200, CommandIDs::setZoom400 };
+
+    c.addArray(commands);
+}
+
+void MainPaintingComponent::getCommandInfo(juce::CommandID commandID, juce::ApplicationCommandInfo& result)
+{
+    switch (commandID)
+    {
+    case CommandIDs::setZoom100:
+        result.setInfo("Zoom 100%", "Updates the painting area scale factor", "Gui", 0);
+        result.setTicked(scaleFactor == 1.0f);
+        break;
+    case CommandIDs::setZoom200:
+        result.setInfo("Zoom 200%", "Updates the painting area scale factor", "Gui", 0);
+        result.setTicked(scaleFactor == 2.0f);
+        break;
+    case CommandIDs::setZoom400:
+        result.setInfo("Zoom 400%", "Updates the painting area scale factor", "Gui", 0);
+        result.setTicked(scaleFactor == 4.0f);
+        break;
+    default:
+        break;
+    }
+}
+
+bool MainPaintingComponent::perform(const InvocationInfo& info)
+{
+    switch (info.commandID)
+    {
+    case CommandIDs::setZoom100:
+    {
+        this->setScaleFactor(1.0f);
+        break;
+    }
+    case CommandIDs::setZoom200:
+    {
+        this->setScaleFactor(2.0f);
+        break;
+    }
+    case CommandIDs::setZoom400:
+    {
+        this->setScaleFactor(4.0f);
+        break;
+    }
+    default:
+        return false;
+    }
+
+    return true;
+}
+
 void MainPaintingComponent::addNewTrack(MidiTrack* newTrack)
 {
     mainTrackComponent->addTrackComponent(newTrack);
@@ -94,14 +153,6 @@ void MainPaintingComponent::setSelectedTrack(int index)
 void MainPaintingComponent::setSelectedTool(int index)
 {
     mainTrackComponent->setSelectedTool(index);
-}
-
-int MainPaintingComponent::getComponentHeight()
-{
-    return this->paintingHeader->getHeight() +
-        this->mainTrackComponent->getHeight() +
-        this->velocityHeader->getHeight() +
-        this->mainVelocityComponent->getHeight();
 }
 
 void MainPaintingComponent::setScaleFactor(float newScaleFactor)

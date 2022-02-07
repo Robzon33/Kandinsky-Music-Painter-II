@@ -70,4 +70,9 @@ void MainVelocityComponent::setScaleFactor(float newScaleFactor)
 {
     this->scaleFactor = newScaleFactor;
     setWidth();
+
+    for each (VelocityComponent * vc in velocities)
+    {
+        vc->setScaleFactor(this->scaleFactor);
+    }
 }

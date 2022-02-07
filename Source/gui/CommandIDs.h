@@ -20,5 +20,8 @@ enum CommandIDs
     saveProject,
     openProjectConfig,
     selectTrack,
-    selectTool
+    selectTool,
+    setZoom100,
+    setZoom200,
+    setZoom400
 };

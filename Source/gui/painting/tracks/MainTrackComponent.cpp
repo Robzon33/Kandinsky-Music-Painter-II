@@ -94,4 +94,10 @@ void MainTrackComponent::setScaleFactor(float newScaleFactor)
 {
     this->scaleFactor = newScaleFactor;
     setWidth();
+    for each (TrackComponent * tc in tracks)
+    {
+        tc->setScaleFactor(scaleFactor);
+    }
+
+    repaint();
 }
