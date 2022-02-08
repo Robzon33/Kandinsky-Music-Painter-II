@@ -1,16 +1,16 @@
 /*
   ==============================================================================
 
-    PlayerComponent.cpp
+    PlayerControlComponent.cpp
     Created: 6 Jul 2021 11:10:28am
     Author:  Toko
 
   ==============================================================================
 */
 
-#include "PlayerComponent.h"
+#include "PlayerControlComponent.h"
 
-PlayerComponent::PlayerComponent(MidiPlayer& mp, ProjectSettings& ps)
+PlayerControlComponent::PlayerControlComponent(MidiPlayer& mp, ProjectSettings& ps)
     : player(mp), settings(ps)
 {
     colour = juce::Colours::pink;
@@ -18,16 +18,16 @@ PlayerComponent::PlayerComponent(MidiPlayer& mp, ProjectSettings& ps)
 	initButtons();
 }
 
-PlayerComponent::~PlayerComponent()
+PlayerControlComponent::~PlayerControlComponent()
 {
 }
 
-void PlayerComponent::paint(juce::Graphics& g)
+void PlayerControlComponent::paint(juce::Graphics& g)
 {
 	g.fillAll(colour.withAlpha(0.4f));
 }
 
-void PlayerComponent::resized()
+void PlayerControlComponent::resized()
 {
 	auto b = getLocalBounds();
 
@@ -37,19 +37,19 @@ void PlayerComponent::resized()
 	pauseButton->setBounds(b.removeFromLeft(getWidth() / 4).reduced(30));
 }
 
-void PlayerComponent::buttonClicked(juce::Button* button)
+void PlayerControlComponent::buttonClicked(juce::Button* button)
 {
 	if (button == playButton.get())		{ player.play(); }
 	if (button == pauseButton.get())	{ player.pause(); }
 	if (button == stopButton.get())		{ player.stop(); }
 }
 
-void PlayerComponent::sliderValueChanged(juce::Slider* slider)
+void PlayerControlComponent::sliderValueChanged(juce::Slider* slider)
 {
 	settings.setPlayerSpeed((int)slider->getValue());
 }
 
-void PlayerComponent::initSlider()
+void PlayerControlComponent::initSlider()
 {
 	tempoSlider.reset(new juce::Slider());
 	addAndMakeVisible(tempoSlider.get());
@@ -62,7 +62,7 @@ void PlayerComponent::initSlider()
 	tempoSlider->addListener(this);
 }
 
-void PlayerComponent::initButtons()
+void PlayerControlComponent::initButtons()
 {
 	juce::DrawableImage playImage;
 	playImage.setImage(juce::ImageCache::getFromMemory(BinaryData::playerplay_png,

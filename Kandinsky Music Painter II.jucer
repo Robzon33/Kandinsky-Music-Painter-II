@@ -49,12 +49,18 @@
                 file="Source/gui/tracklist/TrackListBoxComponent.h"/>
         </GROUP>
         <GROUP id="{04193D0F-6F3E-68E7-A68C-CFA75C70EC8C}" name="player">
-          <FILE id="LpmPjl" name="PlayerComponent.cpp" compile="1" resource="0"
-                file="Source/gui/player/PlayerComponent.cpp"/>
-          <FILE id="PN2zwi" name="PlayerComponent.h" compile="0" resource="0"
-                file="Source/gui/player/PlayerComponent.h"/>
+          <FILE id="LpmPjl" name="PlayerControlComponent.cpp" compile="1" resource="0"
+                file="Source/gui/player/PlayerControlComponent.cpp"/>
+          <FILE id="PN2zwi" name="PlayerControlComponent.h" compile="0" resource="0"
+                file="Source/gui/player/PlayerControlComponent.h"/>
         </GROUP>
         <GROUP id="{389E73B7-A044-0CC5-D2D9-C3F41DA994A8}" name="painting">
+          <GROUP id="{DE85E53C-88F1-E6F2-8AD9-8E21420D894D}" name="player">
+            <FILE id="dg9W1n" name="PlayerViewComponent.cpp" compile="1" resource="0"
+                  file="Source/gui/painting/player/PlayerViewComponent.cpp"/>
+            <FILE id="RP3t94" name="PlayerViewComponent.h" compile="0" resource="0"
+                  file="Source/gui/painting/player/PlayerViewComponent.h"/>
+          </GROUP>
           <GROUP id="{E442470C-610D-F244-E188-2C52ECE45E15}" name="tracks">
             <GROUP id="{D22D85DC-D963-2CBA-CEAA-ED95E7E6B41F}" name="tools">
               <FILE id="ssYjfr" name="Drawer.cpp" compile="1" resource="0" file="Source/gui/painting/tracks/tools/Drawer.cpp"/>

@@ -1,7 +1,7 @@
 /*
   ==============================================================================
 
-    PlayerComponent.h
+    PlayerControlComponent.h
     Created: 6 Jul 2021 11:10:28am
     Author:  Toko
 
@@ -14,13 +14,13 @@
 #include "../../player/MidiPlayer.h"
 #include "../../model/ProjectSettings.h"
 
-class PlayerComponent : public juce::Component,
+class PlayerControlComponent : public juce::Component,
     public juce::Button::Listener,
     public juce::Slider::Listener
 {
 public:
-    PlayerComponent(MidiPlayer&, ProjectSettings&);
-    ~PlayerComponent();
+    PlayerControlComponent(MidiPlayer&, ProjectSettings&);
+    ~PlayerControlComponent();
 
     void paint(juce::Graphics& g) override;
     void resized() override;

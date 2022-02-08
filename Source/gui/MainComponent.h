@@ -18,7 +18,7 @@
 
 /* Components */
 #include "menu/MenuBarComponent.h"
-#include "player/PlayerComponent.h"
+#include "player/PlayerControlComponent.h"
 #include "tracklist/TrackListBoxComponent.h"
 #include "painting/MainPaintingComponent.h"
 #include "midiMonitor/MidiMonitorComponent.h"
@@ -50,7 +50,7 @@ private:
 
     /* Child components */
     std::unique_ptr<MenuBarComponent> menuBar;
-    std::unique_ptr<PlayerComponent> playerBar;
+    std::unique_ptr<PlayerControlComponent> playerBar;
     std::unique_ptr<TrackListBoxComponent> trackList;
     std::unique_ptr<MidiMonitorComponent> midiMonitor;
     std::unique_ptr<MainPaintingComponent> mainPainting;

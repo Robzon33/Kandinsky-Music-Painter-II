@@ -16,7 +16,7 @@ MainComponent::MainComponent(MainModel& m, MidiPlayer& mp, ProjectSettings& ps)
     menuBar.reset(new MenuBarComponent(model, commandManager));
     addAndMakeVisible(menuBar.get());
     
-    playerBar.reset(new PlayerComponent(player, settings));
+    playerBar.reset(new PlayerControlComponent(player, settings));
     addAndMakeVisible(playerBar.get());
     
     trackList.reset(new TrackListBoxComponent(model, commandManager));
@@ -191,14 +191,8 @@ bool MainComponent::perform(const InvocationInfo& info)
     }
     case CommandIDs::showMidiMonitor:
     {
-        if (showMidiMonitor)
-        {
-            showMidiMonitor = false;
-        }
-        else
-        {
-            showMidiMonitor = true;
-        }
+        if (showMidiMonitor) { showMidiMonitor = false; }
+        else                 { showMidiMonitor = true; }
         midiMonitor->setVisible(showMidiMonitor);
         resized();
         break;
