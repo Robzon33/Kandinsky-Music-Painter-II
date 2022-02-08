@@ -36,6 +36,10 @@ void MainTrackComponent::paint(juce::Graphics& g)
 void MainTrackComponent::resized()
 {
     playerViewComponent->setBounds(getLocalBounds());
+    for each (TrackComponent * tc in tracks)
+    {
+        tc->setBounds(getLocalBounds());
+    }
 }
 
 void MainTrackComponent::setSelectedTrack(int index)
@@ -69,12 +73,7 @@ void MainTrackComponent::setSelectedTool(int index)
 void MainTrackComponent::setWidth()
 {
     setSize(settings.getWidth() * scaleFactor, this->height * scaleFactor);
-
-    for each (TrackComponent * tc in tracks)
-    {
-        tc->setSize(settings.getWidth() * scaleFactor, this->height * scaleFactor);
-    }
-    playerViewComponent->setSize(settings.getWidth() * scaleFactor, this->height * scaleFactor);
+    this->resized();
 }
 
 void MainTrackComponent::setScaleFactor(float newScaleFactor)

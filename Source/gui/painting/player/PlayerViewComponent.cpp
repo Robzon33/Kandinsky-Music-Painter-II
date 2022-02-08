@@ -45,7 +45,12 @@ void PlayerViewComponent::changeListenerCallback(juce::ChangeBroadcaster* source
     {
         this->startTimer(10);
     }
-    else
+    else if (player.getState() == MidiPlayer::State::ST_STOPPED)
+    {
+        repaint();
+        this->stopTimer();
+    }
+    else if (player.getState() == MidiPlayer::State::ST_PAUSED)
     {
         this->stopTimer();
     }
