@@ -13,8 +13,9 @@
 MainTrackComponent::MainTrackComponent(MainModel& mm, MidiPlayer& mp, ProjectSettings& ps, float scaleFactor)
     : model(mm), player(mp), settings (ps)
 {
-    player.addChangeListener(this);
     drawer.reset(new Drawer());
+    playerViewComponent.reset(new PlayerViewComponent(mp, scaleFactor));
+    addAndMakeVisible(playerViewComponent.get());
     this->scaleFactor = scaleFactor;
 }
 
@@ -30,26 +31,11 @@ void MainTrackComponent::paint(juce::Graphics& g)
 	{
 		g.drawVerticalLine(i * scaleFactor, 0.0f, (float)this->height * scaleFactor);
 	}
-
-    //paint the players position
-    int thickness = 1;
-    if (player.getPosition() > 0)
-    {
-        g.setColour(juce::Colours::blue);
-        g.drawLine((float)player.getPosition() * scaleFactor, 0, (float)player.getPosition() * scaleFactor, this->height * scaleFactor, scaleFactor);
-    }
 }
 
 void MainTrackComponent::resized()
 {
-}
-
-void MainTrackComponent::changeListenerCallback(juce::ChangeBroadcaster* source)
-{
-    if (source == &player)
-    {
-        repaint(); // not nice because i draw everything at every time i receive the callback. Maybe outsourcing to another component for the player.
-    }
+    playerViewComponent->setBounds(getLocalBounds());
 }
 
 void MainTrackComponent::setSelectedTrack(int index)
@@ -88,14 +74,16 @@ void MainTrackComponent::setWidth()
     {
         tc->setSize(settings.getWidth() * scaleFactor, this->height * scaleFactor);
     }
+    playerViewComponent->setSize(settings.getWidth() * scaleFactor, this->height * scaleFactor);
 }
 
 void MainTrackComponent::setScaleFactor(float newScaleFactor)
 {
     this->scaleFactor = newScaleFactor;
-    setWidth();
+    this->setWidth();
     for each (TrackComponent * tc in tracks)
     {
         tc->setScaleFactor(scaleFactor);
     }
+    playerViewComponent->setScaleFactor(scaleFactor);
 }

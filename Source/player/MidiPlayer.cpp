@@ -36,9 +36,6 @@ void MidiPlayer::hiResTimerCallback()
     }
     
     processorFlag = true;
-
-    /* notify change listener */
-    sendChangeMessage();
 }
 
 void MidiPlayer::play()
@@ -46,6 +43,7 @@ void MidiPlayer::play()
     m_pState->Play(this);
     this->resetPreviousNotesOn();
     startTimer(1000 / settings.getPlayerSpeed());
+    sendChangeMessage();
 }
 
 void MidiPlayer::stop()

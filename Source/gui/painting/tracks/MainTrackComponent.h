@@ -17,9 +17,9 @@
 #include "../../../player/MidiPlayer.h"
 
 #include "TrackComponent.h"
+#include "../player/PlayerViewComponent.h"
 
-class MainTrackComponent : public juce::Component,
-    public juce::ChangeListener
+class MainTrackComponent : public juce::Component
 {
 public:
     MainTrackComponent(MainModel&, MidiPlayer&, ProjectSettings&, float scaleFactor);
@@ -27,8 +27,6 @@ public:
 
     void paint(juce::Graphics& g) override;
     void resized() override;
-
-    void changeListenerCallback(juce::ChangeBroadcaster* source);
 
     void setSelectedTrack(int index);
     void addTrackComponent(MidiTrack* newTrack);
@@ -44,6 +42,7 @@ private:
 
     std::unique_ptr<Drawer> drawer;
     juce::OwnedArray<TrackComponent> tracks;
+    std::unique_ptr<PlayerViewComponent> playerViewComponent;
     const int height = 128;
     float scaleFactor;
 };
