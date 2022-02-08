@@ -23,5 +23,6 @@ enum CommandIDs
     selectTool,
     setZoom100,
     setZoom200,
-    setZoom400
+    setZoom400,
+    showMidiMonitor
 };

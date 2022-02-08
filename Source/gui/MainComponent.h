@@ -57,4 +57,6 @@ private:
     std::unique_ptr<juce::Viewport> paintViewport;
     std::unique_ptr<ToolBarComponent> toolBar;
     std::unique_ptr<ConfigDialog> configDialog;
+
+    bool showMidiMonitor;
 };

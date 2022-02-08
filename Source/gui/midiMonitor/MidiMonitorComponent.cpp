@@ -11,7 +11,9 @@
 #include "MidiMonitorComponent.h"
 
 MidiMonitorComponent::MidiMonitorComponent(MidiPlayer& mp)
-    : midiPlayer (mp)
+    :   midiPlayer (mp), 
+        midiMessageList (mp.getMidiMessageList()),
+        midiLogListBoxModel (midiMessageList)
 {
     mp.addChangeListener(this);
 
@@ -23,16 +25,21 @@ MidiMonitorComponent::MidiMonitorComponent(MidiPlayer& mp)
     outgoingMidiLabel.setColour(juce::TextEditor::backgroundColourId, juce::Colour(0x00000000));
     addAndMakeVisible(outgoingMidiLabel);
 
-    midiMonitor.setMultiLine(true);
+    /*midiMonitor.setMultiLine(true);
     midiMonitor.setReturnKeyStartsNewLine(false);
     midiMonitor.setReadOnly(true);
     midiMonitor.setScrollbarsShown(true);
     midiMonitor.setCaretVisible(false);
     midiMonitor.setPopupMenuEnabled(false);
     midiMonitor.setText({});
-    addAndMakeVisible(midiMonitor);
+    addAndMakeVisible(midiMonitor);*/
+    addAndMakeVisible(messageListBox);
+    messageListBox.setModel(&midiLogListBoxModel);
+    messageListBox.setColour(juce::ListBox::backgroundColourId, juce::Colour(0x32ffffff));
+    messageListBox.setColour(juce::ListBox::outlineColourId, juce::Colours::black);
+    messageListBox.setRowSelectedOnMouseDown(false);
 
-    this->startTimer(100);
+    this->startTimer(1000);
 }
 
 MidiMonitorComponent::~MidiMonitorComponent()
@@ -48,26 +55,20 @@ void MidiMonitorComponent::resized()
     auto area = this->getLocalBounds();
 
     outgoingMidiLabel.setBounds(area.removeFromTop(15));
-    midiMonitor.setBounds(area);
+    messageListBox.setBounds(area);
 }
 
 void MidiMonitorComponent::timerCallback()
 {
-    juce::String messageText;
-
-    for (auto& m : midiPlayer.getMidiMessageList())
-    {
-        messageText << m->getDescription() << "\n";
-    }
-
-    midiMonitor.clear();
-    midiMonitor.insertTextAtCaret(messageText);
+    messageListBox.updateContent();
+    messageListBox.scrollToEnsureRowIsOnscreen(midiMessageList.size() - 1);
+    messageListBox.repaint();
 }
 
 void MidiMonitorComponent::changeListenerCallback(juce::ChangeBroadcaster* source)
 {
     if (midiPlayer.getState() == MidiPlayer::State::ST_STOPPED)
     {
-        midiMonitor.clear();
+        messageListBox.updateContent();
     }
 }

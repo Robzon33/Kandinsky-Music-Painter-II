@@ -23,7 +23,8 @@ MainComponent::MainComponent(MainModel& m, MidiPlayer& mp, ProjectSettings& ps)
     addAndMakeVisible(trackList.get());
 
     midiMonitor.reset(new MidiMonitorComponent(player));
-    addAndMakeVisible(midiMonitor.get());
+    addChildComponent(midiMonitor.get());
+    //addAndMakeVisible(midiMonitor.get());
     
     mainPainting.reset(new MainPaintingComponent(model, player, settings, commandManager));
     addAndMakeVisible(mainPainting.get());
@@ -37,6 +38,8 @@ MainComponent::MainComponent(MainModel& m, MidiPlayer& mp, ProjectSettings& ps)
 
     commandManager.registerAllCommandsForTarget(this);
     commandManager.setFirstCommandTarget(this);
+
+    showMidiMonitor = false;
 }
 
 MainComponent::~MainComponent()
@@ -53,8 +56,11 @@ void MainComponent::resized()
 
     menuBar->setBounds(b.removeFromTop(30));
     playerBar->setBounds(b.removeFromBottom(100));
-    trackList->setBounds(b.removeFromLeft(150));
-    midiMonitor->setBounds(b.removeFromRight(250));
+    trackList->setBounds(b.removeFromLeft(150));    
+    if (showMidiMonitor)
+    {
+        midiMonitor->setBounds(b.removeFromRight(250));
+    }
     toolBar->setBounds(b.removeFromBottom(60));
     paintViewport->setBounds(b);
 }
@@ -73,7 +79,8 @@ void MainComponent::getAllCommands(juce::Array<juce::CommandID>& c)
                                            CommandIDs::saveProject,
                                            CommandIDs::openProjectConfig,
                                            CommandIDs::selectTrack,
-                                           CommandIDs::selectTool};
+                                           CommandIDs::selectTool,
+                                           CommandIDs::showMidiMonitor};
 
     c.addArray(commands);
 }
@@ -105,6 +112,10 @@ void MainComponent::getCommandInfo(juce::CommandID commandID, juce::ApplicationC
         break;
     case CommandIDs::selectTool:
         result.setInfo("Select Tool", "Selects a tool to paint", "Drawing", 0);
+        break;
+    case CommandIDs::showMidiMonitor:
+        result.setInfo("Midi monitor", "Enables/Disables the midi monitor", "View", 0);
+        result.setTicked(showMidiMonitor);
         break;
     default:
         break;
@@ -176,6 +187,20 @@ bool MainComponent::perform(const InvocationInfo& info)
     {
         int indexOfSelectedTool = toolBar.get()->getIndexOfSelectedButton();
         mainPainting->setSelectedTool(indexOfSelectedTool);
+        break;
+    }
+    case CommandIDs::showMidiMonitor:
+    {
+        if (showMidiMonitor)
+        {
+            showMidiMonitor = false;
+        }
+        else
+        {
+            showMidiMonitor = true;
+        }
+        midiMonitor->setVisible(showMidiMonitor);
+        resized();
         break;
     }
     default:

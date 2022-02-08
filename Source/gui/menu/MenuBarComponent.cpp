@@ -29,7 +29,7 @@ void MenuBarComponent::resized()
 
 juce::StringArray MenuBarComponent::getMenuBarNames()
 {
-    return { "Project", "Painting"};
+    return { "Project", "View"};
 }
 
 juce::PopupMenu MenuBarComponent::getMenuForIndex(int menuIndex, const juce::String&)
@@ -52,6 +52,8 @@ juce::PopupMenu MenuBarComponent::getMenuForIndex(int menuIndex, const juce::Str
         menu.addCommandItem(&commandManager, CommandIDs::setZoom100);
         menu.addCommandItem(&commandManager, CommandIDs::setZoom200);
         menu.addCommandItem(&commandManager, CommandIDs::setZoom400);
+        menu.addSeparator();
+        menu.addCommandItem(&commandManager, CommandIDs::showMidiMonitor);
     }
 
     return menu;

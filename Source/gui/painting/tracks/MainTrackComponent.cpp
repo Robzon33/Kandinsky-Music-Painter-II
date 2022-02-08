@@ -98,6 +98,4 @@ void MainTrackComponent::setScaleFactor(float newScaleFactor)
     {
         tc->setScaleFactor(scaleFactor);
     }
-
-    repaint();
 }
