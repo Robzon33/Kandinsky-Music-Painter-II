@@ -31,6 +31,7 @@ public:
 
     void setWidth();
     void setScaleFactor(float newScaleFactor);
+    void loadModel();
 private:
     MainModel& model;
     ProjectSettings& settings;

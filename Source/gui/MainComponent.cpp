@@ -76,6 +76,7 @@ void MainComponent::getAllCommands(juce::Array<juce::CommandID>& c)
                                            CommandIDs::deleteAllTracks,
                                            CommandIDs::newProject,
                                            CommandIDs::saveProject,
+                                           CommandIDs::loadProject,
                                            CommandIDs::openProjectConfig,
                                            CommandIDs::selectTrack,
                                            CommandIDs::selectTool,
@@ -102,6 +103,9 @@ void MainComponent::getCommandInfo(juce::CommandID commandID, juce::ApplicationC
         break;
     case CommandIDs::saveProject:
         result.setInfo("Save project", "Saves the current project", "Project", 0);
+        break;
+    case CommandIDs::loadProject:
+        result.setInfo("Load project", "Loads a selected file", "Project", 0);
         break;
     case CommandIDs::openProjectConfig:
         result.setInfo("Configuration", "Opens a menu to configure the current project", "Project", 0);
@@ -172,6 +176,34 @@ bool MainComponent::perform(const InvocationInfo& info)
         }
         break;
     }
+    case CommandIDs::loadProject:
+    {
+        if (juce::AlertWindow::showOkCancelBox(juce::AlertWindow::QuestionIcon,
+                                               "Do you want to delete the current project?",
+                                               "Unsaved changes will not be saved.",
+                                               juce::String(),
+                                               juce::String(),
+                                               0,
+                                               nullptr))
+        {
+            juce::FileChooser fc(TRANS("Load project"), juce::File(), "*.kmp");
+
+            if (fc.browseForFileToOpen())
+            {
+                juce::File fileToOpen = fc.getResult();
+                FileLoader::loadSaveFile(juce::parseXML(fileToOpen), model, settings);
+                this->updateAfterFileLoading();
+            }
+            else
+            {
+                juce::AlertWindow::showMessageBox(juce::AlertWindow::NoIcon,
+                                                  "An error occured.",
+                                                  "The selected file could not be loaded.",
+                                                  juce::String());
+            }
+        }
+        break;
+    }
     case CommandIDs::openProjectConfig:
     {
         configDialog.reset(new ConfigDialog(settings));
@@ -208,4 +240,10 @@ bool MainComponent::perform(const InvocationInfo& info)
     }
 
     return true;
+}
+
+void MainComponent::updateAfterFileLoading()
+{
+    trackList->updateContent();
+    mainPainting->loadModel();
 }

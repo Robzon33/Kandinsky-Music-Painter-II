@@ -40,6 +40,7 @@ juce::PopupMenu MenuBarComponent::getMenuForIndex(int menuIndex, const juce::Str
     {
         menu.addCommandItem(&commandManager, CommandIDs::newProject);
         menu.addCommandItem(&commandManager, CommandIDs::saveProject);
+        menu.addCommandItem(&commandManager, CommandIDs::loadProject);
         menu.addSeparator();
         menu.addCommandItem(&commandManager, CommandIDs::addMidiTrack);
         menu.addCommandItem(&commandManager, CommandIDs::deleteTrack);  

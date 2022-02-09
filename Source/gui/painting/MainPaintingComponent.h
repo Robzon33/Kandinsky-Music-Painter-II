@@ -42,6 +42,7 @@ public:
     void setSelectedTrack(int index);
     void setSelectedTool(int index);
     void setScaleFactor(float newScaleFactor);
+    void loadModel();
 private:
     MainModel& model;
     MidiPlayer& player;

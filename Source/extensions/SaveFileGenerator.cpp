@@ -26,7 +26,7 @@ juce::String SaveFileGenerator::convertProjectToXML(ProjectSettings& projectSett
     for each (MidiTrack* midiTrack in mainModel.getMidiTracks())
     {
         juce::XmlElement* midiTrackElement = new juce::XmlElement("TRACK");
-        saveMidiTrackData(*midiTrackElement, midiTrack);
+        convertMidiTrackData(*midiTrackElement, midiTrack);
         midiTrackElements->addChildElement(midiTrackElement);
     }
     project.addChildElement(midiTrackElements);
@@ -35,7 +35,7 @@ juce::String SaveFileGenerator::convertProjectToXML(ProjectSettings& projectSett
     return xmlDoc;
 }
 
-void SaveFileGenerator::saveMidiTrackData(juce::XmlElement& element, MidiTrack* midiTrack)
+void SaveFileGenerator::convertMidiTrackData(juce::XmlElement& element, MidiTrack* midiTrack)
 {
     //store all attributes
     element.setAttribute("name", midiTrack->getTrackName());

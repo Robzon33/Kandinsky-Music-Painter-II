@@ -76,3 +76,12 @@ void MainVelocityComponent::setScaleFactor(float newScaleFactor)
         vc->setScaleFactor(this->scaleFactor);
     }
 }
+
+void MainVelocityComponent::loadModel()
+{
+    this->velocities.clear(true);
+    for each (MidiTrack* track in model.getAllTracks())
+    {
+        addVelocityComponent(track);
+    }
+}

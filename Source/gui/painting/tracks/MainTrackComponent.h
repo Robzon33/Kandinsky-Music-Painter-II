@@ -35,6 +35,7 @@ public:
     void setSelectedTool(int index);
     void setWidth();
     void setScaleFactor(float newScaleFactor);
+    void loadModel();
 private:
     MainModel& model;
     MidiPlayer& player;

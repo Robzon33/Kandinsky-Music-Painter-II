@@ -86,3 +86,12 @@ void MainTrackComponent::setScaleFactor(float newScaleFactor)
     }
     playerViewComponent->setScaleFactor(scaleFactor);
 }
+
+void MainTrackComponent::loadModel()
+{
+    this->tracks.clear();
+    for each (MidiTrack* track in model.getAllTracks())
+    {
+        this->addTrackComponent(track);
+    }
+}

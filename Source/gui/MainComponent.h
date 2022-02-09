@@ -26,6 +26,7 @@
 #include "customDialogs/ConfigDialog.h"
 
 #include "../extensions/SaveFileGenerator.h"
+#include "../extensions/FileLoader.h"
 
 class KandinskyMusicPainterIIAudioProcessorEditor;
 
@@ -47,7 +48,7 @@ private:
     MainModel& model;
     MidiPlayer& player;
     ProjectSettings& settings;
-
+    bool showMidiMonitor;
     juce::ApplicationCommandManager commandManager;
 
     /* Child components */
@@ -60,5 +61,5 @@ private:
     std::unique_ptr<ToolBarComponent> toolBar;
     std::unique_ptr<ConfigDialog> configDialog;
 
-    bool showMidiMonitor;
+    void updateAfterFileLoading();
 };

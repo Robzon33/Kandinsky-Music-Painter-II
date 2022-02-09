@@ -162,3 +162,9 @@ void MainPaintingComponent::setScaleFactor(float newScaleFactor)
     this->mainTrackComponent->setScaleFactor(scaleFactor);
     this->mainVelocityComponent->setScaleFactor(scaleFactor);
 }
+
+void MainPaintingComponent::loadModel()
+{
+    this->mainTrackComponent->loadModel();
+    this->mainVelocityComponent->loadModel();
+}

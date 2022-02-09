@@ -18,6 +18,7 @@ enum CommandIDs
     deleteAllTracks,
     newProject,
     saveProject,
+    loadProject,
     openProjectConfig,
     selectTrack,
     selectTool,
