@@ -25,6 +25,8 @@
 #include "toolbar/ToolBarComponent.h"
 #include "customDialogs/ConfigDialog.h"
 
+#include "../extensions/SaveFileGenerator.h"
+
 class KandinskyMusicPainterIIAudioProcessorEditor;
 
 class MainComponent : public juce::Component, 

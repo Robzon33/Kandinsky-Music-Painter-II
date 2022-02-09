@@ -24,7 +24,6 @@ MainComponent::MainComponent(MainModel& m, MidiPlayer& mp, ProjectSettings& ps)
 
     midiMonitor.reset(new MidiMonitorComponent(player));
     addChildComponent(midiMonitor.get());
-    //addAndMakeVisible(midiMonitor.get());
     
     mainPainting.reset(new MainPaintingComponent(model, player, settings, commandManager));
     addAndMakeVisible(mainPainting.get());
@@ -164,6 +163,13 @@ bool MainComponent::perform(const InvocationInfo& info)
     }
     case CommandIDs::saveProject:
     {
+        juce::FileChooser fc(TRANS("Save project"), juce::File(), "*.kmp");
+        if (fc.browseForFileToSave(true))
+        {
+            juce::File fileToSave = fc.getResult();
+            juce::String stringToAppend = SaveFileGenerator::convertProjectToXML(settings, model);
+            fileToSave.replaceWithText(stringToAppend);
+        }
         break;
     }
     case CommandIDs::openProjectConfig:

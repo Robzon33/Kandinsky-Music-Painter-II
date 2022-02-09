@@ -118,6 +118,10 @@
               file="Source/extensions/RandomColourGenerator.cpp"/>
         <FILE id="FcBor5" name="RandomColourGenerator.h" compile="0" resource="0"
               file="Source/extensions/RandomColourGenerator.h"/>
+        <FILE id="XpCDdk" name="SaveFileGenerator.cpp" compile="1" resource="0"
+              file="Source/extensions/SaveFileGenerator.cpp"/>
+        <FILE id="cOuYX4" name="SaveFileGenerator.h" compile="0" resource="0"
+              file="Source/extensions/SaveFileGenerator.h"/>
       </GROUP>
       <GROUP id="{0ADD52D2-C44B-0762-417A-2EAED601F357}" name="model">
         <GROUP id="{6B36E5DA-CEC0-212B-B69B-595836E6FF3F}" name="tracks">
