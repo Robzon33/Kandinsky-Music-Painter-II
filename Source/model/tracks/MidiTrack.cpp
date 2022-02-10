@@ -160,7 +160,7 @@ juce::Array<float> MidiTrack::calculateIntersections(int x)
 {
     juce::Array<float> yValues;
 
-    for each (juce::Path* path in this->pathVector)
+    for (auto* path : this->pathVector)
     {
         int xBoundLeft = path->getBounds().getX();
         int xBoundRight = path->getBounds().getX() + path->getBounds().getWidth();

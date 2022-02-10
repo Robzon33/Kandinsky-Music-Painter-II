@@ -26,6 +26,11 @@ class Kmp2Tool
 {
 public:
     /// <summary>
+    /// Virtual destructor.
+    /// </summary>
+    virtual ~Kmp2Tool() {};
+
+    /// <summary>
     /// Adds a point to a graphical object.
     /// </summary>
     /// <param name="newPoint">The new point</param>

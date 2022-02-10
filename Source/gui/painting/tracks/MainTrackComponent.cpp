@@ -36,7 +36,7 @@ void MainTrackComponent::paint(juce::Graphics& g)
 void MainTrackComponent::resized()
 {
     playerViewComponent->setBounds(getLocalBounds());
-    for each (TrackComponent * tc in tracks)
+    for (auto* tc : tracks)
     {
         tc->setBounds(getLocalBounds());
     }
@@ -80,7 +80,7 @@ void MainTrackComponent::setScaleFactor(float newScaleFactor)
 {
     this->scaleFactor = newScaleFactor;
     this->setWidth();
-    for each (TrackComponent * tc in tracks)
+    for (auto* tc : tracks)
     {
         tc->setScaleFactor(scaleFactor);
     }
@@ -90,7 +90,7 @@ void MainTrackComponent::setScaleFactor(float newScaleFactor)
 void MainTrackComponent::loadModel()
 {
     this->tracks.clear();
-    for each (MidiTrack* track in model.getAllTracks())
+    for (auto* track : model.getAllTracks())
     {
         this->addTrackComponent(track);
     }

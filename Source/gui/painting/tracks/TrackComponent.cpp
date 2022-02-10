@@ -30,7 +30,7 @@ void TrackComponent::paint(juce::Graphics& g)
 
         //paint existing paths
         juce::OwnedArray<juce::Path>& paths = track.getPathVector();
-        for each (juce::Path* path in paths)
+        for (auto* path : paths)
         {
             auto pathToDraw = *path;
             pathToDraw.applyTransform(juce::AffineTransform::scale(scaleFactor));

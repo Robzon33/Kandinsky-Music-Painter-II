@@ -11,7 +11,7 @@
 #pragma once
 
 #include <JuceHeader.h>
-#include "..\player\MidiPlayer.h"
+#include "../player/MidiPlayer.h"
 
 class MidiPlayer;
 

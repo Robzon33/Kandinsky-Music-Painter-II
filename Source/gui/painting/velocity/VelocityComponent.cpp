@@ -50,7 +50,7 @@ void VelocityComponent::paint (juce::Graphics& g)
     
     int prevX = -1, prevY = -1;
     
-    for each (juce::Point<int>* point in midiTrack.getMidiVelocityData().getPointVector())
+    for (auto* point : midiTrack.getMidiVelocityData().getPointVector())
     {
         if (prevX >= 0 && prevY >= 0)
         {

@@ -65,7 +65,7 @@ juce::Array<MidiTrack*> MainModel::getAllTracks()
 {
     juce::Array<MidiTrack*> tracksToReturn;
 
-    for each (MidiTrack* track in tracks)
+    for (auto* track : tracks)
     {
         tracksToReturn.add(track);
     }
@@ -85,7 +85,7 @@ int MainModel::getNumberOfTracks()
 
 void MainModel::updateTrackWidth(int newWidth)
 {
-    for each (MidiTrack* track in tracks)
+    for (auto* track : tracks)
     {
         track->updateWidth(newWidth);
     }

@@ -130,14 +130,14 @@ void MidiPlayer::changeListenerCallback(juce::ChangeBroadcaster* source)
     }
     if (source == &mainModel)
     {
-        for each (MidiTrack* track in mainModel.getMidiTracks())
+        for (auto* track : mainModel.getMidiTracks())
         {
             track->addChangeListener(this);
         }
     }
     else
     {
-        for each (MidiTrack* track in mainModel.getMidiTracks())
+        for (auto* track : mainModel.getMidiTracks())
         {
             if (source == track)
             {
@@ -182,7 +182,7 @@ void MidiPlayer::produceMidiMessages()
 {
     juce::Array<float> yValues;
 
-    for each (MidiTrack * track in mainModel.getMidiTracks())
+    for (auto* track : mainModel.getMidiTracks())
     {
         int channel = track->getChannel();
 

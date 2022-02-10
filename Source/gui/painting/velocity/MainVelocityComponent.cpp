@@ -60,7 +60,7 @@ void MainVelocityComponent::setWidth()
 {
     setSize(settings.getWidth() * this->scaleFactor, this->height * this->scaleFactor);
 
-    for each (VelocityComponent * vc in velocities)
+    for (auto* vc : velocities)
     {
         vc->setSize(settings.getWidth() * this->scaleFactor, this->height * this->scaleFactor);
     }
@@ -71,7 +71,7 @@ void MainVelocityComponent::setScaleFactor(float newScaleFactor)
     this->scaleFactor = newScaleFactor;
     setWidth();
 
-    for each (VelocityComponent * vc in velocities)
+    for (auto* vc : velocities)
     {
         vc->setScaleFactor(this->scaleFactor);
     }
@@ -80,7 +80,7 @@ void MainVelocityComponent::setScaleFactor(float newScaleFactor)
 void MainVelocityComponent::loadModel()
 {
     this->velocities.clear(true);
-    for each (MidiTrack* track in model.getAllTracks())
+    for (auto* track : model.getAllTracks())
     {
         addVelocityComponent(track);
     }

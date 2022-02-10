@@ -23,7 +23,7 @@ juce::String SaveFileGenerator::convertProjectToXML(ProjectSettings& projectSett
 
     // save midi tracks
     juce::XmlElement* midiTrackElements = new juce::XmlElement("TRACKS");
-    for each (MidiTrack* midiTrack in mainModel.getMidiTracks())
+    for (auto* midiTrack : mainModel.getMidiTracks())
     {
         juce::XmlElement* midiTrackElement = new juce::XmlElement("TRACK");
         convertMidiTrackData(*midiTrackElement, midiTrack);
@@ -45,7 +45,7 @@ void SaveFileGenerator::convertMidiTrackData(juce::XmlElement& element, MidiTrac
 
     //store all paths
     juce::XmlElement* pathObjects = new juce::XmlElement("PATHS");
-    for each (juce::Path* path in midiTrack->getPathVector())
+    for (auto* path : midiTrack->getPathVector())
     {
         juce::XmlElement* pathToStore = new juce::XmlElement("Path");
         juce::String pathString = path->toString();
